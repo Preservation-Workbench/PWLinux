@@ -1,0 +1,333 @@
+* Arkimint installasjonsnotater:
+
+#Fjern win 10 features deviceguard/credentialguard/hyper-v
+#Last ned virtualbox via annet nett enn ADM1 og installer som administrator 
+#Mint mate 19.1
+#mount extensions iso
+#reboot 
+#eject extensions iso
+#kopier inn .vim
+#show trash on desktop
+#gjør google til std search engine i firefox + endre startside i firefox
+#Endret proxy via gui (gjør med script senere)
+#Endre til kun ett workspace i mate
+
+#PATH:
+echo "PATH=\$HOME/.local/bin:\$PATH" >> ~/.bashrc && source ~/.bashrc
+
+#ZENITY:
+echo 'alias zenity="zenity 2> >(grep -v 'GtkDialog' >&2)"' >> ~/.bashrc && source ~/.bashrc
+
+#SYSTEM PROXY:
+sudo bash -c "echo 'http_proxy=http://85.19.187.24:8080/
+https_proxy=http://85.19.187.24:8080/
+no_proxy=localhost,127.0.0.0,127.0.1.1,127.0.1.1,local.home' >> /etc/environment"
+
+#WGET PROXY:
+sudo bash -c "echo 'http_proxy=http://85.19.187.24:8080/
+https_proxy=http://85.19.187.24:8080/' >> /etc/wgetrc"
+
+#SUBVERSION PROXY:
+mkdir -p ~/.subversion 
+touch ~/.subversion/servers
+bash -c "echo  '[global] 
+http-proxy-host = 85.19.187.24
+http-proxy-port = 8080' >> ~/.subversion/servers"
+
+#USER:
+sudo usermod -aG vboxsf $USER
+sudo usermod -aG docker $USER
+
+#SCREENSAVER:
+gsettings set org.mate.screensaver idle-activation-enabled false
+
+#DIRECTORIES
+rm -rdf ~/Music
+rm -rdf ~/Templates
+rm -rdf ~/Public
+rm -rdf ~/Videos
+rm -rdf ~/Pictures
+mkdir -p ~/bin
+mkdir -p ~/Projects
+mkdir -p ~/.local/share/applications
+
+#APT REPOSITORIES:
+sudo apt-key adv --keyserver-options http-proxy=http://85.19.187.24:8080 --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 873503A090750CDAEB0754D93FF0E01EEAAFC9CD
+sudo add-apt-repository "deb http://ppa.launchpad.net/kelleyk/emacs/ubuntu bionic main"
+
+sudo apt-key adv --keyserver-options http-proxy=http://85.19.187.24:8080 --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C781C4A395E4009DF8D5DF0AA03A097E3C3842E1
+sudo add-apt-repository "deb http://ppa.launchpad.net/x4121/ripgrep/ubuntu bionic main"
+
+sudo apt-key adv --keyserver-options http-proxy=http://85.19.187.24:8080 --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys F3503FFDFA132F65E151D87CDCDE74FDB4591784
+sudo add-apt-repository "deb http://ppa.launchpad.net/sandromani/gimagereader/ubuntu bionic main"
+
+sudo apt-key adv --keyserver-options http-proxy=http://85.19.187.24:8080 --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 4AB0F789CBA31744CC7DA76A8CF63AD3F06FC659
+sudo add-apt-repository "deb http://ppa.launchpad.net/jonathonf/vim/ubuntu bionic main"
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+# TODO: Endre repo i linje under når tilgjengelig for 18.04
+sudo add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/16.04/mssql-server-preview.list)"
+
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" > /etc/apt/sources.list.d/PostgreSQL.list'
+
+wget -qO - https://bintray.com/user/downloadSubjectPublicKey?username=bintray | sudo apt-key add -
+echo "deb http://dl.bintray.com/siegfried/debian wheezy main" | sudo tee -a /etc/apt/sources.list
+
+wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | sudo apt-key add -
+echo 'deb https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/repos/debs/ vscodium main' | sudo tee --append /etc/apt/sources.list
+
+#DEFAULT APT PACKAGES:
+sudo apt remove -y hexchat-common xed hexchat thunderbird rhythmbox caja-sendto tomboy timeshift xplayer openjdk* mysql*
+sudo apt-get remove --purge `dpkg -l | grep '^rc' | awk '{print $2}'` #Remove residual config
+sudo apt update
+sudo apt upgrade -y
+sudo sh -c "echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections"
+sudo apt install -y git openjdk-8-jdk vim-gtk3 ttf-mscorefonts-installer wimtools git-cola epiphany-browser lynx python3-pandas \
+mint-meta-codecs galternatives xchm mate-dock-applet regexxer subversion python3-pip build-essential silversearcher-ag \
+graphviz dos2unix openjfx npm chm2pdf python3-setuptools meld mercurial python3-dev checkinstall siegfried ripgrep emacs26 \
+dconf-editor sshfs mssql-server postgresql-11 snapd snapd-xdg-open caja-actions caja-dropbox clamav libclamunrar7 maven \
+caja-gtkhash caja-rename caja-xattr-tags apt-transport-https ca-certificates software-properties-common python3-tk fpc \
+docker-ce docker-compose python3-wheel mate-applet-brisk-menu yad epiphany-browser nfoview gimagereader \
+python-setuptools xcape pylint3 flake8 vscodium python-autopep8 freeglut3-dev libgstreamer-plugins-base1.0-dev \
+python3-pyparsing python3-notebook jupyter-core python-ipykernel uchardet python3-lxml libvterm-dev libtool-bin
+
+#DEFAULT PIP PACKAGES:
+pip3 install -U autopep8 --user
+/usr/bin/python3 -m pip install -U rope --user
+pip3 install ttkthemes cerberus unoconv pyautogui
+
+#COLORS:
+cd ~/.config && wget https://raw.githubusercontent.com/arcticicestudio/nord-xresources/develop/src/nord
+echo '#include "/home/bba/.config/nord"' >> ~/.Xresources
+xrdb ~/.Xresources
+
+#VSCODE:
+vscodium --install-extension arcticicestudio.nord-visual-studio-code 
+vscodium --install-extension ms-python.python
+vscodium --install-extension mechatroner.rainbow-csv
+vscodium --install-extension Anjali.clipboard-history
+vscodium --install-extension frhtylcn.pythonsnippets
+vscodium --install-extension mrmlnc.vscode-duplicate	
+vscodium --install-extension wehrstedtcoding.file-picker
+vscodium --install-extension RoscoP.ActiveFileInStatusBar
+vscodium --install-extension fabiospampinato.vscode-highlight
+vscodium --install-extension slevesque.vscode-hexdump
+vscodium --install-extension fabiospampinato.vscode-git-history
+vscodium --install-extension lkytal.FlatUI
+vscodium --install-extension mtxr.sqltools
+vscodium --install-extension ms-pyright.pyright
+
+#VERAPDF:
+mkdir -p ~/bin/verapdf
+cd /tmp && wget http://downloads.verapdf.org/rel/verapdf-installer.zip
+unzip verapdf-installer.zip 
+cd verapdf-greenfield-*
+cat <<\EOF > auto.xml
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<AutomatedInstallation langpack="eng">
+<com.izforge.izpack.panels.htmlhello.HTMLHelloPanel id="welcome"/>
+<com.izforge.izpack.panels.target.TargetPanel id="install_dir">
+<installpath>/home/bba/bin/verapdf</installpath>
+</com.izforge.izpack.panels.target.TargetPanel>
+<com.izforge.izpack.panels.packs.PacksPanel id="sdk_pack_select">
+<pack index="0" name="veraPDF GUI" selected="true"/>
+<pack index="1" name="veraPDF Mac and *nix Scripts" selected="true"/>
+<pack index="2" name="veraPDF Corpus and Validation model" selected="false"/>
+<pack index="3" name="veraPDF Documentation" selected="true"/>
+<pack index="4" name="veraPDF Sample Plugins" selected="false"/>
+</com.izforge.izpack.panels.packs.PacksPanel>
+<com.izforge.izpack.panels.install.InstallPanel id="install"/>
+<com.izforge.izpack.panels.finish.FinishPanel id="finish"/>
+</AutomatedInstallation>
+EOF
+java -jar verapdf-izpack-installer-* auto.xml
+
+#EMACS:
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install #TODO: Sjekk om finnes valg for auto-ja på spm her
+ln -s ~/.fzf/bin/fzf ~/bin
+echo "Emacs*geometry: 130x50" > ~/.Xresources
+xrdb -merge ~/.Xresources
+
+bash -c 'echo "#!/bin/bash
+emacs --daemon" > ~/bin/emacs_daemon.sh'
+chmod a+rx ~/bin/emacs_daemon.sh
+
+bash -c 'echo "[Desktop Entry]
+Type=Application
+Exec=/home/bba/bin/emacs_daemon.sh
+Hidden=false
+X-MATE-Autostart-enabled=true
+Name=Emacs_Daemon" > ~/.config/autostart/Emacs_Daemon.desktop'
+
+cat <<\EOF > ~/bin/amacs
+#! /bin/bash -e
+frame=`emacsclient -a '' -e "(member \"$DISPLAY\" (mapcar 'terminal-name (frames-on-display-list)))" 2>/dev/null`
+[[ "$frame" == "nil" ]] && opts='-c' # if there is no frame open create one
+[[ "${@/#-nw/}" == "$@" ]] && opts="$opts -n" # don't wait unless we've asked to run in a terminal
+if [ -z "$@" ] ; then
+	wmctrl -xa emacs || emacsclient -n -c
+else
+	exec emacsclient -a '' $opts "$@" 
+fi 
+wmctrl -xa emacs
+EOF
+chmod a+rx ~/bin/amacs
+
+bash -c 'echo "[Desktop Entry]
+Name=Arkimacs
+GenericName=Text Editor
+Comment=Edit text
+MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;
+Exec=/home/bba/bin/amacs %F
+Icon=emacs26
+Type=Application
+Terminal=false
+Categories=Development;TextEditor;
+StartupWMClass=Emacs
+Keywords=Text;Editor;" > ~/.local/share/applications/Arkimacs.desktop'
+
+xdg-mime default Arkimacs.desktop text/english text/plain text/x-makefile text/x-c++hdr text/x-c++src text/x-chdr text/x-csrc text/x-java text/x-moc text/x-pascal text/x-tcl text/x-tex application/x-shellscript text/x-c text/x-c++
+
+#KEYS:
+gsettings set org.mate.Marco.global-keybindings switch-to-workspace-left disabled
+gsettings set org.mate.Marco.global-keybindings switch-to-workspace-right disabled
+gsettings set org.mate.Marco.global-keybindings switch-to-workspace-up disabled
+gsettings set org.mate.Marco.global-keybindings switch-to-workspace-down disabled
+
+gsettings set org.mate.Marco.global-keybindings panel-main-menu '<Alt>F3'
+#TODO: Endre så brisk menu på win key igjen?
+
+#DEFAULT SNAP PACKAGES:
+sudo snap install dbtarzan john-the-ripper xnviewmp openscad-nightly
+
+#FIXES:
+cat <<\EOF > ~/bin/div_fix.sh
+#! /bin/bash
+pkill gvfsd-fuse && /usr/lib/gvfs/gvfsd-fuse -o allow_other /var/run/user/1000/gvfs/
+#setxkbmap -option 'numpad:microsoft'
+
+"$ORACLE_HOME"/bin/lsnrctl start && sudo /etc/init.d/oracle-xe start
+EOF
+chmod a+rx ~/bin/div_fix.sh
+
+bash -c 'echo "[Desktop Entry]
+Type=Application
+Exec=/home/bba/bin/div_fix.sh
+Hidden=false
+X-MATE-Autostart-enabled=true
+Name=Div_Fix" > ~/.config/autostart/Div_Fix.desktop'
+
+#ANTIVIRUS:
+#Last ned sophos til /home/bba/Downloads/sophos-av
+cd ~/Downloads/sophos-av && sudo sh ./install.sh --acceptlicence --update-proxy-address=http://85.19.187.24:8080
+#valg for install: default location, ikke on-access, oppdatering fra sophos, free version, 
+sudo /opt/sophos-av/bin/savdctl disable
+sudo /opt/sophos-av/bin/savconfig set LiveProtection false
+sudo /opt/sophos-av/bin/savconfig set DisableFeedback true
+sudo sed -i -e 's/#user_allow_other/user_allow_other/' /etc/fuse.conf
+
+#DOCKER:
+sudo mkdir -p /etc/systemd/system/docker.service.d/
+sudo sh -c "echo  '[Service] 
+Environment=HTTP_PROXY=http://85.19.187.24:8080
+Environment=HTTPS_PROXY=http://85.19.187.24:8080
+Environment=NO_PROXY=localhost,127.0.0.1,localaddress,.localdomain.com' >> /etc/systemd/system/docker.service.d/http-proxy.conf"
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+mkdir -p ~/docker/xe-18c
+
+#MATE-PANEL:
+#tilpasse mate panel
+
+#CAJA:
+#List view som default view
+cd /tmp &&
+git clone https://github.com/BBATools/contextactions
+cp -r contextactions/scripts/* ~/.config/caja/scripts
+
+#GIT:
+git config --global http.proxy http://85.19.187.24:8080
+git config --global url.https://github.com/.insteadOf git://github.com/
+
+#WALLPAPER:
+mkdir -p /home/$USER/.local/share/wallpapers
+SRC_URI="https://raw.githubusercontent.com/Nitrux/luv-icon-theme/master/Wallpapers/Night/contents/images/2560x1080.png"
+FNAME="/home/$USER/.local/share/wallpapers/arkimint.png"
+wget "$SRC_URI" -O "$FNAME"
+gsettings set org.mate.background picture-filename "$FNAME"
+
+#CAD:
+# TODO: Denne må være valg i installer for post-install heller pga lisens
+cd /tmp &&
+wget -c https://download.opendesign.com/guestfiles/ODAFileConverter/ODAFileConverter_QT5_lnxX64_4.7dll.deb
+sudo dpkg -i ODAFileConverter_QT5_lnxX64_4.7dll.deb
+
+
+
+
+
+#FITS:
+mkdir -p ~/bin/fits && cd ~/bin/fits && wget -qO- -O tmp.zip https://projects.iq.harvard.edu/fits/files/fits-latest.zip && unzip tmp.zip && rm tmp.zip
+ln -s ~/bin/fits/fits.sh ~/bin
+mkdir -p ~/bin/fits/tmp
+
+#SIEGFRIED:
+sudo sf -update
+
+#TIKA:
+export VER="1.20"
+mkdir -p ~/bin/tika && cd ~/bin/tika && wget https://archive.apache.org/dist/tika/tika-app-${VER}.jar
+#TODO: Lag desktop-fil/script for å åpne tika-app fra meny
+
+#EXIFTOOL
+url=`lynx -dump -listonly https://www.sno.phy.queensu.ca/~phil/exiftool/ | grep Image-ExifTool.*gz`
+url="$(echo $url | sed 's/[^ ]* //')"
+mkdir -p ~/bin/exiftool && cd ~/bin/exiftool && wget -qO- -O tmp.tar.gz $url && tar -xf tmp.tar.gz
+cd Image-ExifTool* && mv * .. && rm -rdf Image-ExifTool* && rm tmp.tar.gz
+perl Makefile.PL
+echo -e '#!/bin/bash \n exec /home/bba/bin/exiftool/exiftool "$@"'  > ~/bin/exiftool.sh
+chmod a+rx ~/bin/exiftool.sh
+
+* TODO:	 
+    ** Installer og test denne: https://github.com/barry-scott/scm-workbench/tree/master/Source/Scm
+    ** Fjern oracle-ting fra menyer inkl denne på desktop (har fjernet manuelt men bør være auto): oraclexe-gettingstarted.desktop
+    ** http://www.techniful.in/2014/05/ubuntu-proxy-settings-for-maven.html
+    ** Fjern clamav helt?	
+    ** Installerte draftsight herfra for test: https://www.3ds.com/products-services/draftsight-cad-software/download-draftsight//
+    	--> se denne: https://github.com/idbolshakov/draftsight-ubuntu-install/blob/master/makefile
+    ** Automatiser installasjon av cuda text
+    ** Fjern alt på emacs og vim
+    ** FF heller enn epiphany? https://www.reddit.com/r/linux/comments/7ivuit/create_firefoxbased_web_apps_for_gnome_and/
+    ** Test emacs med md uten sitelisp mm (forhindre at tramp lastes) -> se emacs --help
+    ** Sjekk etter restart om kode som henger igjen så en ikke kan holde space nede for flere space (fjernet xmodmap-fil nå)
+    ** Se for installasjon av dbdrivere: https://github.com/cevanwells/docker-sqlworkbench/blob/master/Dockerfile
+	** Lag desktop-fil for bin/amacs
+	** Innstallerte denne manuelt - test at fikser bug (https://launchpad.net/~jonathonf/+archive/ubuntu/mate-1.20/+files/mate-dock-applet_0.87-2~18.04.york0_amd64.deb)
+	** Endre dette scriptet så alt kan kjøres flere ganger og evt gjør ingenting eller oppgraderer hvis kjørt før
+	** Bruk Tika (installert) for å hente ut ren tekst versjon av filer (etter konvertering til arkivformat?)
+	** Test ATOM docker på nytt hvis Stig får opp VB: https://www.accesstomemory.org/en/docs/2.4/dev-manual/env/compose/#dev-env-compose
+	** Installer dropbox, mailklient mm når ferdig nok til å distribuere til andre
+    ** Oracle - sjekk om Apex virkelig er installert i docker image
+    ** Installer siardcmd
+    ** installer programvare som trengs av caja scipts hvis ikke endrer til Thunar (selve menyen er installert - se over)
+	** Gjør sophos install helautomatisk: 
+	   https://community.sophos.com/products/server-protection-integration/f/sophos-anti-virus-for-linux-basic/75550/is-it-possible-to-do-an-unattended-install/334117#334117
+    ** SSH heller enn shared folder:
+		- caja mot ssh: https://askubuntu.com/questions/1025030/does-nautilus-remote-mounting-use-sshfs
+        - https://www.virtualbox.org/wiki/Sharing_files_on_OSE
+        - https://www.hiroom2.com/2018/05/05/ubuntu-1804-sshfs-en/
+        - https://winscp.net/eng/docs/guide_windows_openssh_server
+        - https://askubuntu.com/questions/50104/how-do-i-access-an-external-drive-mounted-on-a-machine-on-my-own-network
+        - https://code-maven.com/virtualbox-host-only-network-ssh-to-remote-machine
+    ** Scripte snapshot:
+        - https://stackoverflow.com/questions/13555009/virtualbox-revert-to-snapshot-from-inside-guest
+    ** Lag Run_Post_Install.sh
+    ** Script inn: https://mycroftproject.com/search-engines.html?name=Google+Verbatim
+
+
+
