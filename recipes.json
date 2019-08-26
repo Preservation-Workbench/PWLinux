@@ -1,0 +1,90 @@
+[
+      {
+        "name": "Arkimint Core",
+        "description": "Base install",
+        "type": "generic",
+        "recipe": ["apt", "install", "git openjdk-11-jdk ttf-mscorefonts-installer mint-meta-codecs galternatives xchm subversion dos2unix meld checkinstall apt-transport-https ca-certificates software-properties-common xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-terminal gnome-system-monitor"],
+        "preInstall": ["echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections"],
+        "postInstall": ["apt", "remove", "hexchat-common hexchat thunderbird rhythmbox tomboy xplayer xfce4-taskmanager"]
+    },
+    {
+        "name": "Dropbox",
+        "description": "A cloud hosting service to store your files online",
+        "type": "deb",
+        "recipe": ["https://linux.dropbox.com/packages/ubuntu/dropbox_2019.01.31_amd64.deb"]
+    },
+    {
+        "name": "Kazam",
+        "description": "A tool to record your screen and take screenshots",
+        "type": "package",
+        "recipe": ["kazam"]
+    },
+    {
+        "name": "Arkimacs",
+        "description": "Emacs for Digital Preservation Work",
+        "type": "ppa",
+        "recipe": ["ppa:kelleyk/emacs", "emacs", "handbrake-cli"]
+    },
+    {
+        "name": "Soundconverter",
+        "description": "Audio file converter",
+        "type": "package",
+        "recipe": ["soundconverter"]
+    },
+    {
+        "name": "Diffpdf",
+        "description": "A tool to compare PDF files",
+        "type": "package",
+        "recipe": ["diffpdf"]
+    },
+    {
+        "name": "Disk utility",
+        "description": "A tool to manage your drives",
+        "type": "package",
+        "recipe": ["gnome-disk-utility"]
+    },
+    {
+        "name": "GParted",
+        "description": "A tool to make partitions in your hard drives",
+        "type": "package",
+        "recipe": ["gparted"]
+    },
+    {
+        "name": "FileZilla",
+        "description": "Download and upload files via FTP, FTPS and SFTP",
+        "type": "package",
+        "recipe": ["filezilla"]
+    },
+    {
+        "name": "Utilities bundle",
+        "description": "Java, zip, rar and exfat tools",
+        "type": "package",
+        "recipe": ["icedtea-8-plugin", "openjdk-8-jre", "p7zip", "rar", "exfat-fuse", "exfat-utils"]
+    },
+    {
+        "name": "Developer bundle",
+        "description": "Tools for developers: build-essential, cmake, git, svn, java, python, octave, autotools...",
+        "type": "package",
+        "recipe": ["build-essential", "cmake", "cmake-gui", "cmake-curses-gui", "python3", "python3-pip", "octave", "gfortran", "git", "git-svn", "subversion", "kdiff3", "colordiff", "openjdk-8-jdk", "autoconf", "autotools-dev", "cppcheck"]
+    },
+    {
+        "name": "rEFInd",
+        "description": "An EFI boot manager",
+        "type": "ppa",
+        "recipe": ["ppa:rodsmith/refind", "refind"],
+        "preInstall": ["echo refind refind/install_to_esp boolean true | sudo debconf-set-selections"],
+        "postInstall": ["refind-install"]
+    },
+    {
+        "name": "Ukuu",
+        "description": "A kernel update tool",
+        "type": "ppa",
+        "recipe": ["ppa:teejee2008/ppa", "ukuu"]
+    },
+    {
+        "name": "Ulauncher",
+        "description": "Application launcher for Linux",
+        "type": "ppa",
+        "recipe": ["ppa:agornostal/ulauncher", "ulauncher"]
+    }
+]
