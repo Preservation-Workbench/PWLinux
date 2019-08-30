@@ -11,13 +11,28 @@ if sys.version_info[0] < 3:
     sys.exit()
 else:
     import os
+    import pathlib
     import subprocess
     import urllib.request
     import json
     import re
     from datetime import datetime
     import time
+    from pathlib import *
 
+def read_user_prefs(preffile):
+    r = re.compile(rb"\s*user_pref\(([\"'])(.+?)\1,\s*(.+?)\);")
+    rv = {}
+    for l in preffile:
+        m = r.match(l)
+        if not m:
+            continue
+        k, v = m.group(2), m.group(3)
+        try:
+            rv[k] = json.loads(v)
+        except Exception as ex:
+            print("failed to parse", k, v, ex)
+    return rv     
 
 class Cmd:
 
@@ -446,7 +461,8 @@ class Alfred:
 
         # Load recipes
         if localRecipes:
-            with open('recipes.json','r') as f:
+            bindir = os.path.abspath(os.path.dirname(__file__))
+            with open(bindir + '/recipes.json','r') as f:
                 self.recipes = json.load(f)
         else:
             url = 'https://raw.githubusercontent.com/derkomai/alfred/master/recipes.json'
@@ -459,9 +475,7 @@ class Alfred:
 
     
     def show(self):
-
         while True:
-
             # Build table
             tableData = []
         
@@ -478,7 +492,6 @@ class Alfred:
                 tableData.append(recipe['name'])
                 tableData.append(recipe['description'])
             
-
             table = Zenity.table(tableData)
 
             # Check for closed window / cancel button
@@ -493,11 +506,8 @@ class Alfred:
                     self.recipes[i]['selected'] = False
 
                 continue
-
             else:
-
                 taskList = table.stdout[:-1].split('|') # Last char is \n
-
                 self.taskList = []
 
                 for i in range(len(self.recipes)):
@@ -506,20 +516,16 @@ class Alfred:
                         self.recipes[i]['selected'] = True
                     else:
                         self.recipes[i]['selected'] = False
-
                 break
 
 
-
     def process(self):
-
         # Get confirmation
         message = 'The selected tasks will be performed now. '
         message += "You won't be able to cancel this operation once started.\n\n"       
         message += 'Are you sure you want to continue?'
 
         while True:
-
             if not Zenity.question(message, height=100, width=350):
                 self.show()
             else:
@@ -536,7 +542,6 @@ class Alfred:
         postInstall = []
 
         for i in self.taskList:
-
             if self.recipes[i]['type'] == 'package':
                 packages.extend(self.recipes[i]['recipe'])
 
@@ -548,21 +553,14 @@ class Alfred:
                     # snapsWithOptions.append(self.recipes[i]['recipe'])
 
             elif self.recipes[i]['type'] == 'ppa':
-
                 ppas.append(self.recipes[i]['recipe'][0])
                 packages.extend(self.recipes[i]['recipe'][1:])
-
             elif self.recipes[i]['type'] == 'deb':
-
                 debs.append(self.recipes[i]['recipe'][0])
-
             elif self.recipes[i]['type'] == 'generic':
-
                 generics.append(self.recipes[i]['recipe'])
-
             if 'preInstall' in self.recipes[i]:
                 preInstall.append(self.recipes[i]['preInstall'])
-
             if 'postInstall' in self.recipes[i]:
                 postInstall.append(self.recipes[i]['postInstall'])
 
@@ -730,37 +728,95 @@ class Alfred:
             f.write('<STDERR>:\n' + cmd.stderr + '\n')
 
         return cmd
-
-
-
-def main():
+        
+def main():   
+    # Ensure some folders exist:
+    pathlib.Path(str(Path.home()) + '/bin').mkdir(parents=True, exist_ok=True) 
+    pathlib.Path(str(Path.home()) + '/Projects').mkdir(parents=True, exist_ok=True) 
+    pathlib.Path(str(Path.home()) + '/.local/share/applications').mkdir(parents=True, exist_ok=True) 
+    pathlib.Path(str(Path.home()) + '/.config/autostart').mkdir(parents=True, exist_ok=True)    
+    pathlib.Path(str(Path.home()) + '/.local/bin').mkdir(parents=True, exist_ok=True)      
     
+    # Fix paths and zenity:
+    with open(str(Path.home()) + '/.bashrc', 'r+') as f:
+        if not 'PATH=$HOME/bin:$PATH' in f.read():            
+            f.write('PATH=$HOME/bin:$PATH' + '\n') 
+        f.seek(0)
+        if not 'PATH=$HOME/.local/bin:$PATH' in f.read():            
+            f.write('PATH=$HOME/.local/bin:$PATH' + '\n')    
+        f.seek(0)
+        if not '''alias zenity="zenity 2> >(grep -v 'GtkDialog' >&2)"''' in f.read():            
+            f.write('''alias zenity="zenity 2> >(grep -v 'GtkDialog' >&2)"''' + '\n')    
+                            
+    # Check proxy
+    ff_subfolders = [f.path for f in os.scandir(str(Path.home()) + "/.mozilla/firefox") if f.is_dir()]
+    proxy_address = None
+    proxy_port = None
+    for folder in ff_subfolders:
+        if folder.endswith(".default-release"):
+            with open("{}/prefs.js".format(folder), "rb") as p:
+                prefs = read_user_prefs(p)
+                for k, v in prefs.items():
+                    if k == b'network.proxy.http':
+                        proxy_address = v
+                    if k == b'network.proxy.http_port':  
+                        proxy_port = str(v)  
+    
+    if proxy_address and proxy_port:
+        svn_folder = str(Path.home()) + '/.subversion' 
+        pathlib.Path(svn_folder).mkdir(parents=True, exist_ok=True) 
+        svn_servers = svn_folder + '/servers'    
+        pathlib.Path(svn_servers).touch()
+        with open(svn_servers, 'r+') as f:
+            if not 'http-proxy-host' in f.read():            
+                f.write('http-proxy-host = ' + proxy_address + '\n' \
+                        'http-proxy-port = ' + proxy_port)                   
+                                                             
     # Check root privileges
     if os.geteuid() == 0:
-
+        if proxy_address and proxy_port:
+            with open('/etc/environment', 'r+') as f:
+                if not 'http_proxy' in f.read():            
+                    f.write('http_proxy=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
+                            'https_proxy=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
+                            'no_proxy=localhost,127.0.0.0,127.0.1.1,127.0.1.1,local.home') 
+            with open('/etc/wgetrc', 'r+') as f:
+                proxy_set = False             
+                for line in f.readlines():
+                    if line.startswith('http_proxy'):
+                        proxy_set = True
+                if not proxy_set:                        
+                    f.write('http_proxy=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
+                            'https_proxy=http://' + proxy_address + ':' + proxy_port + '/')
+            docker_folder = '/etc/systemd/system/docker.service.d/'
+            pathlib.Path(docker_folder).mkdir(parents=True, exist_ok=True)     
+            docker_conf = docker_folder + '/http-proxy.conf'   
+            pathlib.Path(docker_conf).touch()                
+            with open(docker_conf, 'r+') as f:
+                if not 'Environment=HTTP_PROXY' in f.read():            
+                    f.write('Environment=HTTP_PROXY=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
+                            'Environment=HTTPS_PROXY=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
+                            'Environment=NO_PROXY=localhost,127.0.0.1,localaddress,.localdomain.com')     
+        
+        runCmd(['sudo', 'usermod', '-aG', 'vboxsf', '$USER']) 
+        # TODO: vboxsf gruppe mangler -> gjøre hva først. Sjekk om på virtuell hvordan?
+        #runCmd(['sudo', 'usermod', '-aG', 'vboxsf', '$USER'])                                                  
+                                                         
         alfred = Alfred()
         alfred.show()
         alfred.process()
-
     else:
-
         # Check Zenity and run as superuser
         if checkPackage('zenity'):
-
             runCmd(['sudo', 'python3', sys.argv[0]], stdin=Zenity.password())
-        
         else:
-
             import getpass
             password = getpass.getpass("Password: ")
             subprocess.run(['echo "{}" | sudo -kS python3 {}'.format(password, sys.argv[0])],
                            shell=True,
                            stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE,
-                           check=True)
-
-
+                           check=True)      
 
 if __name__ == '__main__':
-
     main()

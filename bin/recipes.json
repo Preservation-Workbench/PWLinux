@@ -3,7 +3,7 @@
         "name": "Arkimint Core",
         "description": "Base install",
         "type": "generic",
-        "recipe": ["apt", "install", "git openjdk-11-jdk ttf-mscorefonts-installer mint-meta-codecs galternatives xchm subversion dos2unix meld checkinstall apt-transport-https ca-certificates software-properties-common xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-terminal gnome-system-monitor"],
+        "recipe": ["apt", "install", "-y", "git openjdk-11-jdk ttf-mscorefonts-installer mint-meta-codecs galternatives xchm subversion dos2unix meld checkinstall apt-transport-https ca-certificates software-properties-common xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor"],
         "preInstall": ["echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections"],
         "postInstall": ["apt", "remove", "hexchat-common hexchat thunderbird rhythmbox tomboy xplayer xfce4-taskmanager"]
     },
@@ -11,64 +11,66 @@
         "name": "Dropbox",
         "description": "A cloud hosting service to store your files online",
         "type": "deb",
-        "recipe": ["https://linux.dropbox.com/packages/ubuntu/dropbox_2019.01.31_amd64.deb"]
-    },
+        "recipe": ["https://linux.dropbox.com/packages/ubuntu/dropbox_2019.02.14_amd64.deb"],
+        "preInstall": ["apt", "install", "-y", "python3-gpg thunar-dropbox-plugin"]        
+    },    
     {
-        "name": "Kazam",
+        "name": "VSCodium",
+        "description": "Freely-licensed distribution of VSCode editor",
+        "type": "ppa",
+        "recipe": ["deb https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/repos/debs/ vscodium main", "vscodium"],
+        "preInstall": ["wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | sudo apt-key add -"]      
+    },    
+    {
+        "name": "Kazam - ikke testet",
         "description": "A tool to record your screen and take screenshots",
         "type": "package",
         "recipe": ["kazam"]
     },
     {
-        "name": "Arkimacs",
+        "name": "Arkimacs - ikke ferdig",
         "description": "Emacs for Digital Preservation Work",
         "type": "ppa",
-        "recipe": ["ppa:kelleyk/emacs", "emacs", "handbrake-cli"]
+        "recipe": ["ppa:kelleyk/emacs", "emacs"]
     },
     {
-        "name": "Soundconverter",
+        "name": "Soundconverter - ikke testet",
         "description": "Audio file converter",
         "type": "package",
         "recipe": ["soundconverter"]
     },
     {
-        "name": "Diffpdf",
+        "name": "Diffpdf - ikke testet",
         "description": "A tool to compare PDF files",
         "type": "package",
         "recipe": ["diffpdf"]
     },
     {
-        "name": "Disk utility",
-        "description": "A tool to manage your drives",
-        "type": "package",
-        "recipe": ["gnome-disk-utility"]
-    },
-    {
-        "name": "GParted",
+        "name": "GParted - ikke testet",
         "description": "A tool to make partitions in your hard drives",
         "type": "package",
         "recipe": ["gparted"]
     },
     {
-        "name": "FileZilla",
+        "name": "FileZilla - ikke testet",
         "description": "Download and upload files via FTP, FTPS and SFTP",
         "type": "package",
         "recipe": ["filezilla"]
     },
     {
-        "name": "Utilities bundle",
+        "name": "Utilities bundle - ikke testet",
         "description": "Java, zip, rar and exfat tools",
         "type": "package",
-        "recipe": ["icedtea-8-plugin", "openjdk-8-jre", "p7zip", "rar", "exfat-fuse", "exfat-utils"]
+        "recipe": ["rar", "exfat-fuse", "exfat-utils"]
     },
     {
-        "name": "Developer bundle",
+        "name": "Developer bundle - ikke testet",
         "description": "Tools for developers: build-essential, cmake, git, svn, java, python, octave, autotools...",
         "type": "package",
-        "recipe": ["build-essential", "cmake", "cmake-gui", "cmake-curses-gui", "python3", "python3-pip", "octave", "gfortran", "git", "git-svn", "subversion", "kdiff3", "colordiff", "openjdk-8-jdk", "autoconf", "autotools-dev", "cppcheck"]
+        "recipe": ["build-essential", "cmake", "cmake-gui", "cmake-curses-gui", "python3", "python3-pip", "git-svn", "colordiff", "openjdk-8-jdk"]
     },
     {
-        "name": "rEFInd",
+        "name": "rEFInd - ikke testet",
         "description": "An EFI boot manager",
         "type": "ppa",
         "recipe": ["ppa:rodsmith/refind", "refind"],
@@ -76,15 +78,9 @@
         "postInstall": ["refind-install"]
     },
     {
-        "name": "Ukuu",
+        "name": "Ukuu - ikke testet",
         "description": "A kernel update tool",
         "type": "ppa",
         "recipe": ["ppa:teejee2008/ppa", "ukuu"]
-    },
-    {
-        "name": "Ulauncher",
-        "description": "Application launcher for Linux",
-        "type": "ppa",
-        "recipe": ["ppa:agornostal/ulauncher", "ulauncher"]
     }
 ]
