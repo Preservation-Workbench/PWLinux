@@ -15,18 +15,12 @@
         "preInstall": ["apt", "install", "-y", "python3-gpg thunar-dropbox-plugin"]        
     },    
     {
-        "name": "VSCodium",
+        "name": "VSCodium - legg til postinstall config/extensions",
         "description": "Freely-licensed distribution of VSCode editor",
         "type": "ppa",
-        "recipe": ["deb https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/repos/debs/ vscodium main", "vscodium"],
-        "preInstall": ["wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | sudo apt-key add -"]      
+        "recipe": ["deb https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/repos/debs/ vscodium main", "codium"],
+        "preInstall": ["wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | sudo apt-key add -"]              
     },    
-    {
-        "name": "Kazam - ikke testet",
-        "description": "A tool to record your screen and take screenshots",
-        "type": "package",
-        "recipe": ["kazam"]
-    },
     {
         "name": "Arkimacs - ikke ferdig",
         "description": "Emacs for Digital Preservation Work",
