@@ -4,23 +4,28 @@
         "description": "Base install",
         "type": "generic",
         "recipe": ["apt", "install", "-y", "git openjdk-11-jdk ttf-mscorefonts-installer mint-meta-codecs galternatives xchm subversion dos2unix meld checkinstall apt-transport-https ca-certificates software-properties-common xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor"],
+        "preInstall": ["apt", "update"],
+        "preInstall": ["apt", "upgrade", "-y"],
         "preInstall": ["echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections"],
-        "postInstall": ["apt", "remove", "hexchat-common hexchat thunderbird rhythmbox tomboy xplayer xfce4-taskmanager"]
+        "postInstall": ["apt", "remove", "-y", "hexchat-common hexchat thunderbird rhythmbox tomboy xplayer xfce4-taskmanager"]
     },
     {
-        "name": "Dropbox",
-        "description": "A cloud hosting service to store your files online",
+        "name": "Textadept",
+        "description": "An extensible cross-platform text editor",
         "type": "deb",
-        "recipe": ["https://linux.dropbox.com/packages/ubuntu/dropbox_2019.02.14_amd64.deb"],
-        "preInstall": ["apt", "install", "-y", "python3-gpg thunar-dropbox-plugin"]        
-    },    
+        "recipe": ["https://sourceforge.net/projects/d-apt/files/pool/main/t/textadept/textadept_10.5-0_amd64.deb"],
+        "preInstall": ["wget", "-qO", "/tmp/package_dep.deb", "http://security.ubuntu.com/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1.1_amd64.deb"],
+        "preInstall": ["apt", "install", "-y", "/tmp/package_dep.deb"],
+        "postInstall": ["apt", "remove", "-y", "xed"],
+        "postInstall": ["xdg-mime", "default", "textadept.desktop", "text/english text/plain text/x-makefile text/x-c++hdr text/x-c++src text/x-chdr text/x-csrc text/x-java text/x-moc text/x-pascal text/x-tcl text/x-tex application/x-shellscript text/x-c text/x-c++"]
+    },      
     {
         "name": "VSCodium - legg til postinstall config/extensions",
         "description": "Freely-licensed distribution of VSCode editor",
         "type": "ppa",
         "recipe": ["deb https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/repos/debs/ vscodium main", "codium"],
         "preInstall": ["wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | sudo apt-key add -"]              
-    },    
+    },  
     {
         "name": "Arkimacs - ikke ferdig",
         "description": "Emacs for Digital Preservation Work",
@@ -28,16 +33,23 @@
         "recipe": ["ppa:kelleyk/emacs", "emacs"]
     },
     {
+        "name": "Diffpdf",
+        "description": "A tool to compare PDF files",
+        "type": "package",
+        "recipe": ["diffpdf"]
+    },    
+    {
+        "name": "Dropbox",
+        "description": "A cloud hosting service to store your files online",
+        "type": "deb",
+        "recipe": ["https://linux.dropbox.com/packages/ubuntu/dropbox_2019.02.14_amd64.deb"],
+        "preInstall": ["apt", "install", "-y", "python3-gpg thunar-dropbox-plugin"]        
+    },      
+    {
         "name": "Soundconverter - ikke testet",
         "description": "Audio file converter",
         "type": "package",
         "recipe": ["soundconverter"]
-    },
-    {
-        "name": "Diffpdf - ikke testet",
-        "description": "A tool to compare PDF files",
-        "type": "package",
-        "recipe": ["diffpdf"]
     },
     {
         "name": "GParted - ikke testet",
@@ -70,11 +82,5 @@
         "recipe": ["ppa:rodsmith/refind", "refind"],
         "preInstall": ["echo refind refind/install_to_esp boolean true | sudo debconf-set-selections"],
         "postInstall": ["refind-install"]
-    },
-    {
-        "name": "Ukuu - ikke testet",
-        "description": "A kernel update tool",
-        "type": "ppa",
-        "recipe": ["ppa:teejee2008/ppa", "ukuu"]
     }
 ]

@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 # TODO: Se også denne: https://github.com/yiwensong/ubuntu-setup?files=1
-# TODO: Feil med nøkkel når ppa (gpg-error)
 
 import sys
 
@@ -479,8 +478,9 @@ class Alfred:
             # Build table
             tableData = []
         
+            default_install = ["Arkimint Core","Textadept"]
             for recipe in self.recipes:
-                if recipe['name'] == "Arkimint Core":
+                if recipe['name'] in default_install:
                     recipe['selected'] = True
 
                 if recipe['selected']:
@@ -546,7 +546,6 @@ class Alfred:
                 packages.extend(self.recipes[i]['recipe'])
 
             # elif self.recipes[i]['type'] == 'snap':
-
                 # if len(self.recipes[i]['recipe']) == 1:
                     # snaps.extend(self.recipes[i]['recipe'])
                 # else:
@@ -673,7 +672,6 @@ class Alfred:
             updateBar(message)
 
             if len(self.errors) > 0:
-
                 log = ''
 
                 with open(self.logFile, 'r') as f:
@@ -691,18 +689,14 @@ class Alfred:
                 else:
                     Zenity.textInfo('Ooops, some errors happened (sorry about that)' + log[:120000]) # TODO: Se original for å referere log-fil
         finally:
-
             # Change log ownership
             runCmd(['chown', '{}:{}'.format(os.environ['SUDO_USER'], os.environ['SUDO_USER']), self.logFile])
 
 
 
     def runAndLogCmd(self, cmdArgs, checkLock=False):
-
         if checkLock:
-
             if not waitForDpkgLock(): # Wait for /var/lib/dpkg/lock to be released
-
                 with open(self.logFile, 'a') as f:
                     f.write(100 * '-' + '\n')
                     f.write('LOCKED /var/lib/dpkg/lock or /var/lib/apt/lists/lock\n')
@@ -710,14 +704,12 @@ class Alfred:
                     sys.exit()
 
         with open(self.logFile, 'a') as f:
-
             f.write(100 * '-' + '\n')
             f.write('<COMMAND>: ' + ' '.join(cmdArgs) + '\n')
 
         cmd = runCmd(cmdArgs)
 
         with open(self.logFile, 'a') as f:
-
             if cmd.succeeded:
                 f.write('<RESULT>: SUCCESS\n')
             else:
@@ -731,11 +723,16 @@ class Alfred:
         
 def main():   
     # Ensure some folders exist:
-    pathlib.Path(str(Path.home()) + '/bin').mkdir(parents=True, exist_ok=True) 
-    pathlib.Path(str(Path.home()) + '/Projects').mkdir(parents=True, exist_ok=True) 
-    pathlib.Path(str(Path.home()) + '/.local/share/applications').mkdir(parents=True, exist_ok=True) 
-    pathlib.Path(str(Path.home()) + '/.config/autostart').mkdir(parents=True, exist_ok=True)    
-    pathlib.Path(str(Path.home()) + '/.local/bin').mkdir(parents=True, exist_ok=True)      
+    ensure_dirs = ['bin','Projects','.local/share/applications','.config/autostart','.local/bin']
+    for dir in ensure_dirs:
+      pathlib.Path(str(Path.home()) + '/' + dir).mkdir(parents=True, exist_ok=True)   
+      
+    # Remove som folders we don't need if empty
+    del_dirs = ['Music', 'Templates', 'Videos','Public','Public','Pictures','Documents']
+    for dir in del_dirs:
+      path = pathlib.Path(str(Path.home()) + '/' + dir)
+      if os.path.isdir(path) and len(os.listdir(path) ) == 0:
+        path.rmdir()
     
     # Fix paths and zenity:
     with open(str(Path.home()) + '/.bashrc', 'r+') as f:
