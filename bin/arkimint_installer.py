@@ -31,7 +31,7 @@ def read_user_prefs(preffile):
             rv[k] = json.loads(v)
         except Exception as ex:
             print("failed to parse", k, v, ex)
-    return rv     
+    return rv
 
 class Cmd:
 
@@ -156,7 +156,7 @@ def checkPackage(package):
     else:
         return False
 
-    
+
 def getRepoList():
 
     repoList = []
@@ -180,7 +180,7 @@ def notify(message):
 
     userID = runCmd(['id', '-u', os.environ['SUDO_USER']]).stdout.replace('\n', '')
 
-    runCmd(['sudo', '-u', os.environ['SUDO_USER'], 'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/{}/bus'.format(userID), 
+    runCmd(['sudo', '-u', os.environ['SUDO_USER'], 'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/{}/bus'.format(userID),
             'notify-send', '-i', 'utilities-terminal', 'Arkimint Installer', message])
 
 
@@ -192,7 +192,7 @@ def waitForDpkgLock():
 
         dpkgLock = runCmd(['fuser', '/var/lib/dpkg/lock'])
         aptLock = runCmd(['fuser', '/var/lib/apt/lists/lock'])
-        
+
         if dpkgLock.stdout != '' or aptLock.stdout !='':
             time.sleep(3)
             tries += 1
@@ -229,10 +229,10 @@ class Zenity:
 
                 else:
 
-                    runCmd(['zenity', 
-                            '--info', 
-                            '--width=200', 
-                            '--title=Alfred', 
+                    runCmd(['zenity',
+                            '--info',
+                            '--width=200',
+                            '--title=Alfred',
                             '--text=Wrong password, try again'])
 
             else:
@@ -258,9 +258,9 @@ class Zenity:
         args.append('--width={}'.format(width))
         args.append('--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png')
 
-        process = subprocess.Popen(args, 
-                                   stdin=subprocess.PIPE, 
-                                   stdout=subprocess.PIPE, 
+        process = subprocess.Popen(args,
+                                   stdin=subprocess.PIPE,
+                                   stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE)
 
         def update(message='', percent=0):
@@ -280,9 +280,9 @@ class Zenity:
     @staticmethod
     def error(message):
 
-        runCmd(['zenity', 
-                '--error', 
-                '--title=Arkimint Installer', 
+        runCmd(['zenity',
+                '--error',
+                '--title=Arkimint Installer',
                 '--height=100',
                 '--width=500',
                 '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png',
@@ -312,8 +312,8 @@ class Zenity:
     @staticmethod
     def info(message):
 
-        runCmd(['zenity', 
-                '--info', 
+        runCmd(['zenity',
+                '--info',
                 '--title=Arkimint Installer',
                 '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png',
                 '--height=100',
@@ -324,8 +324,8 @@ class Zenity:
     @staticmethod
     def question(message, height=100, width=200):
 
-        question = runCmd(['zenity', 
-                           '--question', 
+        question = runCmd(['zenity',
+                           '--question',
                            '--title=Arkimint Installer',
                            '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png',
                            '--height={}'.format(height),
@@ -334,7 +334,7 @@ class Zenity:
 
         return question.succeeded
 
-    
+
     @staticmethod
     def textInfo(message):
 
@@ -347,7 +347,7 @@ class Zenity:
                 '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png'],
                 stdin=data)
 
-    
+
     @staticmethod
     def list(message, elements):
 
@@ -358,7 +358,7 @@ class Zenity:
                 '--title=Arkimint Installer',
                 '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png',
                 '--text={}'.format(message),
-                '--hide-header', 
+                '--hide-header',
                 '--column', 'Tasks with errors']
 
         cmd.extend(elements)
@@ -456,7 +456,7 @@ class Alfred:
 
         # Install Zenity if needed
         if not zenity:
-            self.runAndLogCmd(['apt', 'install', '-y', 'zenity'])
+            self.runAndLogCmd(['apt-get', 'install', '-y', 'zenity'])
 
         # Load recipes
         if localRecipes:
@@ -472,13 +472,13 @@ class Alfred:
         for i in range(len(self.recipes)):
             self.recipes[i]['selected'] = False
 
-    
+
     def show(self):
         while True:
             # Build table
             tableData = []
-        
-            default_install = ["Arkimint Core","Textadept"]
+
+            default_install = ["Arkimint Core","Textadept", "Update system"]
             for recipe in self.recipes:
                 if recipe['name'] in default_install:
                     recipe['selected'] = True
@@ -491,7 +491,7 @@ class Alfred:
                 tableData.append(select)
                 tableData.append(recipe['name'])
                 tableData.append(recipe['description'])
-            
+
             table = Zenity.table(tableData)
 
             # Check for closed window / cancel button
@@ -522,7 +522,7 @@ class Alfred:
     def process(self):
         # Get confirmation
         message = 'The selected tasks will be performed now. '
-        message += "You won't be able to cancel this operation once started.\n\n"       
+        message += "You won't be able to cancel this operation once started.\n\n"
         message += 'Are you sure you want to continue?'
 
         while True:
@@ -575,8 +575,8 @@ class Alfred:
                 packages.pop(i)
 
         # Create progress bar
-        updateBar = Zenity.progressBar(pulsating=True, 
-                                       noCancel=True, 
+        updateBar = Zenity.progressBar(pulsating=True,
+                                       noCancel=True,
                                        title='Arkimint Installer',
                                        text='Processing tasks')
 
@@ -585,7 +585,7 @@ class Alfred:
             # Ensure software-properties-common is installed
             if len(ppas) > 0 and not checkPackage('software-properties-common'):
                 updateBar('Installing software-properties-common')
-                self.runAndLogCmd(['apt', 'install', '-y', 'software-properties-common'], checkLock=True)
+                self.runAndLogCmd(['apt-get', 'install', '-y', 'software-properties-common'], checkLock=True)
 
             # Ensure snapd is installed
             # if (len(snaps) > 0 or len(snapsWithOptions) > 0) and not checkPackage('snapd'):
@@ -595,7 +595,7 @@ class Alfred:
             # Ensure libnotify-bin is installed
             if not checkPackage('libnotify-bin'):
                 updateBar('Installing libnotify-bin')
-                self.runAndLogCmd(['apt', 'install', '-y', 'libnotify-bin'], checkLock=True)
+                self.runAndLogCmd(['apt-get', 'install', '-y', 'libnotify-bin'], checkLock=True)
 
             # Run pre-installation tasks
             if len(preInstall) > 0:
@@ -612,13 +612,13 @@ class Alfred:
             # Update
             if len(packages) > 0 or len(ppas) > 0:
                 updateBar('Updating package list')
-                self.runAndLogCmd(['apt', 'update'], checkLock=True)
+                self.runAndLogCmd(['apt-get', 'update'], checkLock=True)
 
             # Process packages
             if len(packages) > 0:
                 for package in packages:
                     updateBar('Installing {}'.format(package))
-                    cmd = ['apt', 'install', '-y']
+                    cmd = ['apt-get', 'install', '-y']
                     cmd.append(package)
                     self.runAndLogCmd(cmd, checkLock=True)
 
@@ -643,7 +643,7 @@ class Alfred:
                 for deb in debs:
                     updateBar('Installing {}'.format(deb))
                     self.runAndLogCmd(['wget', '-q', '-O', '/tmp/package.deb', deb])
-                    self.runAndLogCmd(['apt', 'install', '-y', '/tmp/package.deb'], checkLock=True)
+                    self.runAndLogCmd(['apt-get', 'install', '-y', '/tmp/package.deb'], checkLock=True)
 
             # Process generics
             if len(generics) > 0:
@@ -659,7 +659,7 @@ class Alfred:
 
             # Autoremove
             updateBar('Removing no longer needed packages')
-            self.runAndLogCmd(['apt', 'autoremove', '-y'], checkLock=True)
+            self.runAndLogCmd(['apt-get', 'autoremove', '-y'], checkLock=True)
 
             # Check errors and notify
             if len(self.errors) == 0:
@@ -683,7 +683,7 @@ class Alfred:
                             break
 
                 Zenity.list('The following tasks ended with errors and could not be completed:', self.errors)
-                
+
                 if len(log) < 120000:
                     Zenity.textInfo('Ooops, some errors happened (sorry about that).' + log)
                 else:
@@ -720,31 +720,31 @@ class Alfred:
             f.write('<STDERR>:\n' + cmd.stderr + '\n')
 
         return cmd
-        
-def main():   
+
+def main():
     # Ensure some folders exist:
     ensure_dirs = ['bin','Projects','.local/share/applications','.config/autostart','.local/bin']
     for dir in ensure_dirs:
-      pathlib.Path(str(Path.home()) + '/' + dir).mkdir(parents=True, exist_ok=True)   
-      
+        pathlib.Path(str(Path.home()) + '/' + dir).mkdir(parents=True, exist_ok=True)
+
     # Remove som folders we don't need if empty
     del_dirs = ['Music', 'Templates', 'Videos','Public','Public','Pictures','Documents']
     for dir in del_dirs:
-      path = pathlib.Path(str(Path.home()) + '/' + dir)
-      if os.path.isdir(path) and len(os.listdir(path) ) == 0:
-        path.rmdir()
-    
+        path = pathlib.Path(str(Path.home()) + '/' + dir)
+        if os.path.isdir(path) and len(os.listdir(path) ) == 0:
+            path.rmdir()
+
     # Fix paths and zenity:
     with open(str(Path.home()) + '/.bashrc', 'r+') as f:
-        if not 'PATH=$HOME/bin:$PATH' in f.read():            
-            f.write('PATH=$HOME/bin:$PATH' + '\n') 
+        if not 'PATH=$HOME/bin:$PATH' in f.read():
+            f.write('PATH=$HOME/bin:$PATH' + '\n')
         f.seek(0)
-        if not 'PATH=$HOME/.local/bin:$PATH' in f.read():            
-            f.write('PATH=$HOME/.local/bin:$PATH' + '\n')    
+        if not 'PATH=$HOME/.local/bin:$PATH' in f.read():
+            f.write('PATH=$HOME/.local/bin:$PATH' + '\n')
         f.seek(0)
-        if not '''alias zenity="zenity 2> >(grep -v 'GtkDialog' >&2)"''' in f.read():            
-            f.write('''alias zenity="zenity 2> >(grep -v 'GtkDialog' >&2)"''' + '\n')    
-                            
+        if not '''alias zenity="zenity 2> >(grep -v 'GtkDialog' >&2)"''' in f.read():
+            f.write('''alias zenity="zenity 2> >(grep -v 'GtkDialog' >&2)"''' + '\n')
+
     # Check proxy
     ff_subfolders = [f.path for f in os.scandir(str(Path.home()) + "/.mozilla/firefox") if f.is_dir()]
     proxy_address = None
@@ -756,49 +756,49 @@ def main():
                 for k, v in prefs.items():
                     if k == b'network.proxy.http':
                         proxy_address = v
-                    if k == b'network.proxy.http_port':  
-                        proxy_port = str(v)  
-    
+                    if k == b'network.proxy.http_port':
+                        proxy_port = str(v)
+
     if proxy_address and proxy_port:
-        svn_folder = str(Path.home()) + '/.subversion' 
-        pathlib.Path(svn_folder).mkdir(parents=True, exist_ok=True) 
-        svn_servers = svn_folder + '/servers'    
+        svn_folder = str(Path.home()) + '/.subversion'
+        pathlib.Path(svn_folder).mkdir(parents=True, exist_ok=True)
+        svn_servers = svn_folder + '/servers'
         pathlib.Path(svn_servers).touch()
         with open(svn_servers, 'r+') as f:
-            if not 'http-proxy-host' in f.read():            
+            if not 'http-proxy-host' in f.read():
                 f.write('http-proxy-host = ' + proxy_address + '\n' \
-                        'http-proxy-port = ' + proxy_port)                   
-                                                             
+                        'http-proxy-port = ' + proxy_port)
+
     # Check root privileges
     if os.geteuid() == 0:
         if proxy_address and proxy_port:
             with open('/etc/environment', 'r+') as f:
-                if not 'http_proxy' in f.read():            
+                if not 'http_proxy' in f.read():
                     f.write('http_proxy=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
                             'https_proxy=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
-                            'no_proxy=localhost,127.0.0.0,127.0.1.1,127.0.1.1,local.home') 
+                            'no_proxy=localhost,127.0.0.0,127.0.1.1,127.0.1.1,local.home')
             with open('/etc/wgetrc', 'r+') as f:
-                proxy_set = False             
+                proxy_set = False
                 for line in f.readlines():
                     if line.startswith('http_proxy'):
                         proxy_set = True
-                if not proxy_set:                        
+                if not proxy_set:
                     f.write('http_proxy=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
                             'https_proxy=http://' + proxy_address + ':' + proxy_port + '/')
             docker_folder = '/etc/systemd/system/docker.service.d/'
-            pathlib.Path(docker_folder).mkdir(parents=True, exist_ok=True)     
-            docker_conf = docker_folder + '/http-proxy.conf'   
-            pathlib.Path(docker_conf).touch()                
+            pathlib.Path(docker_folder).mkdir(parents=True, exist_ok=True)
+            docker_conf = docker_folder + '/http-proxy.conf'
+            pathlib.Path(docker_conf).touch()
             with open(docker_conf, 'r+') as f:
-                if not 'Environment=HTTP_PROXY' in f.read():            
+                if not 'Environment=HTTP_PROXY' in f.read():
                     f.write('Environment=HTTP_PROXY=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
                             'Environment=HTTPS_PROXY=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
-                            'Environment=NO_PROXY=localhost,127.0.0.1,localaddress,.localdomain.com')     
-        
-        runCmd(['sudo', 'usermod', '-aG', 'vboxsf', '$USER']) 
+                            'Environment=NO_PROXY=localhost,127.0.0.1,localaddress,.localdomain.com')
+
+        runCmd(['sudo', 'usermod', '-aG', 'vboxsf', '$USER'])
         # TODO: vboxsf gruppe mangler -> gjøre hva først. Sjekk om på virtuell hvordan?
-        #runCmd(['sudo', 'usermod', '-aG', 'vboxsf', '$USER'])                                                  
-                                                         
+        #runCmd(['sudo', 'usermod', '-aG', 'vboxsf', '$USER'])
+
         alfred = Alfred()
         alfred.show()
         alfred.process()
@@ -813,7 +813,7 @@ def main():
                            shell=True,
                            stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE,
-                           check=True)      
+                           check=True)
 
 if __name__ == '__main__':
     main()

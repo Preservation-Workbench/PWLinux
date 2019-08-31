@@ -1,11 +1,16 @@
 [
       {
+        "name": "Update system",
+        "description": "Ensure latest updates have been applied",
+        "type": "generic",
+        "preInstall": ["apt", "update"],
+        "recipe": ["apt", "upgrade", "-y"]
+      },
+      {
         "name": "Arkimint Core",
         "description": "Base install",
         "type": "generic",
-        "recipe": ["apt", "install", "-y", "git openjdk-11-jdk ttf-mscorefonts-installer mint-meta-codecs galternatives xchm subversion dos2unix meld checkinstall apt-transport-https ca-certificates software-properties-common xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor"],
-        "preInstall": ["apt", "update"],
-        "preInstall": ["apt", "upgrade", "-y"],
+        "recipe": ["apt", "install", "-y", "git openjdk-11-jdk ttf-mscorefonts-installer mint-meta-codecs galternatives xchm subversion dos2unix meld checkinstall apt-transport-https ca-certificates software-properties-common xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor wimtools"],
         "preInstall": ["echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections"],
         "postInstall": ["apt", "remove", "-y", "hexchat-common hexchat thunderbird rhythmbox tomboy xplayer xfce4-taskmanager"]
     },
@@ -13,10 +18,11 @@
         "name": "Textadept",
         "description": "An extensible cross-platform text editor",
         "type": "deb",
-        "recipe": ["https://sourceforge.net/projects/d-apt/files/pool/main/t/textadept/textadept_10.5-0_amd64.deb"],
         "preInstall": ["wget", "-qO", "/tmp/package_dep.deb", "http://security.ubuntu.com/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1.1_amd64.deb"],
-        "preInstall": ["apt", "install", "-y", "/tmp/package_dep.deb"],
+        "preInstall": ["apt", "install", "-y", "/tmp/package_dep.deb"],        
+        "recipe": ["https://sourceforge.net/projects/d-apt/files/pool/main/t/textadept/textadept_10.5-0_amd64.deb"],
         "postInstall": ["apt", "remove", "-y", "xed"],
+        "postInstall": ["git", "clone", "https://github.com/BBATools/TextadeptSettings.git", "~/.textadept/"],
         "postInstall": ["xdg-mime", "default", "textadept.desktop", "text/english text/plain text/x-makefile text/x-c++hdr text/x-c++src text/x-chdr text/x-csrc text/x-java text/x-moc text/x-pascal text/x-tcl text/x-tex application/x-shellscript text/x-c text/x-c++"]
     },      
     {

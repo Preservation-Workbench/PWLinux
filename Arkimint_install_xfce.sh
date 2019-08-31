@@ -10,53 +10,6 @@
 # git config --global user.name "mortenee"
 
 
-#$bkproxy=0 -> set proxy
-ping -c10 85.19.187.24 &> /dev/null ; bkproxy=$? ; echo $bkproxy
-
-if (( "$bkproxy" < 1 )) ; then
-  echo 'Kode for å sette proxy her'
-fi
-
-
-
-
-#DIRECTORIES
-rm -rdf ~/Music
-rm -rdf ~/Templates
-rm -rdf ~/Public
-rm -rdf ~/Videos
-rm -rdf ~/Pictures
-mkdir -p ~/bin
-mkdir -p ~/Projects
-mkdir -p ~/.local/share/applications
-mkdir -p ~/.config/autostart/
-
-#PATH:
-echo "PATH=\$HOME/.local/bin:\$PATH" >> ~/.bashrc && source ~/.bashrc
-echo "PATH=\$HOME/bin:\$PATH" >> ~/.bashrc && source ~/.bashrc
-
-#ZENITY:
-echo 'alias zenity="zenity 2> >(grep -v 'GtkDialog' >&2)"' >> ~/.bashrc && source ~/.bashrc
-
-#SYSTEM PROXY:
-#----------------------------- med proxy ----------------------------------------------
-sudo bash -c "echo 'http_proxy=http://85.19.187.24:8080/
-https_proxy=http://85.19.187.24:8080/
-no_proxy=localhost,127.0.0.0,127.0.1.1,127.0.1.1,local.home' >> /etc/environment"
-
-#WGET PROXY:
-#----------------------------- med proxy ----------------------------------------------
-sudo bash -c "echo 'http_proxy=http://85.19.187.24:8080/
-https_proxy=http://85.19.187.24:8080/' >> /etc/wgetrc"
-
-#SUBVERSION PROXY:
-#----------------------------- med proxy ----------------------------------------------
-mkdir -p ~/.subversion 
-touch ~/.subversion/servers
-bash -c "echo  '[global] 
-http-proxy-host = 85.19.187.24
-http-proxy-port = 8080' >> ~/.subversion/servers"
-
 #USER:
 #----------------------------- når VM ----------------------------------------------
 sudo usermod -aG vboxsf $USER
@@ -97,7 +50,7 @@ sudo apt remove -y hexchat-common hexchat thunderbird rhythmbox tomboy xplayer x
 sudo apt update
 sudo apt upgrade -y
 sudo sh -c "echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections"
-sudo apt install -y git openjdk-8-jdk ttf-mscorefonts-installer wimtools python3-pandas mint-meta-codecs galternatives xchm regexxer subversion python3-pip \
+sudo apt install -y git openjdk-8-jdk ttf-mscorefonts-installer python3-pandas mint-meta-codecs galternatives xchm regexxer subversion python3-pip \
 build-essential graphviz dos2unix openjfx npm chm2pdf python3-setuptools meld mercurial python3-dev checkinstall ripgrep emacs26 sshfs mssql-server postgresql-11 \
 apt-transport-https ca-certificates software-properties-common python3-tk docker-ce docker-compose python3-wheel yad nfoview gimagereader pylint3 flake8 vscodium xcape \
 python-autopep8 freeglut3-dev libgstreamer-plugins-base1.0-dev python3-pyparsing xfpanel-switch thunar-vcs-plugin thunar-gtkhash  gnome-terminal python-gpg gnome-system-monitor \
