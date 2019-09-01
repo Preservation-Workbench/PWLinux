@@ -581,7 +581,6 @@ class Alfred:
                                        text='Processing tasks')
 
         try:
-
             # Ensure software-properties-common is installed
             if len(ppas) > 0 and not checkPackage('software-properties-common'):
                 updateBar('Installing software-properties-common')

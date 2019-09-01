@@ -18,13 +18,10 @@
         "name": "Textadept",
         "description": "An extensible cross-platform text editor",
         "type": "deb",
-        "preInstall": ["wget", "-qO", "/tmp/package_dep.deb", "http://security.ubuntu.com/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1.1_amd64.deb"],
-        "preInstall": ["apt-get", "install", "-y", "/tmp/package_dep.deb"],        
+        "preInstall": ["./bin/TextadeptPreInstall.sh"],        
         "recipe": ["https://sourceforge.net/projects/d-apt/files/pool/main/t/textadept/textadept_10.5-0_amd64.deb"],
-        "postInstall": ["apt-get", "remove", "-y", "xed"],
-        "postInstall": ["git", "clone", "https://github.com/BBATools/TextadeptSettings.git", "~/.textadept/"],
-        "postInstall": ["xdg-mime", "default", "textadept.desktop", "text/english text/plain text/x-makefile text/x-c++hdr text/x-c++src text/x-chdr text/x-csrc text/x-java text/x-moc text/x-pascal text/x-tcl text/x-tex application/x-shellscript text/x-c text/x-c++"]
-    },      
+        "postInstall": ["./bin/TextadeptPostInstall.sh"]
+        },      
     {
         "name": "VSCodium - legg til postinstall config/extensions",
         "description": "Freely-licensed distribution of VSCode editor",
