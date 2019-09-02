@@ -487,10 +487,15 @@ class Alfred:
         generics = []
         preInstall = []
         postInstall = []
+        flatpak_sources = []
+        flatpaks = []
 
         for i in self.taskList:
             if self.recipes[i]['type'] == 'package':
                 packages.extend(self.recipes[i]['recipe'])
+
+            elif self.recipes[i]['type'] == 'flatpak':
+                flatpaks.append(self.recipes[i]['recipe'])
 
             # elif self.recipes[i]['type'] == 'snap':
                 # if len(self.recipes[i]['recipe']) == 1:
@@ -538,6 +543,11 @@ class Alfred:
                 # updateBar('Installing snapd')
                 # self.runAndLogCmd(['apt', 'install', '-y', 'snapd'], checkLock=True)
 
+             #Ensure flatpak is installed
+            if len(flatpaks) > 0 and not checkPackage('flatpak'):
+                updateBar('Installing flatpak')
+                self.runAndLogCmd(['apt-get', 'install', '-y', 'flatpak'], checkLock=True)
+
             # Ensure libnotify-bin is installed
             if not checkPackage('libnotify-bin'):
                 updateBar('Installing libnotify-bin')
@@ -567,6 +577,14 @@ class Alfred:
                     cmd = ['apt-get', 'install', '-y']
                     cmd.append(package)
                     self.runAndLogCmd(cmd, checkLock=True)
+
+             #Process flatpaks
+            if len(flatpaks) > 0:
+                for flatpak in flatpaks: # Install one by one to avoid hanging
+                    updateBar('Installing {}'.format(flatpak))
+                    cmd = ['flatpak', 'install', '-y']
+                    cmd.extend(flatpak)
+                    self.runAndLogCmd(cmd)
 
             # Process snaps
             # if len(snaps) > 0:

@@ -31,10 +31,25 @@
         "postInstall": ["./bin/VSCodiumPostInstall.sh"]
     },
     {
-        "name": "Arkimacs - ikke ferdig",
+        "name": "Arkimacs",
         "description": "Emacs for Digital Preservation Work",
         "type": "ppa",
-        "recipe": ["ppa:kelleyk/emacs", "emacs"]
+        "preInstall": ["apt","install","-y","wmctrl"],
+        "postInstall": ["./bin/ArkimacsPostInstall.sh"],
+        "recipe": ["ppa:kelleyk/emacs", "emacs26"]
+    },
+    {
+        "name": "Typora",
+        "description": "Markdown reader and editor",
+        "type": "package",
+        "preInstall": ["./bin/TyporaPreInstall.sh"],
+        "recipe": ["typora"]
+    },
+    {
+        "name": "Spotify",
+        "description": "A digital music service",
+        "type": "flatpak",
+        "recipe": ["flathub","com.spotify.Client"]
     },
     {
         "name": "Diffpdf",

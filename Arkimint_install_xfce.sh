@@ -14,11 +14,6 @@
 #----------------------------- når VM ----------------------------------------------
 sudo usermod -aG vboxsf $USER
 sudo usermod -aG docker $USER
-
-#APT REPOSITORIES:
-wget -qO - https://typora.io/linux/public-key.asc | sudo apt-key add -
-echo -e "\ndeb https://typora.io/linux ./" | sudo tee -a /etc/apt/sources.list
-#----------------------------- med proxy ----------------------------------------------
 l
 sudo add-apt-repository "deb http://ppa.launchpad.net/kelleyk/emacs/ubuntu bionic main"
 #-------------
@@ -76,24 +71,11 @@ export VER="1.20"
 mkdir -p ~/bin/tika && cd ~/bin/tika && wget https://archive.apache.org/dist/tika/tika-app-${VER}.jar
 #TODO: Lag desktop-fil/script for å åpne tika-app fra meny
 
-#VSCODE:
-vscodium --install-extension arcticicestudio.nord-visual-studio-code &&
-vscodium --install-extension ms-python.python &&
-vscodium --install-extension mechatroner.rainbow-csv &&
-vscodium --install-extension Anjali.clipboard-history &&
-vscodium --install-extension frhtylcn.pythonsnippets &&
-vscodium --install-extension mrmlnc.vscode-duplicate &&	
-vscodium --install-extension wehrstedtcoding.file-picker &&
-vscodium --install-extension RoscoP.ActiveFileInStatusBar &&
-vscodium --install-extension fabiospampinato.vscode-highlight &&
-vscodium --install-extension slevesque.vscode-hexdump &&
-vscodium --install-extension fabiospampinato.vscode-git-history &&
-vscodium --install-extension lkytal.FlatUI 
 
-#DOCKER: 
+#DOCKER:
 sudo mkdir -p /etc/systemd/system/docker.service.d/
 #----------------------------- med proxy ----------------------------------------------
-sudo sh -c "echo  '[Service] 
+sudo sh -c "echo  '[Service]
 Environment=HTTP_PROXY=http://85.19.187.24:8080
 Environment=HTTPS_PROXY=http://85.19.187.24:8080
 Environment=NO_PROXY=localhost,127.0.0.1,localaddress,.localdomain.com' >> /etc/systemd/system/docker.service.d/http-proxy.conf"
@@ -107,37 +89,6 @@ git config --global http.proxy http://85.19.187.24:8080
 git config --global url.https://github.com/.insteadOf git://github.com/
 
 
-#EMACS:
-bash -c 'echo "#!/bin/bash
-emacs --daemon" > ~/bin/emacs_daemon.sh'
-
-chmod a+rx ~/bin/emacs_daemon.sh
-
-bash -c 'echo "[Desktop Entry]
-Type=Application
-Exec=/home/bba/bin/emacs_daemon.sh
-Hidden=false
-X-MATE-Autostart-enabled=true
-Name=Emacs_Daemon" > ~/.config/autostart/Emacs_Daemon.desktop'
-
-cat <<\EOF > ~/bin/amacs
-#! /bin/bash -e
-frame=`emacsclient -a '' -e "(member \"$DISPLAY\" (mapcar 'terminal-name (frames-on-display-list)))" 2>/dev/null`
-[[ "$frame" == "nil" ]] && opts='-c' # if there is no frame open create one
-[[ "${@/#-nw/}" == "$@" ]] && opts="$opts -n"
-if [ -z "$@" ] ; then
-	wmctrl -xa emacs || emacsclient -n -c
-else
-	exec emacsclient -a '' $opts "$@" 
-fi 
-wmctrl -xa emacs
-EOF
-
-chmod a+rx ~/bin/amacs
-
-cp /usr/share/applications/emacs26.desktop  ~/.local/share/applications
-
-sed -i -e 's/emacs26 %F/amacs %F/' ~/.local/share/applications/emacs26.desktop
 
 #FIXES:
 cat <<\EOF > ~/bin/div_fix.sh
@@ -162,7 +113,7 @@ Name=Div_Fix" > ~/.config/autostart/Div_Fix.desktop'
 # TODO: Før hente script fra hvor og lagre i /tmp
 cd /tmp && bash oracle_11_xe_install.sh
 
-echo 'export ORACLE_HOME="/u01/app/oracle/product/11.2.0/xe"' | sudo tee -a /root/.bashrc 
+echo 'export ORACLE_HOME="/u01/app/oracle/product/11.2.0/xe"' | sudo tee -a /root/.bashrc
 echo 'export ORACLE_SID=XE' | sudo tee -a /root/.bashrc
 sudo bash -c 'echo "bba ALL = (root) NOPASSWD: /etc/init.d/oracle-xe" > /etc/sudoers.d/xe'
 sudo chmod 0440 /etc/sudoers.d/xe
@@ -242,7 +193,7 @@ cp sqlworkbench.desktop ~/.local/share/applications/
 #Last ned sophos til /home/bba/Downloads/sophos-av
 cd ~/Downloads/sophos-av && sudo sh ./install.sh --acceptlicence
 #TODO: Bruke dette valget auto når på adm-sone: --update-proxy-address=http://85.19.187.24:8080
-#valg for install: default location, ikke on-access, oppdatering fra sophos, free version, 
+#valg for install: default location, ikke on-access, oppdatering fra sophos, free version,
 sudo /opt/sophos-av/bin/savdctl disable
 sudo /opt/sophos-av/bin/savconfig set LiveProtection false
 sudo /opt/sophos-av/bin/savconfig set DisableFeedback true
