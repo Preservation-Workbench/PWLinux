@@ -10,25 +10,26 @@
         "name": "Arkimint Core",
         "description": "Base install",
         "type": "generic",
-        "recipe": ["apt-get", "install", "-y", "git openjdk-11-jdk ttf-mscorefonts-installer mint-meta-codecs galternatives xchm subversion dos2unix meld checkinstall apt-transport-https ca-certificates software-properties-common xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor wimtools"],
+        "recipe": ["apt", "install", "-y", "git openjdk-11-jdk ttf-mscorefonts-installer mint-meta-codecs galternatives xchm subversion dos2unix meld checkinstall apt-transport-https ca-certificates software-properties-common xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor xul-ext-ublock-origin wimtools"],
         "preInstall": ["echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections"],
-        "postInstall": ["apt-get", "remove", "-y", "hexchat-common hexchat thunderbird rhythmbox tomboy xplayer xfce4-taskmanager"]
+        "postInstall": ["apt", "remove", "-y", "hexchat-common hexchat thunderbird rhythmbox tomboy xplayer xfce4-taskmanager"]
     },
     {
         "name": "Textadept",
         "description": "An extensible cross-platform text editor",
         "type": "deb",
-        "preInstall": ["./bin/TextadeptPreInstall.sh"],        
+        "preInstall": ["./bin/TextadeptPreInstall.sh"],
         "recipe": ["https://sourceforge.net/projects/d-apt/files/pool/main/t/textadept/textadept_10.5-0_amd64.deb"],
         "postInstall": ["./bin/TextadeptPostInstall.sh"]
-        },      
+        },
     {
-        "name": "VSCodium - legg til postinstall config/extensions",
+        "name": "VSCodium",
         "description": "Freely-licensed distribution of VSCode editor",
         "type": "ppa",
         "recipe": ["deb https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/repos/debs/ vscodium main", "codium"],
-        "preInstall": ["wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | sudo apt-key add -"]              
-    },  
+        "preInstall": ["wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | sudo apt-key add -"],
+        "postInstall": ["./bin/VSCodiumPostInstall.sh"]
+    },
     {
         "name": "Arkimacs - ikke ferdig",
         "description": "Emacs for Digital Preservation Work",
@@ -40,14 +41,14 @@
         "description": "A tool to compare PDF files",
         "type": "package",
         "recipe": ["diffpdf"]
-    },    
+    },
     {
         "name": "Dropbox",
         "description": "A cloud hosting service to store your files online",
         "type": "deb",
         "recipe": ["https://linux.dropbox.com/packages/ubuntu/dropbox_2019.02.14_amd64.deb"],
-        "preInstall": ["apt-get", "install", "-y", "python3-gpg thunar-dropbox-plugin"]        
-    },      
+        "preInstall": ["apt-get", "install", "-y", "python3-gpg thunar-dropbox-plugin"]
+    },
     {
         "name": "Soundconverter - ikke testet",
         "description": "Audio file converter",

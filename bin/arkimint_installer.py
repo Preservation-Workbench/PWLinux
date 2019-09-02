@@ -34,9 +34,7 @@ def read_user_prefs(preffile):
     return rv
 
 class Cmd:
-
     def __init__(self, cmdArgs, stdin=None):
-
         self.cmd = ' '.join(cmdArgs)
         self.cmdArgs = cmdArgs
         self.stdin = stdin
@@ -46,7 +44,6 @@ class Cmd:
         self.succeeded = None
 
         if stdin and type(stdin) is str:
-
             if stdin[-1] == '\n':
                 self.stdin = str.encode(stdin[:-1])
             else:
@@ -54,17 +51,13 @@ class Cmd:
 
 
 def runCmd(cmdArgs, stdin=None, piped=False):
-
     if len(cmdArgs) == 1 and '|' in cmdArgs[0]:
-
         args = [ i.strip().split(' ') for i in cmdArgs[0].split('|') ]
         return runCmd(args, piped=True)
 
     if piped:
-
         if len(cmdArgs) > 2:
             return runCmd(cmdArgs[-1], stdin=runCmd(cmdArgs[:-1], piped=True).stdout)
-
         elif len(cmdArgs) == 2:
             return runCmd(cmdArgs[1], stdin=runCmd(cmdArgs[0], piped=False).stdout)
 
@@ -72,20 +65,15 @@ def runCmd(cmdArgs, stdin=None, piped=False):
     cmd = Cmd(cmdArgs, stdin)
 
     try:
-
         if cmd.stdin:
-
             if sys.version_info[1] < 7: # Add capture_output for Python version 3.7 or greater
-
                 result = subprocess.run(cmd.cmdArgs,
                                         input=cmd.stdin,
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
                                         #timeout=600,
                                         check=True)
-
             else:
-
                 result = subprocess.run(cmd.cmdArgs,
                                         input=cmd.stdin,
                                         stdout=subprocess.PIPE,
@@ -93,11 +81,8 @@ def runCmd(cmdArgs, stdin=None, piped=False):
                                         capture_output=True, # python >= 3.7
                                         #timeout=600,
                                         check=True)
-
         else:
-
             if sys.version_info[1] < 7:
-
                 result = subprocess.run(cmd.cmdArgs,
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
@@ -105,7 +90,6 @@ def runCmd(cmdArgs, stdin=None, piped=False):
                                         check=True)
 
             else:
-
                 result = subprocess.run(cmd.cmdArgs,
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
@@ -117,38 +101,29 @@ def runCmd(cmdArgs, stdin=None, piped=False):
         cmd.stderr = result.stderr.decode("utf-8")
 
     except subprocess.CalledProcessError as e:
-
         cmd.succeeded = False
         cmd.returncode = e.returncode
         cmd.stdout = e.stdout.decode("utf-8")
         cmd.stderr = e.stderr.decode("utf-8")
-
     except subprocess.TimeoutExpired as e:
 
         cmd.succeeded = False
         cmd.stdout = 'COMMAND TIMEOUT ({}s)'.format(e.timeout)
-
     except Exception as e:
-
         cmd.succeeded = False
         cmd.stdout = ''
         if hasattr(e, 'message'):
             cmd.stderr = e.message
         else:
             cmd.stderr = str(e)
-
     else:
-
         cmd.returncode = 0
         cmd.succeeded = True
-
     finally:
-
         return cmd
 
 
 def checkPackage(package):
-
     cmd = runCmd(['dpkg', '-s', package])
 
     if cmd.succeeded and 'Status: install ok installed' in cmd.stdout:
@@ -158,18 +133,14 @@ def checkPackage(package):
 
 
 def getRepoList():
-
     repoList = []
-
     for root, dirs, files in os.walk('/etc/apt/'):
         for file in files:
             if file.endswith(".list"):
                 with open(os.path.join(root, file)) as f:
                     lines = f.readlines()
-
                     for line in lines:
                         if re.match('^deb http:\/\/ppa\.launchpad\.net\/[a-z0-9\-]+\/[a-z0-9\-]+', line):
-
                             data = line.split('/')
                             repoList.append('ppa:' + data[3] + '/' + data[4])
 
@@ -177,41 +148,32 @@ def getRepoList():
 
 
 def notify(message):
-
     userID = runCmd(['id', '-u', os.environ['SUDO_USER']]).stdout.replace('\n', '')
-
     runCmd(['sudo', '-u', os.environ['SUDO_USER'], 'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/{}/bus'.format(userID),
             'notify-send', '-i', 'utilities-terminal', 'Arkimint Installer', message])
 
 
 def waitForDpkgLock():
-
     tries = 0
-
     while True:
-
         dpkgLock = runCmd(['fuser', '/var/lib/dpkg/lock'])
         aptLock = runCmd(['fuser', '/var/lib/apt/lists/lock'])
 
         if dpkgLock.stdout != '' or aptLock.stdout !='':
             time.sleep(3)
             tries += 1
-
         else:
             return True
-
         if tries > 10:
             return False
 
 
 class Zenity:
-
     def __init__(self):
         pass
 
     @staticmethod
     def password():
-
         runCmd(['sudo', '-k'])
 
         while True:
@@ -219,30 +181,23 @@ class Zenity:
             getPasswordCmd = runCmd(['zenity', '--password', '--title=Arkimint Installer', '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png'])
 
             if getPasswordCmd.succeeded:
-
                 checkPasswordCmd = runCmd(['sudo', '-S', 'id', '-u'],
                                           stdin=getPasswordCmd.stdout + '\n')
 
                 if checkPasswordCmd.succeeded and checkPasswordCmd.stdout.replace('\n', '') == '0':
-
                     return getPasswordCmd.stdout.replace('\n', '')
-
                 else:
-
                     runCmd(['zenity',
                             '--info',
                             '--width=200',
                             '--title=Alfred',
                             '--text=Wrong password, try again'])
-
             else:
-
                 sys.exit()
 
 
     @staticmethod
     def progressBar(pulsating=False, noCancel=False, title='', text='', percentage=0, height=100, width=500):
-
         args = ['zenity', '--progress']
 
         if pulsating:
@@ -264,7 +219,6 @@ class Zenity:
                                    stderr=subprocess.PIPE)
 
         def update(message='', percent=0):
-
             process.stdin.write((str(percent) + '\n').encode())
             process.stdin.flush()
 
@@ -279,7 +233,6 @@ class Zenity:
 
     @staticmethod
     def error(message):
-
         runCmd(['zenity',
                 '--error',
                 '--title=Arkimint Installer',
@@ -291,7 +244,6 @@ class Zenity:
 
     @staticmethod
     def table(data):
-
         args = ['zenity',
                 '--list',
                 '--checklist',
@@ -311,7 +263,6 @@ class Zenity:
 
     @staticmethod
     def info(message):
-
         runCmd(['zenity',
                 '--info',
                 '--title=Arkimint Installer',
@@ -323,7 +274,6 @@ class Zenity:
 
     @staticmethod
     def question(message, height=100, width=200):
-
         question = runCmd(['zenity',
                            '--question',
                            '--title=Arkimint Installer',
@@ -337,7 +287,6 @@ class Zenity:
 
     @staticmethod
     def textInfo(message):
-
         data = runCmd(['echo', message]).stdout
         runCmd(['zenity',
                 '--text-info',
@@ -350,7 +299,6 @@ class Zenity:
 
     @staticmethod
     def list(message, elements):
-
         cmd = ['zenity',
                 '--list',
                 '--height=500',
@@ -368,7 +316,6 @@ class Zenity:
 class Alfred:
 
     def __init__(self, localRecipes=True):
-
         self.logFile = '/var/log/arkimint_installer.log'
 
         with open(self.logFile, 'a') as f:
@@ -744,7 +691,7 @@ def main():
         if not '''alias zenity="zenity 2> >(grep -v 'GtkDialog' >&2)"''' in f.read():
             f.write('''alias zenity="zenity 2> >(grep -v 'GtkDialog' >&2)"''' + '\n')
 
-    # Check proxy
+    # Check proxy /fix firefox search provider:
     ff_subfolders = [f.path for f in os.scandir(str(Path.home()) + "/.mozilla/firefox") if f.is_dir()]
     proxy_address = None
     proxy_port = None
@@ -757,6 +704,10 @@ def main():
                         proxy_address = v
                     if k == b'network.proxy.http_port':
                         proxy_port = str(v)
+                    if k == b'browser.urlbar.placeholderName' and v == 'Yahoo!':
+                        search_prov_path = folder + '/search.json.mozlz4'
+                        if os.path.exists(search_prov_path):
+                            os.remove(search_prov_path)
 
     if proxy_address and proxy_port:
         svn_folder = str(Path.home()) + '/.subversion'
