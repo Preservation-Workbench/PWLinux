@@ -1,18 +1,30 @@
 [
-      {
+    {
         "name": "Update system",
         "description": "Ensure latest updates have been applied",
         "type": "generic",
         "preInstall": ["apt-get", "update"],
         "recipe": ["apt-get", "upgrade", "-y"]
-      },
-      {
+    },
+    {
         "name": "Arkimint Core",
         "description": "Base install",
         "type": "generic",
         "recipe": ["apt", "install", "-y", "git openjdk-11-jdk ttf-mscorefonts-installer mint-meta-codecs galternatives xchm subversion dos2unix meld checkinstall apt-transport-https ca-certificates software-properties-common xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor xul-ext-ublock-origin wimtools"],
         "preInstall": ["echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections"],
         "postInstall": ["apt", "remove", "-y", "hexchat-common hexchat thunderbird rhythmbox tomboy xplayer xfce4-taskmanager"]
+    },
+    {
+        "name": "MySQL",
+        "description": "Open source database",
+        "type": "generic",
+        "recipe": ["./bin/MySQLInstall.sh"]
+    },
+    {
+        "name": "PostgreSQL",
+        "description": "The world's most advanced open source database",
+        "type": "generic",
+        "recipe": ["./bin/PostgreSQLInstall.sh"]
     },
     {
         "name": "Textadept",
@@ -44,6 +56,12 @@
         "type": "package",
         "preInstall": ["./bin/TyporaPreInstall.sh"],
         "recipe": ["typora"]
+    },
+    {
+        "name": "WPS Office",
+        "description": "Cross-platform Office Suite",
+        "type": "flatpak",
+        "recipe": ["flathub","com.wps.Office"]
     },
     {
         "name": "Spotify",

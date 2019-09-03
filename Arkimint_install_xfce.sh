@@ -57,14 +57,8 @@ sudo apt install -y  asc crimson extremetuxracer freeciv-client-sdl supertuxkart
 #DEFAULT PIP PACKAGES:
 pip3 install -U autopep8 --user
 python3 -m pip install -U rope --user
-pip3 install ttkthemes cerberus unoconv pyautogui epc virtualenv execsql zenipy
+pip3 install ttkthemes unoconv pyautogui epc virtualenv execsql
 
-
-#DEFAULT FLATPAK PACKAGES:
-flatpak install -y flathub com.wps.Office
-
-#----------------------------- når privat pc ----------------------------------------------
-flatpak install -y flathub com.spotify.Client
 
 #TIKA:
 export VER="1.20"
@@ -150,8 +144,8 @@ sudo debconf-set-selections <<< 'mysql-apt-config mysql-apt-config/unsupported-p
 cd /tmp
 wget -c https://dev.mysql.com/get/mysql-apt-config_0.8.12-1_all.deb
 sudo DEBIAN_FRONTEND=noninteractive dpkg --install mysql-apt-config_0.8.12-1_all.deb
-sudo apt update
-sudo apt install -y mysql-community-server #TODO: gjør noninteractive (satte tomt passord)
+sudo apt-get update
+sudo apt-get install -y -E mysql-community-server #TODO: gjør noninteractive (satte tomt passord)
 sudo systemctl enable mysql
 sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'"
 
@@ -169,7 +163,7 @@ CREATE ROLE bba SUPERUSER LOGIN REPLICATION CREATEDB CREATEROLE; CREATE DATABASE
 exit
 
 #MSSQL:
-# Gjør linje under noninteractive. Valgte 3 (express), Hp-passord
+# Gjør linje under noninteractive. Valgte 3 (express), P@ssw0rd
 sudo /opt/mssql/bin/mssql-conf setup
 
 #PWB:
@@ -198,6 +192,9 @@ sudo /opt/sophos-av/bin/savdctl disable
 sudo /opt/sophos-av/bin/savconfig set LiveProtection false
 sudo /opt/sophos-av/bin/savconfig set DisableFeedback true
 sudo sed -i -e 's/#user_allow_other/user_allow_other/' /etc/fuse.conf
+
+
+composer php-mysql
 
 #URD
 cd ~/bin &&
