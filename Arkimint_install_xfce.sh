@@ -67,13 +67,6 @@ mkdir -p ~/bin/tika && cd ~/bin/tika && wget https://archive.apache.org/dist/tik
 
 
 #DOCKER:
-sudo mkdir -p /etc/systemd/system/docker.service.d/
-#----------------------------- med proxy ----------------------------------------------
-sudo sh -c "echo  '[Service]
-Environment=HTTP_PROXY=http://85.19.187.24:8080
-Environment=HTTPS_PROXY=http://85.19.187.24:8080
-Environment=NO_PROXY=localhost,127.0.0.1,localaddress,.localdomain.com' >> /etc/systemd/system/docker.service.d/http-proxy.conf"
-#----------------------------- alle ----------------------------------------------
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 

@@ -4,7 +4,7 @@
         "description": "Ensure latest updates have been applied",
         "type": "generic",
         "preInstall": ["apt-get", "update"],
-        "recipe": ["apt-get", "upgrade", "-y"]
+        "recipe": ["apt", "upgrade", "-y"]
     },
     {
         "name": "Arkimint Core",
@@ -18,21 +18,21 @@
         "name": "MySQL",
         "description": "Open source database",
         "type": "generic",
-        "recipe": ["./bin/MySQLInstall.sh"]
+        "recipe": ["./MySQLInstall.sh"]
     },
     {
         "name": "PostgreSQL",
         "description": "The world's most advanced open source database",
         "type": "generic",
-        "recipe": ["./bin/PostgreSQLInstall.sh"]
+        "recipe": ["./PostgreSQLInstall.sh"]
     },
     {
         "name": "Textadept",
         "description": "An extensible cross-platform text editor",
         "type": "deb",
-        "preInstall": ["./bin/TextadeptPreInstall.sh"],
+        "preInstall": ["./TextadeptPreInstall.sh"],
         "recipe": ["https://sourceforge.net/projects/d-apt/files/pool/main/t/textadept/textadept_10.5-0_amd64.deb"],
-        "postInstall": ["./bin/TextadeptPostInstall.sh"]
+        "postInstall": ["./TextadeptPostInstall.sh"]
         },
     {
         "name": "VSCodium",
@@ -40,21 +40,21 @@
         "type": "ppa",
         "recipe": ["deb https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/repos/debs/ vscodium main", "codium"],
         "preInstall": ["wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | sudo apt-key add -"],
-        "postInstall": ["./bin/VSCodiumPostInstall.sh"]
+        "postInstall": ["./VSCodiumPostInstall.sh"]
     },
     {
         "name": "Arkimacs",
         "description": "Emacs for Digital Preservation Work",
         "type": "ppa",
         "preInstall": ["apt","install","-y","wmctrl"],
-        "postInstall": ["./bin/ArkimacsPostInstall.sh"],
+        "postInstall": ["./ArkimacsPostInstall.sh"],
         "recipe": ["ppa:kelleyk/emacs", "emacs26"]
     },
     {
         "name": "Typora",
         "description": "Markdown reader and editor",
         "type": "package",
-        "preInstall": ["./bin/TyporaPreInstall.sh"],
+        "preInstall": ["./TyporaPreInstall.sh"],
         "recipe": ["typora"]
     },
     {
@@ -80,7 +80,7 @@
         "description": "A cloud hosting service to store your files online",
         "type": "deb",
         "recipe": ["https://linux.dropbox.com/packages/ubuntu/dropbox_2019.02.14_amd64.deb"],
-        "preInstall": ["apt-get", "install", "-y", "python3-gpg thunar-dropbox-plugin"]
+        "preInstall": ["apt", "install", "-y", "python3-gpg thunar-dropbox-plugin"]
     },
     {
         "name": "Soundconverter - ikke testet",

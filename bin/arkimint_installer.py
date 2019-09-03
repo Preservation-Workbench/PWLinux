@@ -317,7 +317,7 @@ class Alfred:
 
     def __init__(self, localRecipes=True):
         self.logFile = '/var/log/arkimint_installer.log'
-
+ 
         with open(self.logFile, 'a') as f:
             f.write(100 * '=' + '\n')
             f.write('NEW SESSION ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '\n')
@@ -403,7 +403,7 @@ class Alfred:
 
         # Install Zenity if needed
         if not zenity:
-            self.runAndLogCmd(['apt-get', 'install', '-y', 'zenity'])
+            self.runAndLogCmd(['apt', 'install', '-y', 'zenity'])
 
         # Load recipes
         if localRecipes:
@@ -466,7 +466,9 @@ class Alfred:
                 break
 
 
-    def process(self):
+    def process(self, proxy_address, proxy_port):
+        os.chdir(os.path.abspath(os.path.dirname( __file__ )))
+
         # Get confirmation
         message = 'The selected tasks will be performed now. '
         message += "You won't be able to cancel this operation once started.\n\n"
@@ -533,10 +535,21 @@ class Alfred:
                                        text='Processing tasks')
 
         try:
+            #Ensure git is installed
+            if not checkPackage('git'):
+                updateBar('Installing git')
+                self.runAndLogCmd(['apt', 'install', '-y', 'git'], checkLock=True)
+            
+            #Set proxy for git if proxy values found
+            # TODO: Test på virtuell
+            if checkPackage('git') and proxy_address and proxy_port:              
+                self.runAndLogCmd(['git', 'config', '--global', 'http.proxy', 'http://' + proxy_address + ':' + proxy_port])
+                self.runAndLogCmd(['git', 'config', '--global', 'url.https://github.com/.insteadOf','git://github.com/'])
+
             # Ensure software-properties-common is installed
             if len(ppas) > 0 and not checkPackage('software-properties-common'):
                 updateBar('Installing software-properties-common')
-                self.runAndLogCmd(['apt-get', 'install', '-y', 'software-properties-common'], checkLock=True)
+                self.runAndLogCmd(['apt', 'install', '-y', 'software-properties-common'], checkLock=True)
 
             # Ensure snapd is installed
             # if (len(snaps) > 0 or len(snapsWithOptions) > 0) and not checkPackage('snapd'):
@@ -546,12 +559,12 @@ class Alfred:
              #Ensure flatpak is installed
             if len(flatpaks) > 0 and not checkPackage('flatpak'):
                 updateBar('Installing flatpak')
-                self.runAndLogCmd(['apt-get', 'install', '-y', 'flatpak'], checkLock=True)
+                self.runAndLogCmd(['apt', 'install', '-y', 'flatpak'], checkLock=True)
 
             # Ensure libnotify-bin is installed
             if not checkPackage('libnotify-bin'):
                 updateBar('Installing libnotify-bin')
-                self.runAndLogCmd(['apt-get', 'install', '-y', 'libnotify-bin'], checkLock=True)
+                self.runAndLogCmd(['apt', 'install', '-y', 'libnotify-bin'], checkLock=True)
 
             # Run pre-installation tasks
             if len(preInstall) > 0:
@@ -568,13 +581,13 @@ class Alfred:
             # Update
             if len(packages) > 0 or len(ppas) > 0:
                 updateBar('Updating package list')
-                self.runAndLogCmd(['apt-get', 'update'], checkLock=True)
+                self.runAndLogCmd(['apt', 'update'], checkLock=True)
 
             # Process packages
             if len(packages) > 0:
                 for package in packages:
                     updateBar('Installing {}'.format(package))
-                    cmd = ['apt-get', 'install', '-y']
+                    cmd = ['apt', 'install', '-y']
                     cmd.append(package)
                     self.runAndLogCmd(cmd, checkLock=True)
 
@@ -603,11 +616,12 @@ class Alfred:
             #         self.runAndLogCmd(cmd)
 
             # Process debs
+            # WAIT: Legg inn bedre sjekk for wget så ikke kun får ap-feil hvis problemet er med wget
             if len(debs) > 0:
                 for deb in debs:
                     updateBar('Installing {}'.format(deb))
                     self.runAndLogCmd(['wget', '-q', '-O', '/tmp/package.deb', deb])
-                    self.runAndLogCmd(['apt-get', 'install', '-y', '/tmp/package.deb'], checkLock=True)
+                    self.runAndLogCmd(['apt', 'install', '-y', '/tmp/package.deb'], checkLock=True)
 
             # Process generics
             if len(generics) > 0:
@@ -623,7 +637,7 @@ class Alfred:
 
             # Autoremove
             updateBar('Removing no longer needed packages')
-            self.runAndLogCmd(['apt-get', 'autoremove', '-y'], checkLock=True)
+            self.runAndLogCmd(['apt', 'autoremove', '-y'], checkLock=True)
 
             # Check errors and notify
             if len(self.errors) == 0:
@@ -686,6 +700,11 @@ class Alfred:
         return cmd
 
 def main():
+    if str(Path.home()) == "/root":
+        print("Run as user, not as root!")
+        sys.exit()
+    
+
     # Ensure some folders exist:
     ensure_dirs = ['bin','Projects','.local/share/applications','.config/autostart','.local/bin']
     for dir in ensure_dirs:
@@ -745,6 +764,7 @@ def main():
                     f.write('http_proxy=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
                             'https_proxy=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
                             'no_proxy=localhost,127.0.0.0,127.0.1.1,127.0.1.1,local.home')
+
             with open('/etc/wgetrc', 'r+') as f:
                 proxy_set = False
                 for line in f.readlines():
@@ -753,6 +773,7 @@ def main():
                 if not proxy_set:
                     f.write('http_proxy=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
                             'https_proxy=http://' + proxy_address + ':' + proxy_port + '/')
+
             docker_folder = '/etc/systemd/system/docker.service.d/'
             pathlib.Path(docker_folder).mkdir(parents=True, exist_ok=True)
             docker_conf = docker_folder + '/http-proxy.conf'
@@ -763,13 +784,18 @@ def main():
                             'Environment=HTTPS_PROXY=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
                             'Environment=NO_PROXY=localhost,127.0.0.1,localaddress,.localdomain.com')
 
-        runCmd(['sudo', 'usermod', '-aG', 'vboxsf', '$USER'])
+            #self.runAndLogCmd(['git', 'config', '--global', 'http.proxy'])
+
+            #git config --global http.proxy http://85.19.187.24:8080
+            #git config --global url.https://github.com/.insteadOf git://github.com/
+
+        #runCmd(['sudo', 'usermod', '-aG', 'vboxsf', '$USER'])
         # TODO: vboxsf gruppe mangler -> gjøre hva først. Sjekk om på virtuell hvordan?
         #runCmd(['sudo', 'usermod', '-aG', 'vboxsf', '$USER'])
 
         alfred = Alfred()
         alfred.show()
-        alfred.process()
+        alfred.process(proxy_address, proxy_port)
     else:
         # Check Zenity and run as superuser
         if checkPackage('zenity'):
@@ -777,7 +803,8 @@ def main():
         else:
             import getpass
             password = getpass.getpass("Password: ")
-            subprocess.run(['echo "{}" | sudo -kS python3 {}'.format(password, sys.argv[0])],
+            current_script = os.path.realpath(__file__)
+            subprocess.run(['echo "{}" | sudo -kS python3 {}'.format(password, current_script)],            
                            shell=True,
                            stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE,
