@@ -70,11 +70,6 @@ mkdir -p ~/bin/tika && cd ~/bin/tika && wget https://archive.apache.org/dist/tik
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 
-#GIT:
-#----------------------------- med proxy ----------------------------------------------
-git config --global http.proxy http://85.19.187.24:8080
-git config --global url.https://github.com/.insteadOf git://github.com/
-
 
 
 #FIXES:
@@ -186,14 +181,6 @@ sudo /opt/sophos-av/bin/savconfig set LiveProtection false
 sudo /opt/sophos-av/bin/savconfig set DisableFeedback true
 sudo sed -i -e 's/#user_allow_other/user_allow_other/' /etc/fuse.conf
 
-
-composer php-mysql
-
-#URD
-cd ~/bin &&
-git clone https://github.com/fkirkholt/urd.git &&
-cd urd &&
-composer install
 
 # TODO:
 # -Lag script for å endre whisker-menu til ALT-F1 (gjort manuelt nå - trengs for xcape over)

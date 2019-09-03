@@ -21,6 +21,13 @@
         "recipe": ["./MySQLInstall.sh"]
     },
     {
+        "name": "URD",
+        "description": "Tool to create and display an archival DIP",
+        "type": "generic",
+        "recipe": ["./URDInstall.sh"],
+        "preInstall": ["./MySQLInstall.sh"]
+    },
+    {
         "name": "PostgreSQL",
         "description": "The world's most advanced open source database",
         "type": "generic",
