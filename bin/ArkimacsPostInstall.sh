@@ -35,10 +35,12 @@ if [ ! -f /home/$OWNER/.local/share/applications/emacs26.desktop ]; then
     sed -i -e 's/emacs26 %F/amacs %F/' /home/$OWNER/.local/share/applications/emacs26.desktop;
 fi
 
-EMACS_DIR="~/.emacs.d/.git/"
-if [ ! -d "$EMACS_DIR" ]; then
-    git clone https://github.com/BBATools/Arkimacs.git ~/.emacs.d/;
-    chown -R $OWNER ~/.emacs.d/;
+EMACS_DIR="~/.emacs.d"
+if [ ! -d "$EMACS_DIR/.git/" ]; then
+    sudo -H -u $OWNER bash -c "git clone --no-checkout https://github.com/BBATools/Arkimacs.git $EMACS_DIR/tmp";
+    sudo -H -u $OWNER bash -c "mv $EMACS_DIR/tmp/.git $EMACS_DIR";
+    sudo -H -u $OWNER bash -c "rmdir $EMACS_DIR/tmp";
+    sudo -H -u $OWNER bash -c "cd $EMACS_DIR && git reset --hard HEAD";
 fi
 
 #xdg-mime default codium.desktop text/english text/plain text/x-makefile text/x-c++hdr text/x-c++src text/x-chdr text/x-csrc text/x-java text/x-moc text/x-pascal text/x-tcl text/x-tex application/x-shellscript text/x-c text/x-c++
