@@ -425,7 +425,7 @@ class Alfred:
             # Build table
             tableData = []
 
-            default_install = ["Arkimint Core","Textadept", "Update system"]
+            default_install = ["Arkimint Core"]
             for recipe in self.recipes:
                 if recipe['name'] in default_install:
                     recipe['selected'] = True
@@ -742,6 +742,7 @@ def main():
                     if k == b'network.proxy.http_port':
                         proxy_port = str(v)
                     if k == b'browser.urlbar.placeholderName' and v == 'Yahoo!':
+                        # TODO: Denne klarte ikke endre search provider på latop på proxy nett
                         search_prov_path = folder + '/search.json.mozlz4'
                         if os.path.exists(search_prov_path):
                             os.remove(search_prov_path)

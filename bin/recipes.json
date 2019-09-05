@@ -1,16 +1,9 @@
 [
     {
-        "name": "Update system",
-        "description": "Ensure latest updates have been applied",
-        "type": "generic",
-        "preInstall": ["apt-get", "update"],
-        "recipe": ["apt", "upgrade", "-y"]
-    },
-    {
         "name": "Arkimint Core",
         "description": "Base install",
         "type": "generic",
-        "recipe": ["apt", "install", "-y", "git openjdk-11-jdk ttf-mscorefonts-installer mint-meta-codecs regexxer openjfx npm python3-tk chm2pdf python3-virtualenv python3-setuptools uchardet python3-lxml libvterm-dev libtool-bin meld mercurial python3-dev checkinstall galternatives xchm subversion dos2unix meld checkinstall apt-transport-https ca-certificates xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor xul-ext-ublock-origin wimtools python3-rope pylint3 flake8 python-autopep8 python3-wheel graphviz python3-pip build-essential dos2unix python3-pandas"],
+        "recipe": ["apt", "install", "-y", "git openjdk-11-jdk ttf-mscorefonts-installer mint-meta-codecs exfat-fuse exfat-utils rar regexxer soundconverter openjfx npm python3-tk chm2pdf python3-virtualenv python3-setuptools uchardet python3-lxml libvterm-dev libtool-bin meld mercurial python3-dev checkinstall galternatives xchm subversion dos2unix meld checkinstall apt-transport-https ca-certificates xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor xul-ext-ublock-origin wimtools python3-rope pylint3 flake8 python3-wheel graphviz python3-pip build-essential dos2unix python3-pandas"],
         "preInstall": ["./CorePreInstall.sh"],
         "postInstall": ["./CorePostInstall.sh"]
     },
@@ -89,12 +82,6 @@
         "recipe": ["flathub","com.spotify.Client"]
     },
     {
-        "name": "Diffpdf",
-        "description": "A tool to compare PDF files",
-        "type": "package",
-        "recipe": ["diffpdf"]
-    },
-    {
         "name": "Dropbox",
         "description": "A cloud hosting service to store your files online",
         "type": "deb",
@@ -102,41 +89,9 @@
         "preInstall": ["apt", "install", "-y", "python3-gpg thunar-dropbox-plugin"]
     },
     {
-        "name": "Soundconverter - ikke testet",
-        "description": "Audio file converter",
-        "type": "package",
-        "recipe": ["soundconverter"]
-    },
-    {
-        "name": "GParted - ikke testet",
-        "description": "A tool to make partitions in your hard drives",
-        "type": "package",
-        "recipe": ["gparted"]
-    },
-    {
-        "name": "FileZilla - ikke testet",
+        "name": "FileZilla",
         "description": "Download and upload files via FTP, FTPS and SFTP",
         "type": "package",
         "recipe": ["filezilla"]
-    },
-    {
-        "name": "Utilities bundle - ikke testet",
-        "description": "Java, zip, rar and exfat tools",
-        "type": "package",
-        "recipe": ["rar", "exfat-fuse", "exfat-utils"]
-    },
-    {
-        "name": "Developer bundle - ikke testet",
-        "description": "Tools for developers: build-essential, cmake, git, svn, java, python, octave, autotools...",
-        "type": "package",
-        "recipe": ["build-essential", "cmake", "cmake-gui", "cmake-curses-gui", "python3", "python3-pip", "git-svn", "colordiff", "openjdk-8-jdk"]
-    },
-    {
-        "name": "rEFInd - ikke testet",
-        "description": "An EFI boot manager",
-        "type": "ppa",
-        "recipe": ["ppa:rodsmith/refind", "refind"],
-        "preInstall": ["echo refind refind/install_to_esp boolean true | sudo debconf-set-selections"],
-        "postInstall": ["refind-install"]
     }
 ]
