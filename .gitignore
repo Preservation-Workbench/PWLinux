@@ -1,0 +1,17 @@
+# Ignore directories and files
+_DATA/*
+
+# exceptions to above rule
+!_DATA/.gitkeep 
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[co]
+
+# Ignore logs
+*.log
+
+# Include files
+!.gitignore
+
+

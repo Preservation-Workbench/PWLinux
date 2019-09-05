@@ -88,6 +88,12 @@
         "preInstall": ["apt", "install", "-y", "python3-gpg thunar-dropbox-plugin"]
     },
     {
+        "name": "Skype",
+        "description": "Communication tool for free calls and chat",
+        "type": "flatpak",
+        "recipe": ["flathub","com.skype.Client"]
+    },
+    {
         "name": "FileZilla",
         "description": "Download and upload files via FTP, FTPS and SFTP",
         "type": "package",

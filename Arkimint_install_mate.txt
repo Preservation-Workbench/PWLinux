@@ -18,23 +18,17 @@ sudo usermod -aG docker $USER
 sudo apt-key adv --keyserver-options http-proxy=http://85.19.187.24:8080 --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys F3503FFDFA132F65E151D87CDCDE74FDB4591784
 sudo add-apt-repository "deb http://ppa.launchpad.net/sandromani/gimagereader/ubuntu bionic main"
 
-sudo apt-key adv --keyserver-options http-proxy=http://85.19.187.24:8080 --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 4AB0F789CBA31744CC7DA76A8CF63AD3F06FC659
-sudo add-apt-repository "deb http://ppa.launchpad.net/jonathonf/vim/ubuntu bionic main"
-
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
 
 wget -qO - https://bintray.com/user/downloadSubjectPublicKey?username=bintray | sudo apt-key add -
 echo "deb http://dl.bintray.com/siegfried/debian wheezy main" | sudo tee -a /etc/apt/sources.list
 
-wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | sudo apt-key add -
-echo 'deb https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/repos/debs/ vscodium main' | sudo tee --append /etc/apt/sources.list
-
-siegfried 
-mssql-server 
+siegfried
+mssql-server
 
 docker-ce docker-compose gimagereader \
- 
+
 
 
 
