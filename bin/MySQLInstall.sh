@@ -18,3 +18,5 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y mysql-community-server
 sudo systemctl enable mysql
 sudo systemctl start mysql
 #sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'"
+
+#TODO: Legg til at duplicate sources fjernes -> mysql-apt-config legger til ny pr kjøring

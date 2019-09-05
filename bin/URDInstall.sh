@@ -2,11 +2,12 @@
 
 apt install -y composer php-mysql;
 
-OWNER=$(stat -c '%U' $PWD);
-URD_DIR="~/bin/URD/.git/"
+SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+OWNER=$(stat -c '%U' $SCRIPTPATH)
+URD_DIR="/home/$OWNER/bin/URD/.git/"
 if [ ! -d "$URD_DIR" ]; then
-    git clone https://github.com/fkirkholt/urd.git ~/bin/URD/;
-    cd ~/bin/URD/ && composer install;
-    chown -R $OWNER ~/bin/URD/;
+    sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/bin/";
+    sudo -H -u $OWNER bash -c "git clone https://github.com/fkirkholt/urd.git /home/$OWNER/bin/URD/";
+    sudo -H -u $OWNER bash -c "cd /home/$OWNER/bin/URD/ && composer install";
 fi
 

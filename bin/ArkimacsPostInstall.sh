@@ -1,6 +1,8 @@
 #!/bin/bash
 
-OWNER=$(stat -c '%U' $PWD);
+SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+OWNER=$(stat -c '%U' $SCRIPTPATH);
+
 echo '#!/bin/bash
 emacs --daemon' > /home/$OWNER/bin/emacs_daemon.sh
 
