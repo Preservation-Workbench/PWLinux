@@ -66,22 +66,6 @@ java -jar verapdf-izpack-installer-* auto.xml
 #DEFAULT SNAP PACKAGES:
 sudo snap install dbtarzan john-the-ripper xnviewmp
 
-#FIXES:
-cat <<\EOF > ~/bin/div_fix.sh
-#! /bin/bash
-pkill gvfsd-fuse && /usr/lib/gvfs/gvfsd-fuse -o allow_other /var/run/user/1000/gvfs/
-#setxkbmap -option 'numpad:microsoft'
-
-"$ORACLE_HOME"/bin/lsnrctl start && sudo /etc/init.d/oracle-xe start
-EOF
-chmod a+rx ~/bin/div_fix.sh
-
-bash -c 'echo "[Desktop Entry]
-Type=Application
-Exec=/home/bba/bin/div_fix.sh
-Hidden=false
-X-MATE-Autostart-enabled=true
-Name=Div_Fix" > ~/.config/autostart/Div_Fix.desktop'
 
 #ANTIVIRUS:
 #Last ned sophos til /home/bba/Downloads/sophos-av
