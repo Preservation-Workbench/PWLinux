@@ -425,7 +425,7 @@ class Alfred:
             # Build table
             tableData = []
 
-            default_install = ["Arkimint Core"]
+            default_install = ["Arkimint Core", "Preservation Workbench"]
             for recipe in self.recipes:
                 if recipe['name'] in default_install:
                     recipe['selected'] = True

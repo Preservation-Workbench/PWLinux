@@ -2,9 +2,9 @@
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 
-sudo -H -u $OWNER bash -c 'codium --install-extension smlombardi.soho';
-sudo -H -u $OWNER bash -c 'codium --install-extension fabiospampinato.vscode-highlight';
-sudo -H -u $OWNER bash -c 'codium --install-extension ms-python.python';
+sudo -H -u $OWNER bash -c "codium --install-extension smlombardi.soho";
+sudo -H -u $OWNER bash -c "codium --install-extension fabiospampinato.vscode-highlight";
+sudo -H -u $OWNER bash -c "codium --install-extension ms-python.python";
 
 VS_DIR="/home/$OWNER/.config/VSCodium/User"
 if [ ! -d "$VS_DIR/.git/" ]; then

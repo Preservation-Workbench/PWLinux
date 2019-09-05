@@ -8,6 +8,12 @@
         "postInstall": ["./CorePostInstall.sh"]
     },
     {
+        "name": "Preservation Workbench",
+        "description": "Solution for extracting data from systems and generating an archive package",
+        "type": "generic",
+        "recipe": ["./PWBInstall.sh"]
+    },
+    {
         "name": "MySQL",
         "description": "Open source database",
         "type": "generic",
@@ -19,6 +25,12 @@
         "type": "generic",
         "recipe": ["./URDInstall.sh"],
         "preInstall": ["./MySQLInstall.sh"]
+    },
+    {
+        "name": "Tika",
+        "description": "Tool to create and display an archival DIP",
+        "type": "generic",
+        "recipe": ["./TikaInstall.sh"]
     },
     {
         "name": "PostgreSQL",

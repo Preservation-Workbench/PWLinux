@@ -99,11 +99,6 @@ gsettings set org.mate.background picture-filename "$FNAME"
 #SIEGFRIED:
 sudo sf -update
 
-#TIKA:
-export VER="1.20"
-mkdir -p ~/bin/tika && cd ~/bin/tika && wget https://archive.apache.org/dist/tika/tika-app-${VER}.jar
-#TODO: Lag desktop-fil/script for å åpne tika-app fra meny
-
 #EXIFTOOL
 url=`lynx -dump -listonly https://www.sno.phy.queensu.ca/~phil/exiftool/ | grep Image-ExifTool.*gz`
 url="$(echo $url | sed 's/[^ ]* //')"

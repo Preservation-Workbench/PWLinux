@@ -22,50 +22,16 @@ sudo add-apt-repository -y ppa:sandromani/gimagereader
 #----------------------------- alle ----------------------------------------------
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
-#-------------
-wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | sudo apt-key add -
-echo 'deb https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/repos/debs/ vscodium main' | sudo tee --append /etc/apt/sources.list
 
+docker-ce docker-compose gimagereader
+xfpanel-switch thunar-vcs-plugin thunar-gtkhash  gnome-terminal python-gpg gnome-system-monitor \
 
-sudo sh -c "echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections"
-sudo apt install -y git openjdk-8-jdk ttf-mscorefonts-installer python3-pandas mint-meta-codecs galternatives xchm regexxer subversion python3-pip \
-build-essential graphviz dos2unix openjfx npm chm2pdf python3-setuptools meld mercurial python3-dev checkinstall \
-apt-transport-https ca-certificates software-properties-common python3-tk docker-ce docker-compose python3-wheel gimagereader pylint3 flake8 vscodium xcape \
-python-autopep8 freeglut3-dev libgstreamer-plugins-base1.0-dev python3-pyparsing xfpanel-switch thunar-vcs-plugin thunar-gtkhash  gnome-terminal python-gpg gnome-system-monitor \
-xdotool 
 #----------------------------- når privat pc ----------------------------------------------
-sudo apt install -y  asc crimson extremetuxracer freeciv-client-sdl supertuxkart supertux torcs trigger-rally uligo unknown-horizons wesnoth steam thunar-dropbox-plugin
-
-#TIKA:
-export VER="1.20"
-mkdir -p ~/bin/tika && cd ~/bin/tika && wget https://archive.apache.org/dist/tika/tika-app-${VER}.jar
-#TODO: Lag desktop-fil/script for å åpne tika-app fra meny
-
+sudo apt install -y  asc crimson extremetuxracer freeciv-client-sdl supertuxkart supertux torcs trigger-rally uligo unknown-horizons wesnoth steam
 
 #DOCKER:
 sudo systemctl daemon-reload
 sudo systemctl restart docker
-
-
-
-#FIXES:
-cat <<\EOF > ~/bin/div_fix.sh
-#! /bin/bash
-pkill gvfsd-fuse && /usr/lib/gvfs/gvfsd-fuse -o allow_other /var/run/user/1000/gvfs/
-setxkbmap -option 'numpad:microsoft'
-# xcape -e 'Super_L=Alt_L|F3'
-EOF
-
-chmod a+rx ~/bin/div_fix.sh
-
-
-bash -c 'echo "[Desktop Entry]
-Type=Application
-Exec=/home/bba/bin/div_fix.sh
-Hidden=false
-X-MATE-Autostart-enabled=true
-Name=Div_Fix" > ~/.config/autostart/Div_Fix.desktop'
-
 
 #ORACLE 11 XE:
 # TODO: Før hente script fra hvor og lagre i /tmp
