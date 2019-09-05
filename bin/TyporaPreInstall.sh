@@ -7,5 +7,5 @@ if [ $isInFile -eq 0 ]; then
     apt-get update
 fi
 
-
+xdg-mime default typora.desktop text/markdown
 

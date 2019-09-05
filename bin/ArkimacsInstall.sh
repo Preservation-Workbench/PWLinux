@@ -1,5 +1,17 @@
 #!/bin/bash
 
+#TODO:
+# amacs henger
+# mangler amx-items
+# vterm ikke installert
+# viste heller ikke tabs
+
+curl -sSL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x873503a090750cdaeb0754d93ff0e01eeaafc9cd' | sudo apt-key add -
+add-apt-repository ppa:kelleyk/emacs
+
+apt-get update;
+apt-get install -y emacs26 wmctrl;
+
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 

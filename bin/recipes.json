@@ -57,11 +57,10 @@
     {
         "name": "Arkimacs",
         "description": "Emacs for Digital Preservation Work",
-        "type": "ppa",
-        "preInstall": ["apt","install","-y","wmctrl"],
-        "postInstall": ["./ArkimacsPostInstall.sh"],
-        "recipe": ["ppa:kelleyk/emacs", "emacs26"]
+        "type": "generic",
+        "recipe": ["./ArkimacsInstall.sh"]
     },
+
     {
         "name": "Typora",
         "description": "Markdown reader and editor",
