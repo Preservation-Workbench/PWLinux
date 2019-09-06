@@ -11,11 +11,11 @@ apt-get install -y postgresql-11
 systemctl enable postgresql.service
 systemctl start postgresql.service
 
-#sudo -H -u postgres bash -c 'psql --command "CREATE ROLE bba SUPERUSER LOGIN REPLICATION CREATEDB CREATEROLE; ALTER USER bba WITH PASSWORD '\''P@ssw0rd;'\''"';
-# TODO: Endret fra den over -> ble passord satt feil da?
-sudo -H -u postgres bash -c 'psql --command "CREATE ROLE bba SUPERUSER LOGIN REPLICATION CREATEDB CREATEROLE; ALTER USER bba WITH PASSWORD '\''P@ssw0rd'\'';"';
-sudo -H -u postgres bash -c 'createdb -O bba bba';
+#sudo -H -u postgres bash -c 'psql --command "CREATE ROLE pwb SUPERUSER LOGIN REPLICATION CREATEDB CREATEROLE; ALTER USER pwb WITH PASSWORD '\''P@ssw0rd'\'';"';
+#sudo -H -u postgres bash -c 'createdb -O pwb pwb';
 
+sudo -H -u postgres bash -c 'psql --command "SELECT 1 FROM pg_roles WHERE rolname = '\''pwb'\''" | grep -q 1 || psql --command "CREATE ROLE pwb SUPERUSER REPLICATION CREATEDB CREATEROLE LOGIN PASSWORD '\''P@ssw0rd'\'';" \
+createdb -O pwb pwb';
 
 
 

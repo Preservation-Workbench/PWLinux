@@ -6,7 +6,9 @@ import sys
 
 # Check Python version
 if sys.version_info[0] < 3:
-    print('You have invoked installer with Python 2. It must be run with Python 3.')
+    print(
+        'You have invoked installer with Python 2. It must be run with Python 3.'
+    )
     sys.exit()
 else:
     import os
@@ -18,6 +20,7 @@ else:
     from datetime import datetime
     import time
     from pathlib import *
+
 
 def read_user_prefs(preffile):
     r = re.compile(rb"\s*user_pref\(([\"'])(.+?)\1,\s*(.+?)\);")
@@ -32,6 +35,7 @@ def read_user_prefs(preffile):
         except Exception as ex:
             print("failed to parse", k, v, ex)
     return rv
+
 
 class Cmd:
     def __init__(self, cmdArgs, stdin=None):
@@ -52,50 +56,55 @@ class Cmd:
 
 def runCmd(cmdArgs, stdin=None, piped=False):
     if len(cmdArgs) == 1 and '|' in cmdArgs[0]:
-        args = [ i.strip().split(' ') for i in cmdArgs[0].split('|') ]
+        args = [i.strip().split(' ') for i in cmdArgs[0].split('|')]
         return runCmd(args, piped=True)
 
     if piped:
         if len(cmdArgs) > 2:
-            return runCmd(cmdArgs[-1], stdin=runCmd(cmdArgs[:-1], piped=True).stdout)
+            return runCmd(
+                cmdArgs[-1], stdin=runCmd(cmdArgs[:-1], piped=True).stdout)
         elif len(cmdArgs) == 2:
-            return runCmd(cmdArgs[1], stdin=runCmd(cmdArgs[0], piped=False).stdout)
-
+            return runCmd(
+                cmdArgs[1], stdin=runCmd(cmdArgs[0], piped=False).stdout)
 
     cmd = Cmd(cmdArgs, stdin)
 
     try:
         if cmd.stdin:
-            if sys.version_info[1] < 7: # Add capture_output for Python version 3.7 or greater
-                result = subprocess.run(cmd.cmdArgs,
-                                        input=cmd.stdin,
-                                        stdout=subprocess.PIPE,
-                                        stderr=subprocess.PIPE,
-                                        #timeout=600,
-                                        check=True)
+            if sys.version_info[1] < 7:  # Add capture_output for Python version 3.7 or greater
+                result = subprocess.run(
+                    cmd.cmdArgs,
+                    input=cmd.stdin,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    #timeout=600,
+                    check=True)
             else:
-                result = subprocess.run(cmd.cmdArgs,
-                                        input=cmd.stdin,
-                                        stdout=subprocess.PIPE,
-                                        stderr=subprocess.PIPE,
-                                        capture_output=True, # python >= 3.7
-                                        #timeout=600,
-                                        check=True)
+                result = subprocess.run(
+                    cmd.cmdArgs,
+                    input=cmd.stdin,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    capture_output=True,  # python >= 3.7
+                    #timeout=600,
+                    check=True)
         else:
             if sys.version_info[1] < 7:
-                result = subprocess.run(cmd.cmdArgs,
-                                        stdout=subprocess.PIPE,
-                                        stderr=subprocess.PIPE,
-                                        #timeout=600,
-                                        check=True)
+                result = subprocess.run(
+                    cmd.cmdArgs,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    #timeout=600,
+                    check=True)
 
             else:
-                result = subprocess.run(cmd.cmdArgs,
-                                        stdout=subprocess.PIPE,
-                                        stderr=subprocess.PIPE,
-                                        capture_output=True, # python >= 3.7
-                                        #timeout=600,
-                                        check=True)
+                result = subprocess.run(
+                    cmd.cmdArgs,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    capture_output=True,  # python >= 3.7
+                    #timeout=600,
+                    check=True)
 
         cmd.stdout = result.stdout.decode("utf-8")
         cmd.stderr = result.stderr.decode("utf-8")
@@ -140,7 +149,9 @@ def getRepoList():
                 with open(os.path.join(root, file)) as f:
                     lines = f.readlines()
                     for line in lines:
-                        if re.match('^deb http:\/\/ppa\.launchpad\.net\/[a-z0-9\-]+\/[a-z0-9\-]+', line):
+                        if re.match(
+                                '^deb http:\/\/ppa\.launchpad\.net\/[a-z0-9\-]+\/[a-z0-9\-]+',
+                                line):
                             data = line.split('/')
                             repoList.append('ppa:' + data[3] + '/' + data[4])
 
@@ -148,9 +159,14 @@ def getRepoList():
 
 
 def notify(message):
-    userID = runCmd(['id', '-u', os.environ['SUDO_USER']]).stdout.replace('\n', '')
-    runCmd(['sudo', '-u', os.environ['SUDO_USER'], 'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/{}/bus'.format(userID),
-            'notify-send', '-i', 'utilities-terminal', 'Arkimint Installer', message])
+    userID = runCmd(['id', '-u', os.environ['SUDO_USER']]).stdout.replace(
+        '\n', '')
+    runCmd([
+        'sudo', '-u', os.environ['SUDO_USER'],
+        'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/{}/bus'.format(userID),
+        'notify-send', '-i', 'utilities-terminal', 'Arkimint Installer',
+        message
+    ])
 
 
 def waitForDpkgLock():
@@ -159,7 +175,7 @@ def waitForDpkgLock():
         dpkgLock = runCmd(['fuser', '/var/lib/dpkg/lock'])
         aptLock = runCmd(['fuser', '/var/lib/apt/lists/lock'])
 
-        if dpkgLock.stdout != '' or aptLock.stdout !='':
+        if dpkgLock.stdout != '' or aptLock.stdout != '':
             time.sleep(3)
             tries += 1
         else:
@@ -178,26 +194,35 @@ class Zenity:
 
         while True:
             # TODO: Endre ikon (til ett som finnes i mint allerede og ikke må lastes ned)
-            getPasswordCmd = runCmd(['zenity', '--password', '--title=Arkimint Installer', '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png'])
+            getPasswordCmd = runCmd([
+                'zenity', '--password', '--title=Arkimint Installer',
+                '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png'
+            ])
 
             if getPasswordCmd.succeeded:
-                checkPasswordCmd = runCmd(['sudo', '-S', 'id', '-u'],
-                                          stdin=getPasswordCmd.stdout + '\n')
+                checkPasswordCmd = runCmd(
+                    ['sudo', '-S', 'id', '-u'],
+                    stdin=getPasswordCmd.stdout + '\n')
 
-                if checkPasswordCmd.succeeded and checkPasswordCmd.stdout.replace('\n', '') == '0':
+                if checkPasswordCmd.succeeded and checkPasswordCmd.stdout.replace(
+                        '\n', '') == '0':
                     return getPasswordCmd.stdout.replace('\n', '')
                 else:
-                    runCmd(['zenity',
-                            '--info',
-                            '--width=200',
-                            '--title=Alfred',
-                            '--text=Wrong password, try again'])
+                    runCmd([
+                        'zenity', '--info', '--width=200', '--title=Alfred',
+                        '--text=Wrong password, try again'
+                    ])
             else:
                 sys.exit()
 
-
     @staticmethod
-    def progressBar(pulsating=False, noCancel=False, title='', text='', percentage=0, height=100, width=500):
+    def progressBar(pulsating=False,
+                    noCancel=False,
+                    title='',
+                    text='',
+                    percentage=0,
+                    height=100,
+                    width=500):
         args = ['zenity', '--progress']
 
         if pulsating:
@@ -211,12 +236,15 @@ class Zenity:
         args.append('--percentage={}'.format(percentage))
         args.append('--height={}'.format(height))
         args.append('--width={}'.format(width))
-        args.append('--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png')
+        args.append(
+            '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png'
+        )
 
-        process = subprocess.Popen(args,
-                                   stdin=subprocess.PIPE,
-                                   stdout=subprocess.PIPE,
-                                   stderr=subprocess.PIPE)
+        process = subprocess.Popen(
+            args,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE)
 
         def update(message='', percent=0):
             process.stdin.write((str(percent) + '\n').encode())
@@ -230,117 +258,101 @@ class Zenity:
 
         return update
 
-
     @staticmethod
     def error(message):
-        runCmd(['zenity',
-                '--error',
-                '--title=Arkimint Installer',
-                '--height=100',
-                '--width=500',
-                '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png',
-                '--text={}'.format(message)])
-
+        runCmd([
+            'zenity', '--error', '--title=Arkimint Installer', '--height=100',
+            '--width=500',
+            '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png',
+            '--text={}'.format(message)
+        ])
 
     @staticmethod
     def table(data):
-        args = ['zenity',
-                '--list',
-                '--checklist',
-                '--height=720',
-                '--width=1000',
-                '--title=Arkimint Installer',
-                '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png',
-                '--text=Select tasks to perform:',
-                '--column=Selection',
-                '--column=Task',
-                '--column=Description']
+        args = [
+            'zenity', '--list', '--checklist', '--height=720', '--width=1000',
+            '--title=Arkimint Installer',
+            '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png',
+            '--text=Select tasks to perform:', '--column=Selection',
+            '--column=Task', '--column=Description'
+        ]
 
         args.extend(data)
 
         return runCmd(args)
 
-
     @staticmethod
     def info(message):
-        runCmd(['zenity',
-                '--info',
-                '--title=Arkimint Installer',
-                '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png',
-                '--height=100',
-                '--width=200',
-                '--text={}'.format(message)])
-
+        runCmd([
+            'zenity', '--info', '--title=Arkimint Installer',
+            '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png',
+            '--height=100', '--width=200', '--text={}'.format(message)
+        ])
 
     @staticmethod
     def question(message, height=100, width=200):
-        question = runCmd(['zenity',
-                           '--question',
-                           '--title=Arkimint Installer',
-                           '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png',
-                           '--height={}'.format(height),
-                           '--width={}'.format(width),
-                           '--text={}'.format(message)])
+        question = runCmd([
+            'zenity', '--question', '--title=Arkimint Installer',
+            '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png',
+            '--height={}'.format(height), '--width={}'.format(width),
+            '--text={}'.format(message)
+        ])
 
         return question.succeeded
-
 
     @staticmethod
     def textInfo(message):
         data = runCmd(['echo', message]).stdout
-        runCmd(['zenity',
-                '--text-info',
-                '--height=700',
-                '--width=800',
+        runCmd(
+            [
+                'zenity', '--text-info', '--height=700', '--width=800',
                 '--title=Arkimint Installer',
-                '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png'],
-                stdin=data)
-
+                '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png'
+            ],
+            stdin=data)
 
     @staticmethod
     def list(message, elements):
-        cmd = ['zenity',
-                '--list',
-                '--height=500',
-                '--width=500',
-                '--title=Arkimint Installer',
-                '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png',
-                '--text={}'.format(message),
-                '--hide-header',
-                '--column', 'Tasks with errors']
+        cmd = [
+            'zenity', '--list', '--height=500', '--width=500',
+            '--title=Arkimint Installer',
+            '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png',
+            '--text={}'.format(message), '--hide-header', '--column',
+            'Tasks with errors'
+        ]
 
         cmd.extend(elements)
         runCmd(cmd)
 
 
 class Alfred:
-
     def __init__(self, localRecipes=True):
         self.logFile = '/var/log/arkimint_installer.log'
- 
+
         with open(self.logFile, 'a') as f:
             f.write(100 * '=' + '\n')
-            f.write('NEW SESSION ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '\n')
+            f.write('NEW SESSION ' +
+                    datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '\n')
             f.write(runCmd(['lsb_release', '-d']).stdout)
             f.write(runCmd(['uname', '-a']).stdout)
 
         self.errors = []
 
         # Set language
-        runCmd(['export','LC_ALL=C'])
+        runCmd(['export', 'LC_ALL=C'])
 
         # Check Zenity package
         zenity = checkPackage('zenity')
 
         # Get icon
         # if not os.path.isfile('alfred.png'):
-            # runCmd(['wget', 'https://raw.githubusercontent.com/derkomai/alfred/master/alfred.png'])
-            # runCmd(['chown', '{}:{}'.format(os.environ['SUDO_USER'], os.environ['SUDO_USER']), 'alfred.png'])
+        # runCmd(['wget', 'https://raw.githubusercontent.com/derkomai/alfred/master/alfred.png'])
+        # runCmd(['chown', '{}:{}'.format(os.environ['SUDO_USER'], os.environ['SUDO_USER']), 'alfred.png'])
 
         # Check distro
         supportedDistro = False
 
-        with open('/etc/os-release','r') as f:
+        with open('/etc/os-release', 'r') as f:
             lines = f.readlines()
 
             for line in lines:
@@ -403,12 +415,12 @@ class Alfred:
 
         # Install Zenity if needed
         if not zenity:
-            self.runAndLogCmd(['apt', 'install', '-y', 'zenity'])
+            self.runAndLogCmd(['apt-get', 'install', '-y', 'zenity'])
 
         # Load recipes
         if localRecipes:
             bindir = os.path.abspath(os.path.dirname(__file__))
-            with open(bindir + '/recipes.json','r') as f:
+            with open(bindir + '/recipes.json', 'r') as f:
                 self.recipes = json.load(f)
         else:
             url = 'https://raw.githubusercontent.com/derkomai/alfred/master/recipes.json'
@@ -418,7 +430,6 @@ class Alfred:
         # Set recipe selections to false
         for i in range(len(self.recipes)):
             self.recipes[i]['selected'] = False
-
 
     def show(self):
         while True:
@@ -454,7 +465,7 @@ class Alfred:
 
                 continue
             else:
-                taskList = table.stdout[:-1].split('|') # Last char is \n
+                taskList = table.stdout[:-1].split('|')  # Last char is \n
                 self.taskList = []
 
                 for i in range(len(self.recipes)):
@@ -465,9 +476,8 @@ class Alfred:
                         self.recipes[i]['selected'] = False
                 break
 
-
     def process(self, proxy_address, proxy_port):
-        os.chdir(os.path.abspath(os.path.dirname( __file__ )))
+        os.chdir(os.path.abspath(os.path.dirname(__file__)))
 
         # Get confirmation
         message = 'The selected tasks will be performed now. '
@@ -500,10 +510,10 @@ class Alfred:
                 flatpaks.append(self.recipes[i]['recipe'])
 
             # elif self.recipes[i]['type'] == 'snap':
-                # if len(self.recipes[i]['recipe']) == 1:
-                    # snaps.extend(self.recipes[i]['recipe'])
-                # else:
-                    # snapsWithOptions.append(self.recipes[i]['recipe'])
+            # if len(self.recipes[i]['recipe']) == 1:
+            # snaps.extend(self.recipes[i]['recipe'])
+            # else:
+            # snapsWithOptions.append(self.recipes[i]['recipe'])
 
             elif self.recipes[i]['type'] == 'ppa':
                 ppas.append(self.recipes[i]['recipe'][0])
@@ -517,7 +527,6 @@ class Alfred:
             if 'postInstall' in self.recipes[i]:
                 postInstall.append(self.recipes[i]['postInstall'])
 
-
         # Skip already installed ppas
         for i in reversed(range(len(ppas))):
             if ppas[i] in self.repoList:
@@ -529,42 +538,55 @@ class Alfred:
                 packages.pop(i)
 
         # Create progress bar
-        updateBar = Zenity.progressBar(pulsating=True,
-                                       noCancel=True,
-                                       title='Arkimint Installer',
-                                       text='Processing tasks')
+        updateBar = Zenity.progressBar(
+            pulsating=True,
+            noCancel=True,
+            title='Arkimint Installer',
+            text='Processing tasks')
 
         try:
             #Ensure git is installed
             if not checkPackage('git'):
                 updateBar('Installing git')
-                self.runAndLogCmd(['apt', 'install', '-y', 'git'], checkLock=True)
-            
+                self.runAndLogCmd(
+                    ['apt-get', 'install', '-y', 'git'], checkLock=True)
+
             #Set proxy for git if proxy values found
             # TODO: Test på virtuell
-            if checkPackage('git') and proxy_address and proxy_port:              
-                self.runAndLogCmd(['git', 'config', '--global', 'http.proxy', 'http://' + proxy_address + ':' + proxy_port])
-                self.runAndLogCmd(['git', 'config', '--global', 'url.https://github.com/.insteadOf','git://github.com/'])
+            if checkPackage('git') and proxy_address and proxy_port:
+                self.runAndLogCmd([
+                    'git', 'config', '--global', 'http.proxy',
+                    'http://' + proxy_address + ':' + proxy_port
+                ])
+                self.runAndLogCmd([
+                    'git', 'config', '--global',
+                    'url.https://github.com/.insteadOf', 'git://github.com/'
+                ])
 
             # Ensure software-properties-common is installed
             if len(ppas) > 0 and not checkPackage('software-properties-common'):
                 updateBar('Installing software-properties-common')
-                self.runAndLogCmd(['apt', 'install', '-y', 'software-properties-common'], checkLock=True)
+                self.runAndLogCmd(
+                    ['apt-get', 'install', '-y', 'software-properties-common'],
+                    checkLock=True)
 
             # Ensure snapd is installed
             # if (len(snaps) > 0 or len(snapsWithOptions) > 0) and not checkPackage('snapd'):
-                # updateBar('Installing snapd')
-                # self.runAndLogCmd(['apt', 'install', '-y', 'snapd'], checkLock=True)
+            # updateBar('Installing snapd')
+            # self.runAndLogCmd(['apt-get', 'install', '-y', 'snapd'], checkLock=True)
 
-             #Ensure flatpak is installed
+            #Ensure flatpak is installed
             if len(flatpaks) > 0 and not checkPackage('flatpak'):
                 updateBar('Installing flatpak')
-                self.runAndLogCmd(['apt', 'install', '-y', 'flatpak'], checkLock=True)
+                self.runAndLogCmd(
+                    ['apt-get', 'install', '-y', 'flatpak'], checkLock=True)
 
             # Ensure libnotify-bin is installed
             if not checkPackage('libnotify-bin'):
                 updateBar('Installing libnotify-bin')
-                self.runAndLogCmd(['apt', 'install', '-y', 'libnotify-bin'], checkLock=True)
+                self.runAndLogCmd(
+                    ['apt-get', 'install', '-y', 'libnotify-bin'],
+                    checkLock=True)
 
             # Run pre-installation tasks
             if len(preInstall) > 0:
@@ -576,24 +598,25 @@ class Alfred:
             if len(ppas) > 0:
                 for ppa in ppas:
                     updateBar('Adding {}'.format(ppa))
-                    self.runAndLogCmd(['add-apt-repository', '-y', ppa], checkLock=True)
+                    self.runAndLogCmd(
+                        ['add-apt-repository', '-y', ppa], checkLock=True)
 
             # Update
             if len(packages) > 0 or len(ppas) > 0:
                 updateBar('Updating package list')
-                self.runAndLogCmd(['apt', 'update'], checkLock=True)
+                self.runAndLogCmd(['apt-get', 'update'], checkLock=True)
 
             # Process packages
             if len(packages) > 0:
                 for package in packages:
                     updateBar('Installing {}'.format(package))
-                    cmd = ['apt', 'install', '-y']
+                    cmd = ['apt-get', 'install', '-y']
                     cmd.append(package)
                     self.runAndLogCmd(cmd, checkLock=True)
 
-             #Process flatpaks
+            #Process flatpaks
             if len(flatpaks) > 0:
-                for flatpak in flatpaks: # Install one by one to avoid hanging
+                for flatpak in flatpaks:  # Install one by one to avoid hanging
                     updateBar('Installing {}'.format(flatpak))
                     cmd = ['flatpak', 'install', '-y']
                     cmd.extend(flatpak)
@@ -620,8 +643,11 @@ class Alfred:
             if len(debs) > 0:
                 for deb in debs:
                     updateBar('Installing {}'.format(deb))
-                    self.runAndLogCmd(['wget', '-q', '-O', '/tmp/package.deb', deb])
-                    self.runAndLogCmd(['apt', 'install', '-y', '/tmp/package.deb'], checkLock=True)
+                    self.runAndLogCmd(
+                        ['wget', '-q', '-O', '/tmp/package.deb', deb])
+                    self.runAndLogCmd(
+                        ['apt-get', 'install', '-y', '/tmp/package.deb'],
+                        checkLock=True)
 
             # Process generics
             if len(generics) > 0:
@@ -637,7 +663,7 @@ class Alfred:
 
             # Autoremove
             updateBar('Removing no longer needed packages')
-            self.runAndLogCmd(['apt', 'autoremove', '-y'], checkLock=True)
+            self.runAndLogCmd(['apt-get', 'autoremove', '-y'], checkLock=True)
 
             # Check errors and notify
             if len(self.errors) == 0:
@@ -660,25 +686,38 @@ class Alfred:
                             log = ''.join(lines[i:])
                             break
 
-                Zenity.list('The following tasks ended with errors and could not be completed:', self.errors)
+                Zenity.list(
+                    'The following tasks ended with errors and could not be completed:',
+                    self.errors)
 
                 if len(log) < 120000:
-                    Zenity.textInfo('Ooops, some errors happened (sorry about that).' + log)
+                    Zenity.textInfo(
+                        'Ooops, some errors happened (sorry about that).' + log
+                    )
                 else:
-                    Zenity.textInfo('Ooops, some errors happened (sorry about that)' + log[:120000]) # TODO: Se original for å referere log-fil
+                    Zenity.textInfo(
+                        'Ooops, some errors happened (sorry about that)' +
+                        log[:120000]
+                    )  # TODO: Se original for å referere log-fil
         finally:
             # Change log ownership
-            runCmd(['chown', '{}:{}'.format(os.environ['SUDO_USER'], os.environ['SUDO_USER']), self.logFile])
-
-
+            runCmd([
+                'chown', '{}:{}'.format(os.environ['SUDO_USER'],
+                                        os.environ['SUDO_USER']), self.logFile
+            ])
 
     def runAndLogCmd(self, cmdArgs, checkLock=False):
         if checkLock:
-            if not waitForDpkgLock(): # Wait for /var/lib/dpkg/lock to be released
+            if not waitForDpkgLock(
+            ):  # Wait for /var/lib/dpkg/lock to be released
                 with open(self.logFile, 'a') as f:
                     f.write(100 * '-' + '\n')
-                    f.write('LOCKED /var/lib/dpkg/lock or /var/lib/apt/lists/lock\n')
-                    Zenity.error('Another program is installing or updating packages. Please wait until this process finishes and then launch Alfred again.')
+                    f.write(
+                        'LOCKED /var/lib/dpkg/lock or /var/lib/apt/lists/lock\n'
+                    )
+                    Zenity.error(
+                        'Another program is installing or updating packages. Please wait until this process finishes and then launch Alfred again.'
+                    )
                     sys.exit()
 
         with open(self.logFile, 'a') as f:
@@ -699,22 +738,29 @@ class Alfred:
 
         return cmd
 
+
 def main():
     if str(Path.home()) == "/root":
         print("Run as user, not as root!")
         sys.exit()
-    
 
     # Ensure some folders exist:
-    ensure_dirs = ['bin','Projects','.local/share/applications','.config/autostart','.local/bin']
+    ensure_dirs = [
+        'bin', 'Projects', '.local/share/applications', '.config/autostart',
+        '.local/bin'
+    ]
     for dir in ensure_dirs:
-        pathlib.Path(str(Path.home()) + '/' + dir).mkdir(parents=True, exist_ok=True)
+        pathlib.Path(str(Path.home()) + '/' + dir).mkdir(
+            parents=True, exist_ok=True)
 
     # Remove som folders we don't need if empty
-    del_dirs = ['Music', 'Templates', 'Videos','Public','Public','Pictures','Documents']
+    del_dirs = [
+        'Music', 'Templates', 'Videos', 'Public', 'Public', 'Pictures',
+        'Documents'
+    ]
     for dir in del_dirs:
         path = pathlib.Path(str(Path.home()) + '/' + dir)
-        if os.path.isdir(path) and len(os.listdir(path) ) == 0:
+        if os.path.isdir(path) and len(os.listdir(path)) == 0:
             path.rmdir()
 
     # Fix paths and zenity:
@@ -725,11 +771,16 @@ def main():
         if not 'PATH=$HOME/.local/bin:$PATH' in f.read():
             f.write('PATH=$HOME/.local/bin:$PATH' + '\n')
         f.seek(0)
-        if not '''alias zenity="zenity 2> >(grep -v 'GtkDialog' >&2)"''' in f.read():
-            f.write('''alias zenity="zenity 2> >(grep -v 'GtkDialog' >&2)"''' + '\n')
+        if not '''alias zenity="zenity 2> >(grep -v 'GtkDialog' >&2)"''' in f.read(
+        ):
+            f.write('''alias zenity="zenity 2> >(grep -v 'GtkDialog' >&2)"''' +
+                    '\n')
 
     # Check proxy /fix firefox search provider:
-    ff_subfolders = [f.path for f in os.scandir(str(Path.home()) + "/.mozilla/firefox") if f.is_dir()]
+    ff_subfolders = [
+        f.path for f in os.scandir(str(Path.home()) + "/.mozilla/firefox")
+        if f.is_dir()
+    ]
     proxy_address = None
     proxy_port = None
     for folder in ff_subfolders:
@@ -805,11 +856,16 @@ def main():
             import getpass
             password = getpass.getpass("Password: ")
             current_script = os.path.realpath(__file__)
-            subprocess.run(['echo "{}" | sudo -kS python3 {}'.format(password, current_script)],            
-                           shell=True,
-                           stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE,
-                           check=True)
+            subprocess.run(
+                [
+                    'echo "{}" | sudo -kS python3 {}'.format(
+                        password, current_script)
+                ],
+                shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=True)
+
 
 if __name__ == '__main__':
     main()
