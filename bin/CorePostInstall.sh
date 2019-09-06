@@ -22,7 +22,7 @@ chmod a+rx /home/$OWNER/bin/div_fix.sh
 
 echo "[Desktop Entry]
 Type=Application
-Exec=/home/bba/bin/div_fix.sh
+Exec=/home/$OWNER/bin/div_fix.sh
 Hidden=false
 X-MATE-Autostart-enabled=true
 Name=Div_Fix" > /home/$OWNER/.config/autostart/Div_Fix.desktop
