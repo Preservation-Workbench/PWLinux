@@ -2,6 +2,10 @@
 
 apt install -y wimtools python3-pandas graphviz python3-lxml python3-tk openjdk-11-jdk;
 
+
+# TODO: tmp-mappe blir liggende igjen ved andre gangs kjøring -> gjelder sikkert også andre -> fix
+
+
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH)
 PWB_DIR="/home/$OWNER/bin/PWB"
@@ -9,6 +13,7 @@ sudo -H -u $OWNER bash -c "git clone --no-checkout https://github.com/BBATools/P
 mv $PWB_DIR/tmp/.git $PWB_DIR; \
 rmdir $PWB_DIR/tmp; \
 cd $PWB_DIR && git reset --hard HEAD";
+
 
 if [ ! -f $PWB_DIR/bin/sqlworkbench.jar ]; then
     sudo -H -u $OWNER bash -c "cd /home/$OWNER/bin/PWB/bin && \

@@ -499,7 +499,6 @@ class Alfred:
         generics = []
         preInstall = []
         postInstall = []
-        flatpak_sources = []
         flatpaks = []
 
         for i in self.taskList:
@@ -743,6 +742,16 @@ def main():
     if str(Path.home()) == "/root":
         print("Run as user, not as root!")
         sys.exit()
+
+    # Fix desktop file icon
+    bindir = os.path.abspath(os.path.dirname(__file__))
+    desktop_file = os.path.abspath(
+        os.path.join(bindir, '..', 'Arkimint_installer.desktop'))
+    icon_file = os.path.abspath(os.path.join(bindir, 'arkimint_fin_32px.png'))
+    subprocess.run(
+        ["sed -i 's:arkimint.png:" + icon_file + ":g' " + desktop_file + ";"],
+        shell=True)
+    #sed -i 's:arkimint_fin_32px.png:pwb:g' sqlworkbench.desktop;
 
     # Ensure some folders exist:
     ensure_dirs = [
