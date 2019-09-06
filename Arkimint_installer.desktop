@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Arkimint Installer
 Exec=./bin/arkimint_installer.py
-Icon=/usr/share/icons/Mint-X/categories/32/applications-development.png
+Icon=/home/bba/Arkimint/bin/arkimint_fin_32px.png
 Terminal=false
 Type=Application
