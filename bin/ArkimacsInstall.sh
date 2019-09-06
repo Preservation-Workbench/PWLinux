@@ -6,11 +6,14 @@
 # vterm ikke installert
 # viste heller ikke tabs
 
-curl -sSL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x873503a090750cdaeb0754d93ff0e01eeaafc9cd' | sudo apt-key add -
-add-apt-repository ppa:kelleyk/emacs
+apt-get install -y libvterm-dev wmctrl;
 
-apt-get update;
-apt-get install -y emacs26 wmctrl;
+if [ $(dpkg-query -W -f='${Status}' emacs26 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+    curl -sSL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x873503a090750cdaeb0754d93ff0e01eeaafc9cd' | sudo apt-key add -;
+    add-apt-repository ppa:kelleyk/emacs;
+    apt-get update;
+    apt-get install -y emacs26;
+fi
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH);
@@ -47,13 +50,12 @@ if [ ! -f /home/$OWNER/.local/share/applications/emacs26.desktop ]; then
     sed -i -e 's/emacs26 %F/amacs %F/' /home/$OWNER/.local/share/applications/emacs26.desktop;
 fi
 
-EMACS_DIR="~/.emacs.d"
-if [ ! -d "$EMACS_DIR/.git/" ]; then
-    sudo -H -u $OWNER bash -c "git clone --no-checkout https://github.com/BBATools/Arkimacs.git $EMACS_DIR/tmp";
-    sudo -H -u $OWNER bash -c "mv $EMACS_DIR/tmp/.git $EMACS_DIR";
-    sudo -H -u $OWNER bash -c "rmdir $EMACS_DIR/tmp";
-    sudo -H -u $OWNER bash -c "cd $EMACS_DIR && git reset --hard HEAD";
-fi
+EMACS_DIR="/home/$OWNER/.emacs.d"
+sudo -H -u $OWNER bash -c "git clone --no-checkout https://github.com/BBATools/Arkimacs.git $EMACS_DIR/tmp; \
+mv $EMACS_DIR/tmp/.git $EMACS_DIR; \
+rmdir $EMACS_DIR/tmp; \
+cd $EMACS_DIR && git reset --hard HEAD;"
+
 
 #xdg-mime default codium.desktop text/english text/plain text/x-makefile text/x-c++hdr text/x-c++src text/x-chdr text/x-csrc text/x-java text/x-moc text/x-pascal text/x-tcl text/x-tex application/x-shellscript text/x-c text/x-c++
 

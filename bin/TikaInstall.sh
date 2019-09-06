@@ -4,11 +4,13 @@
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH)
+ver="1.22"
+tika_path="/home/$OWNER/bin/lein"
 
-export VER="1.22"
-sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/bin/tika";
-sudo -H -u $OWNER bash -c "wget -qO /home/$OWNER/bin/tika/tika-app.jar https://archive.apache.org/dist/tika/tika-app-${VER}.jar";
-
+if [ ! -f $tika_path/tika-app.jar ]; then
+    sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/bin/tika; \
+    wget -qO /home/$OWNER/bin/tika/tika-app.jar https://archive.apache.org/dist/tika/tika-app-${ver}.jar;";
+fi
 
 
 

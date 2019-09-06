@@ -9,8 +9,10 @@ SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 sudo -H -u $OWNER bash -c "python3 -m pip install -U ttkthemes unoconv execsql epc --user";
 
-wget -qO /tmp/ripgrep.deb https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb;
-apt-get install -y /tmp/ripgrep.deb;
+if [ $(dpkg-query -W -f='${Status}' ripgrep 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+    wget -qO /tmp/ripgrep.deb https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb;
+    apt-get install -y /tmp/ripgrep.deb;
+fi
 
 cat <<\EOF > /home/$OWNER/bin/div_fix.sh
 #! /bin/bash

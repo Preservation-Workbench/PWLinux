@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# TODO: Sjekke mer enn at bare installert?
+
 if [ $(dpkg-query -W -f='${Status}' mysql-apt-config 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
     sudo debconf-set-selections <<< 'mysql-apt-config mysql-apt-config/repo-codename select bionic'
     sudo debconf-set-selections <<< 'mysql-apt-config mysql-apt-config/repo-distro select ubuntu'
