@@ -29,4 +29,12 @@ Hidden=false
 X-MATE-Autostart-enabled=true
 Name=Div_Fix" > /home/$OWNER/.config/autostart/Div_Fix.desktop
 
-
+sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/wallpapers"
+SRC_URI="https://raw.githubusercontent.com/Nitrux/luv-icon-theme/master/Wallpapers/Night/contents/images/2560x1080.png"
+FNAME="/home/$OWNER/.local/share/wallpapers/arkimint.png"
+if [ ! -f $FNAME ]; then
+    sudo -H -u $OWNER bash -c "wget $SRC_URI -O $FNAME"
+fi
+USR_ID=$( id -u $OWNER )
+export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$USR_ID/bus
+su $OWNER -m -c "xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s $FNAME"

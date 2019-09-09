@@ -749,7 +749,7 @@ def main():
         os.path.join(bindir, '..', 'Arkimint_installer.desktop'))
     icon_file = os.path.abspath(os.path.join(bindir, 'arkimint_fin_32px.png'))
     subprocess.run(
-        ["sed -i 's:arkimint.png:" + icon_file + ":g' " + desktop_file + ";"],
+        ["sed -i 's:Icon=.*:Icon=" + icon_file + ":g' " + desktop_file + ";"],
         shell=True)
 
     # Ensure some folders exist:
