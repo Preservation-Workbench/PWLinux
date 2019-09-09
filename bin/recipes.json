@@ -14,7 +14,7 @@
         "recipe": ["./PWBInstall.sh"]
     },
     {
-        "name": "MySQL",
+        "name": "MySQL 8",
         "description": "Open source database",
         "type": "generic",
         "recipe": ["./MySQLInstall.sh"]
@@ -33,13 +33,13 @@
         "recipe": ["./TikaInstall.sh"]
     },
     {
-        "name": "PostgreSQL",
+        "name": "PostgreSQL 11",
         "description": "The world's most advanced open source database",
         "type": "generic",
         "recipe": ["./PostgreSQLInstall.sh"]
     },
     {
-        "name": "MS SQL Server",
+        "name": "MS SQL Server 2019",
         "description": "Proprietary database",
         "type": "generic",
         "recipe": ["./MSSQLInstall.sh"]

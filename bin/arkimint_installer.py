@@ -751,7 +751,6 @@ def main():
     subprocess.run(
         ["sed -i 's:arkimint.png:" + icon_file + ":g' " + desktop_file + ";"],
         shell=True)
-    #sed -i 's:arkimint_fin_32px.png:pwb:g' sqlworkbench.desktop;
 
     # Ensure some folders exist:
     ensure_dirs = [
