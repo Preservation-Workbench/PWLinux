@@ -193,7 +193,6 @@ class Zenity:
         runCmd(['sudo', '-k'])
 
         while True:
-            # TODO: Endre ikon (til ett som finnes i mint allerede og ikke må lastes ned)
             getPasswordCmd = runCmd([
                 'zenity', '--password', '--title=Arkimint Installer',
                 '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png'
@@ -857,22 +856,42 @@ def main():
         alfred.show()
         alfred.process(proxy_address, proxy_port)
     else:
-        # Check Zenity and run as superuser
-        if checkPackage('zenity'):
-            runCmd(['sudo', 'python3', sys.argv[0]], stdin=Zenity.password())
+        subprocess.run(
+            [
+                " \
+                cat /etc/lsb-release > /tmp/distro_check; \
+                echo $DESKTOP_SESSION >> /tmp/distro_check \
+                "
+            ],
+            shell=True)
+
+        supported = False
+        arr = ['Linux Mint 19.2 Tina', 'xfce']
+        with open('/tmp/distro_check', 'r+') as f:
+            data = f.read()
+            if all(x in data for x in arr):
+                supported = True
+
+        if supported:
+            # Check Zenity and run as superuser
+            if checkPackage('zenity'):
+                runCmd(
+                    ['sudo', 'python3', sys.argv[0]], stdin=Zenity.password())
+            else:
+                import getpass
+                password = getpass.getpass("Password: ")
+                current_script = os.path.realpath(__file__)
+                subprocess.run(
+                    [
+                        'echo "{}" | sudo -kS python3 {}'.format(
+                            password, current_script)
+                    ],
+                    shell=True,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    check=True)
         else:
-            import getpass
-            password = getpass.getpass("Password: ")
-            current_script = os.path.realpath(__file__)
-            subprocess.run(
-                [
-                    'echo "{}" | sudo -kS python3 {}'.format(
-                        password, current_script)
-                ],
-                shell=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                check=True)
+            print('Not supported distro')  # WAIT: Make zenity message
 
 
 if __name__ == '__main__':
