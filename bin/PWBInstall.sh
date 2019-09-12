@@ -8,12 +8,10 @@ apt install -y wimtools python3-pandas graphviz python3-lxml python3-tk openjdk-
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH)
-PWB_DIR="/home/$OWNER/bin/PWB"
-sudo -H -u $OWNER bash -c "git clone --no-checkout https://github.com/BBATools/PreservationWorkbench.git $PWB_DIR/tmp; \
-mv $PWB_DIR/tmp/.git $PWB_DIR; \
-rmdir -rdf $PWB_DIR/tmp; \
-cd $PWB_DIR && git reset --hard HEAD";
 
+REPOSRC="https://github.com/BBATools/PreservationWorkbench.git"
+LOCALREPO="/home/$OWNER/bin/PWB"
+sudo -H -u $OWNER bash -c "git clone "$REPOSRC" "$LOCALREPO" 2> /dev/null || git -C "$LOCALREPO" pull"
 
 if [ ! -f $PWB_DIR/bin/sqlworkbench.jar ]; then
     sudo -H -u $OWNER bash -c "cd /home/$OWNER/bin/PWB/bin && \
