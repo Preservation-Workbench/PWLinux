@@ -53,7 +53,7 @@ fi
 EMACS_DIR="/home/$OWNER/.emacs.d"
 sudo -H -u $OWNER bash -c "git clone --no-checkout https://github.com/BBATools/Arkimacs.git $EMACS_DIR/tmp; \
 mv $EMACS_DIR/tmp/.git $EMACS_DIR; \
-rmdir $EMACS_DIR/tmp; \
+rmdir -rdf $EMACS_DIR/tmp; \
 cd $EMACS_DIR && git reset --hard HEAD;"
 
 

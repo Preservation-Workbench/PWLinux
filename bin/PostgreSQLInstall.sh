@@ -19,8 +19,9 @@ fi
 #sudo -H -u postgres bash -c 'psql --command "CREATE ROLE pwb SUPERUSER LOGIN REPLICATION CREATEDB CREATEROLE; ALTER USER pwb WITH PASSWORD '\''P@ssw0rd'\'';"';
 #sudo -H -u postgres bash -c 'createdb -O pwb pwb';
 
-sudo -H -u postgres bash -c 'psql --command "SELECT 1 FROM pg_roles WHERE rolname = '\''pwb'\''" | grep -q 1 || psql --command "CREATE ROLE pwb SUPERUSER REPLICATION CREATEDB CREATEROLE LOGIN PASSWORD '\''P@ssw0rd'\'';" \
+sudo -H -iu postgres bash -c 'psql --command "SELECT 1 FROM pg_roles WHERE rolname = '\''pwb'\''" | grep -q 1 || psql --command "CREATE ROLE pwb SUPERUSER REPLICATION CREATEDB CREATEROLE LOGIN PASSWORD '\''P@ssw0rd'\'';" \
 createdb -O pwb pwb';
 
+#TODO: db pwb var ikke blitt opprettet på virtuell -> samme på laptop?
 
 

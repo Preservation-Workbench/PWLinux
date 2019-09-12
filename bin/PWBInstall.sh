@@ -11,7 +11,7 @@ OWNER=$(stat -c '%U' $SCRIPTPATH)
 PWB_DIR="/home/$OWNER/bin/PWB"
 sudo -H -u $OWNER bash -c "git clone --no-checkout https://github.com/BBATools/PreservationWorkbench.git $PWB_DIR/tmp; \
 mv $PWB_DIR/tmp/.git $PWB_DIR; \
-rmdir $PWB_DIR/tmp; \
+rmdir -rdf $PWB_DIR/tmp; \
 cd $PWB_DIR && git reset --hard HEAD";
 
 
