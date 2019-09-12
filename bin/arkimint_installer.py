@@ -195,7 +195,7 @@ class Zenity:
         while True:
             getPasswordCmd = runCmd([
                 'zenity', '--password', '--title=Arkimint Installer',
-                '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png'
+                '--window-icon=arkimint_fin_32px.png'
             ])
 
             if getPasswordCmd.succeeded:
@@ -208,7 +208,8 @@ class Zenity:
                     return getPasswordCmd.stdout.replace('\n', '')
                 else:
                     runCmd([
-                        'zenity', '--info', '--width=200', '--title=Alfred',
+                        'zenity', '--info', '--width=200',
+                        '--title=Arkimint Installer',
                         '--text=Wrong password, try again'
                     ])
             else:
@@ -343,12 +344,8 @@ class Alfred:
         # Check Zenity package
         zenity = checkPackage('zenity')
 
-        # Get icon
-        # if not os.path.isfile('alfred.png'):
-        # runCmd(['wget', 'https://raw.githubusercontent.com/derkomai/alfred/master/alfred.png'])
-        # runCmd(['chown', '{}:{}'.format(os.environ['SUDO_USER'], os.environ['SUDO_USER']), 'alfred.png'])
-
         # Check distro
+        # TODO: Fjerne distro check annet sted eller
         supportedDistro = False
 
         with open('/etc/os-release', 'r') as f:
@@ -714,7 +711,7 @@ class Alfred:
                         'LOCKED /var/lib/dpkg/lock or /var/lib/apt/lists/lock\n'
                     )
                     Zenity.error(
-                        'Another program is installing or updating packages. Please wait until this process finishes and then launch Alfred again.'
+                        'Another program is installing or updating packages. Please wait until this process finishes and then launch Arkimint Installer again.'
                     )
                     sys.exit()
 
@@ -747,6 +744,7 @@ def main():
     desktop_file = os.path.abspath(
         os.path.join(bindir, '..', 'Arkimint_installer.desktop'))
     icon_file = os.path.abspath(os.path.join(bindir, 'arkimint_fin_32px.png'))
+    # TODO: Hvordan ha icon_file som arg til alle zenity def?
     subprocess.run(
         ["sed -i 's:Icon=.*:Icon=" + icon_file + ":g' " + desktop_file + ";"],
         shell=True)
