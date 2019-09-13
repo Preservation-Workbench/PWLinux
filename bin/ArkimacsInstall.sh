@@ -10,7 +10,7 @@ apt-get install -y libvterm-dev wmctrl;
 
 if [ $(dpkg-query -W -f='${Status}' emacs26 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
     curl -sSL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x873503a090750cdaeb0754d93ff0e01eeaafc9cd' | sudo apt-key add -;
-    add-apt-repository ppa:kelleyk/emacs;
+    add-apt-repository -y ppa:kelleyk/emacs;
     apt-get update;
     apt-get install -y emacs26;
 fi
