@@ -85,10 +85,10 @@ cp sqlworkbench.desktop ~/.local/share/applications/
 cd ~/Downloads/sophos-av && sudo sh ./install.sh --acceptlicence
 #TODO: Bruke dette valget auto når på adm-sone: --update-proxy-address=http://85.19.187.24:8080
 #valg for install: default location, ikke on-access, oppdatering fra sophos, free version,
-sudo /opt/sophos-av/bin/savdctl disable
-sudo /opt/sophos-av/bin/savconfig set LiveProtection false
-sudo /opt/sophos-av/bin/savconfig set DisableFeedback true
-sudo sed -i -e 's/#user_allow_other/user_allow_other/' /etc/fuse.conf
+/opt/sophos-av/bin/savdctl disable
+/opt/sophos-av/bin/savconfig set LiveProtection false
+/opt/sophos-av/bin/savconfig set DisableFeedback true
+sed -i -e 's/#user_allow_other/user_allow_other/' /etc/fuse.conf
 
 
 # TODO:
@@ -96,5 +96,6 @@ sudo sed -i -e 's/#user_allow_other/user_allow_other/' /etc/fuse.conf
 # - alias emacs='amacs' --> denne i tillegg eller heller enn endring av desktop-fil som nå?
 
 
+sudo ./install.sh --acceptlicence --automatic --live-protection=False --SavWebUsername=pwb --SavWebPassword=pwb --update-source-type=s --update-period=24 --update-type=f /opt/sophos-av
 
 

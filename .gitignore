@@ -1,5 +1,6 @@
 # Ignore directories and files
-bin/ojdbc10.jar
+bin/ojdbc*.jar
+bin/sav-linux-free-*.tgz
 
 # exceptions to above rule
 
