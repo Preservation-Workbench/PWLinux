@@ -1,4 +1,5 @@
 # Ignore directories and files
+bin/ojdbc10.jar
 
 # exceptions to above rule
 
