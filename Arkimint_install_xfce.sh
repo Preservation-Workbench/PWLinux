@@ -82,7 +82,7 @@ cp sqlworkbench.desktop ~/.local/share/applications/
 
 #ANTIVIRUS:
 #Last ned sophos til /home/bba/Downloads/sophos-av
-cd ~/Downloads/sophos-av && sudo sh ./install.sh --acceptlicence
+cd ~/Downloads/sophos-av && ./install.sh --acceptlicence --automatic --live-protection=False --SavWebUsername=pwb --SavWebPassword=pwb --update-free=True --update-period=24 --update-type=f /opt/sophos-av
 #TODO: Bruke dette valget auto når på adm-sone: --update-proxy-address=http://85.19.187.24:8080
 #valg for install: default location, ikke on-access, oppdatering fra sophos, free version,
 /opt/sophos-av/bin/savdctl disable
@@ -94,8 +94,8 @@ sed -i -e 's/#user_allow_other/user_allow_other/' /etc/fuse.conf
 # TODO:
 # -Lag script for å endre whisker-menu til ALT-F1 (gjort manuelt nå - trengs for xcape over)
 # - alias emacs='amacs' --> denne i tillegg eller heller enn endring av desktop-fil som nå?
+--update-free=True
 
-
-sudo ./install.sh --acceptlicence --automatic --live-protection=False --SavWebUsername=pwb --SavWebPassword=pwb --update-source-type=s --update-period=24 --update-type=f /opt/sophos-av
+sudo ./install.sh --acceptlicence --automatic --live-protection=False --SavWebUsername=pwb --SavWebPassword=pwb --update-free=True --update-period=24 --update-type=f /opt/sophos-av
 
 

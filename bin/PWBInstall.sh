@@ -29,11 +29,18 @@ if [ ! -f $LOCALREPO/bin/ojdbc10.jar ]; then
     fi
 fi
 
-# TODO: Først sjekk her på om sav allerede er installert
+
 if ! [ -x "$(command -v savscan)" ]; then
     if [ -f $SCRIPTPATH/sav-linux-free-9.tgz ]; then
         sudo -H -u $OWNER bash -c "tar zxvf $SCRIPTPATH/sav-linux-free-9.tgz;";
-        $SCRIPTPATH/sophos-av/install.sh --acceptlicence --automatic --live-protection=False --SavWebUsername=pwb --SavWebPassword=pwb --update-free=True --update-period=24 --update-type=f /opt/sophos-av;
+
+        ENV_PROXY=$( env | grep https_proxy | cut -c 13- | rev | cut -c 2- | rev )
+        if [ -z "$ENV_PROXY" ]; then
+            $SCRIPTPATH/sophos-av/install.sh --acceptlicence --automatic --live-protection=False --SavWebUsername=pwb --SavWebPassword=pwb --update-free=True --update-period=24 --update-type=f /opt/sophos-av;
+        else
+            $SCRIPTPATH/sophos-av/install.sh --acceptlicence --automatic --update-proxy-address=$ENV_PROXY --live-protection=False --SavWebUsername=pwb --SavWebPassword=pwb --update-free=True --update-period=24 --update-type=f /opt/sophos-av;
+        fi
+
         /opt/sophos-av/bin/savdctl disable;
         /opt/sophos-av/bin/savconfig set DisableFeedback true;
         sed -i -e 's/#user_allow_other/user_allow_other/' /etc/fuse.conf;
@@ -41,7 +48,4 @@ if ! [ -x "$(command -v savscan)" ]; then
     fi
 fi
 
-
-#TODO: Bruke dette valget auto når på adm-sone: --update-proxy-address=http://85.19.187.24:8080
-#valg for install: default location, ikke on-access, oppdatering fra sophos, free version,
 
