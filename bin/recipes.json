@@ -20,6 +20,24 @@
         "recipe": ["./MySQLInstall.sh"]
     },
     {
+        "name": "PostgreSQL 11",
+        "description": "A better open source database",
+        "type": "generic",
+        "recipe": ["./PostgreSQLInstall.sh"]
+    },
+    {
+        "name": "MS SQL Server 2019",
+        "description": "Proprietary database",
+        "type": "generic",
+        "recipe": ["./MSSQLInstall.sh"]
+    },
+    {
+        "name": "Oracle 11",
+        "description": "An even more proprietary database",
+        "type": "generic",
+        "recipe": ["./OracleInstall.sh"]
+    },
+    {
         "name": "URD",
         "description": "Tool to create and display an archival DIP",
         "type": "generic",
@@ -31,18 +49,6 @@
         "description": "Tool to create and display an archival DIP",
         "type": "generic",
         "recipe": ["./TikaInstall.sh"]
-    },
-    {
-        "name": "PostgreSQL 11",
-        "description": "The world's most advanced open source database",
-        "type": "generic",
-        "recipe": ["./PostgreSQLInstall.sh"]
-    },
-    {
-        "name": "MS SQL Server 2019",
-        "description": "Proprietary database",
-        "type": "generic",
-        "recipe": ["./MSSQLInstall.sh"]
     },
     {
         "name": "Clojure",
