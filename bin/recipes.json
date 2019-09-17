@@ -57,14 +57,6 @@
         "recipe": ["./ClojureInstall.sh"]
     },
     {
-        "name": "Textadept",
-        "description": "An extensible cross-platform text editor",
-        "type": "deb",
-        "preInstall": ["./TextadeptPreInstall.sh"],
-        "recipe": ["https://sourceforge.net/projects/d-apt/files/pool/main/t/textadept/textadept_10.5-0_amd64.deb"],
-        "postInstall": ["./TextadeptPostInstall.sh"]
-        },
-    {
         "name": "VSCodium",
         "description": "Freely-licensed distribution of VSCode editor",
         "type": "ppa",
@@ -73,12 +65,25 @@
         "postInstall": ["./VSCodiumPostInstall.sh"]
     },
     {
+        "name": "Textadept",
+        "description": "Open source extensible text editor",
+        "type": "deb",
+        "preInstall": ["./TextadeptPreInstall.sh"],
+        "recipe": ["https://sourceforge.net/projects/d-apt/files/pool/main/t/textadept/textadept_10.5-0_amd64.deb"],
+        "postInstall": ["./TextadeptPostInstall.sh"]
+    },
+    {
+        "name": "Sublime",
+        "description": "Proprietary extensible text editor",
+        "type": "package",
+        "recipe": ["sublime-text"]
+    },
+    {
         "name": "Arkimacs",
         "description": "Emacs for Digital Preservation Work",
         "type": "generic",
         "recipe": ["./ArkimacsInstall.sh"]
     },
-
     {
         "name": "Typora",
         "description": "Markdown reader and editor",
