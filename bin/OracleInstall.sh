@@ -62,6 +62,7 @@ if [ ! -f $sqlplus_path ]; then
     ( echo ; echo ; echo $OWNER ; echo $OWNER ; echo n ) | sudo AWK='/usr/bin/awk' /etc/init.d/oracle-xe configure
 fi
 
+# WAIT: Ikke sikkert linjene under trengs:
 /etc/init.d/oracle-xe start && "$ORACLE_HOME"/bin/lsnrctl reload
 chown oracle:dba /var/tmp/.oracle
 
@@ -74,5 +75,24 @@ GRANT EXECUTE ON SYS.DBMS_LOCK TO oracle;
 ALTER DATABASE DATAFILE '/u01/app/oracle/oradata/XE/system.dbf' AUTOEXTEND ON MAXSIZE 15G;
 SQL"
 
-rm -rdf /home/$OWNER/oradiag_root
+rm -rdf /home/$OWNER/oradiag_root;
+
+#Fix desktop icons:
 rm /home/$OWNER/Desktop/oraclexe-gettingstarted.desktop
+sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclexe-getstarted.desktop
+sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclexe-backup.desktop
+sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclexe-gotoonlineforum.desktop
+sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclexe-registerforonlineforum.desktop
+sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclexe-restore.desktop
+sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclexe-runsql.desktop
+sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclexe-startdb.desktop
+sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclexe-stopdb.desktop
+sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclexe-readdocumentation.desktop
+
+# Behold linjer under enn så lenge i tilfelle de fortsatt må brukes:
+#sudo bash -c 'echo "bba ALL = (root) NOPASSWD: /etc/init.d/oracle-xe" > /etc/sudoers.d/xe'
+#sudo chmod 0440 /etc/sudoers.d/xe
+
+
+
+

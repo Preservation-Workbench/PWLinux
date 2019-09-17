@@ -19,7 +19,10 @@ cat <<\EOF > /home/$OWNER/bin/div_fix.sh
 pkill gvfsd-fuse && /usr/lib/gvfs/gvfsd-fuse -o allow_other /var/run/user/1000/gvfs/
 setxkbmap -option 'numpad:microsoft'
 #"$ORACLE_HOME"/bin/lsnrctl start && sudo /etc/init.d/oracle-xe start
-sudo /etc/init.d/oracle-xe start
+if [ ! -f /etc/init.d/oracle-xe ]; then
+    #/u01/app/oracle/product/11.2.0/xe/config/scripts/startdb.sh;
+    sudo /etc/init.d/oracle-xe start;
+fi
 EOF
 chmod a+rx /home/$OWNER/bin/div_fix.sh
 chown $OWNER:$OWNER /home/$OWNER/bin/div_fix.sh;
