@@ -80,6 +80,7 @@ rm -rdf /home/$OWNER/oradiag_root;
 #Fix desktop icons:
 rm /home/$OWNER/Desktop/oraclexe-gettingstarted.desktop
 sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclexe-getstarted.desktop
+sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclexe-gettingstarted.desktop
 sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclexe-backup.desktop
 sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclexe-gotoonlineforum.desktop
 sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclexe-registerforonlineforum.desktop
