@@ -19,15 +19,18 @@ cat <<\EOF > /home/$OWNER/bin/div_fix.sh
 pkill gvfsd-fuse && /usr/lib/gvfs/gvfsd-fuse -o allow_other /var/run/user/1000/gvfs/
 setxkbmap -option 'numpad:microsoft'
 #"$ORACLE_HOME"/bin/lsnrctl start && sudo /etc/init.d/oracle-xe start
+sudo /etc/init.d/oracle-xe start
 EOF
 chmod a+rx /home/$OWNER/bin/div_fix.sh
+chown $OWNER:$OWNER /home/$OWNER/bin/div_fix.sh;
 
 echo "[Desktop Entry]
 Type=Application
 Exec=/home/$OWNER/bin/div_fix.sh
 Hidden=false
 X-MATE-Autostart-enabled=true
-Name=Div_Fix" > /home/$OWNER/.config/autostart/Div_Fix.desktop
+Name=Div_Fix" > /home/$OWNER/.config/autostart/Div_Fix.desktop;
+chown $OWNER:$OWNER /home/$OWNER/.config/autostart/Div_Fix.desktop;
 
 # Set wallpaper
 sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/wallpapers"

@@ -1,5 +1,12 @@
 * Arkimint installasjonsnotater:
 
+# TODO: endre startside i firefox -> script senere
+# TODO: Endre til kun ett workspace i fxce -> script senere
+
+# TODO:
+# git config --global user.email "mortenee@gmail.com"
+# git config --global user.name "mortenee"
+
 #Fjern win 10 features deviceguard/credentialguard/hyper-v
 #Last ned virtualbox via annet nett enn ADM1 og installer som administrator
 #Mint mate 19.1
@@ -29,7 +36,8 @@ mssql-server
 
 docker-ce docker-compose gimagereader \
 
-
+#----------------------------- når privat pc -> egen recipes fil i egen mappe som merges fra gui?
+sudo apt install -y  asc crimson extremetuxracer freeciv-client-sdl supertuxkart supertux torcs trigger-rally uligo unknown-horizons wesnoth steam
 
 
 #VERAPDF:
@@ -86,8 +94,6 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 mkdir -p ~/docker/xe-18c
 
-#MATE-PANEL:
-#tilpasse mate panel
 
 #WALLPAPER:
 mkdir -p /home/$USER/.local/share/wallpapers

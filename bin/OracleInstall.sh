@@ -73,3 +73,6 @@ GRANT CONNECT, RESOURCE TO oracle;
 GRANT EXECUTE ON SYS.DBMS_LOCK TO oracle;
 ALTER DATABASE DATAFILE '/u01/app/oracle/oradata/XE/system.dbf' AUTOEXTEND ON MAXSIZE 15G;
 SQL"
+
+rm -rdf /home/$OWNER/oradiag_root
+rm /home/$OWNER/Desktop/oraclexe-gettingstarted.desktop

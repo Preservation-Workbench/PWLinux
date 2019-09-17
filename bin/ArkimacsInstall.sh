@@ -19,9 +19,9 @@ SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 
 echo '#!/bin/bash
-emacs --daemon' > /home/$OWNER/bin/emacs_daemon.sh
-
+emacs --daemon' > /home/$OWNER/bin/emacs_daemon.sh;
 chmod a+rx /home/$OWNER/bin/emacs_daemon.sh;
+chown $OWNER:$OWNER /home/$OWNER/bin/emacs_daemon.sh;
 
 echo "[Desktop Entry]
 Type=Application
@@ -29,6 +29,7 @@ Exec=/home/$OWNER/bin/emacs_daemon.sh
 Hidden=false
 X-MATE-Autostart-enabled=true
 Name=Emacs_Daemon" > /home/$OWNER/.config/autostart/Emacs_Daemon.desktop;
+chown $OWNER:$OWNER /home/$OWNER/.config/autostart/Emacs_Daemon.desktop;
 
 cat <<\EOF > /home/$OWNER/bin/amacs
 #! /bin/bash -e
@@ -44,10 +45,12 @@ wmctrl -xa emacs
 EOF
 
 chmod a+rx /home/$OWNER/bin/amacs;
+chown $OWNER:$OWNER /home/$OWNER/bin/amacs;
 
 if [ ! -f /home/$OWNER/.local/share/applications/emacs26.desktop ]; then
     cp /usr/share/applications/emacs26.desktop  /home/$OWNER/.local/share/applications;
     sed -i -e 's/emacs26 %F/amacs %F/' /home/$OWNER/.local/share/applications/emacs26.desktop;
+    chown $OWNER:$OWNER /home/$OWNER/.local/share/applications/emacs26.desktop;
 fi
 
 REPOSRC="https://github.com/BBATools/Arkimacs.git"
