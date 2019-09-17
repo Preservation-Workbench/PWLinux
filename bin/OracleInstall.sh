@@ -90,9 +90,9 @@ sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclex
 sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclexe-stopdb.desktop
 sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclexe-readdocumentation.desktop
 
-# Behold linjer under enn så lenge i tilfelle de fortsatt må brukes:
-#sudo bash -c 'echo "bba ALL = (root) NOPASSWD: /etc/init.d/oracle-xe" > /etc/sudoers.d/xe'
-#sudo chmod 0440 /etc/sudoers.d/xe
+
+sudo bash -c 'echo "bba ALL = (root) NOPASSWD: /etc/init.d/oracle-xe" > /etc/sudoers.d/xe'
+sudo chmod 0440 /etc/sudoers.d/xe
 
 
 
