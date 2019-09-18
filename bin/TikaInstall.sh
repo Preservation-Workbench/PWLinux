@@ -5,7 +5,7 @@
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH)
 ver="1.22"
-tika_path="/home/$OWNER/bin/lein"
+tika_path="/home/$OWNER/bin/tika"
 
 if [ ! -f $tika_path/tika-app.jar ]; then
     sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/bin/tika; \
