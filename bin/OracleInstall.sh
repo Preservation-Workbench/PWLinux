@@ -48,10 +48,10 @@ if [ ! -f $sqlplus_path ]; then
     unzip -j "$(basename $ORACLE_FILE)" "*/$ORACLE_RPM"
     sudo rpm --install --nodeps --nopre "$ORACLE_RPM"
 
-    echo 'export ORACLE_HOME="/u01/app/oracle/product/11.2.0/xe"' >> /home/$OWNER/.bashrc
-    echo 'export ORACLE_SID=XE' >> /home/$OWNER/.bashrc
-    echo 'export ORACLE_HOME="/u01/app/oracle/product/11.2.0/xe"' >> /etc/environment
-    echo 'export ORACLE_SID=XE' >> /etc/environment
+    echo 'ORACLE_HOME="/u01/app/oracle/product/11.2.0/xe"' >> /home/$OWNER/.bashrc
+    echo 'ORACLE_SID=XE' >> /home/$OWNER/.bashrc
+    echo 'ORACLE_HOME="/u01/app/oracle/product/11.2.0/xe"' >> /etc/environment
+    echo 'ORACLE_SID=XE' >> /etc/environment
 
     echo 'OS_AUTHENT_PREFIX=""' | sudo tee -a "$ORACLE_HOME/config/scripts/init.ora" > /dev/null
 

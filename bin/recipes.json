@@ -85,6 +85,12 @@
         "recipe": ["./ArkimacsInstall.sh"]
     },
     {
+        "name": "Arkimacs",
+        "description": "Emacs for Digital Preservation Work",
+        "type": "generic",
+        "recipe": ["./ArkimacsInstall.sh"]
+    },
+    {
         "name": "Typora",
         "description": "Markdown reader and editor",
         "type": "package",
