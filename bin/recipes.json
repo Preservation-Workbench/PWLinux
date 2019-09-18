@@ -85,10 +85,10 @@
         "recipe": ["./ArkimacsInstall.sh"]
     },
     {
-        "name": "Arkimacs",
-        "description": "Emacs for Digital Preservation Work",
+        "name": "Joplin",
+        "description": "A note taking and to-do application with synchronisation",
         "type": "generic",
-        "recipe": ["./ArkimacsInstall.sh"]
+        "recipe": ["./JoplinInstall.sh"]
     },
     {
         "name": "Typora",
