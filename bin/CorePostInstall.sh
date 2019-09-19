@@ -46,5 +46,14 @@ USR_ID=$( id -u $OWNER )
 export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$USR_ID/bus
 su $OWNER -m -c "xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s $FNAME"
 
-#TODO: Heller gjøre i PWBInstall.sh ?
+#TODO: Bruk mappe under fra PWB for å sjekke om er på Arkimint eller ikke
 sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.arkimint"
+
+#TODO: Legg inn sjekk på om guest extensions allerede er installert
+VIRT=$( dmidecode -s system-manufacturer )
+if [ "$VIRT" == "innotek GmbH" ]; then #Virtualbox
+    sudo usermod -aG vboxsf $OWNER;
+    apt-get install -y build-essential dkms linux-headers-generic virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11;
+fi
+
+
