@@ -7,12 +7,6 @@
 # git config --global user.email "mortenee@gmail.com"
 # git config --global user.name "mortenee"
 
-#Fjern win 10 features deviceguard/credentialguard/hyper-v
-#Last ned virtualbox via annet nett enn ADM1 og installer som administrator
-#Mint mate 19.1
-#mount extensions iso
-#reboot
-#eject extensions iso
 #show trash on desktop
 #endre startside i firefox
 
@@ -75,15 +69,6 @@ java -jar verapdf-izpack-installer-* auto.xml
 sudo snap install dbtarzan john-the-ripper xnviewmp
 
 
-#ANTIVIRUS:
-#Last ned sophos til /home/bba/Downloads/sophos-av
-cd ~/Downloads/sophos-av && sudo sh ./install.sh --acceptlicence --update-proxy-address=http://85.19.187.24:8080
-#valg for install: default location, ikke on-access, oppdatering fra sophos, free version,
-sudo /opt/sophos-av/bin/savdctl disable
-sudo /opt/sophos-av/bin/savconfig set LiveProtection false
-sudo /opt/sophos-av/bin/savconfig set DisableFeedback true
-sudo sed -i -e 's/#user_allow_other/user_allow_other/' /etc/fuse.conf
-
 #DOCKER:
 sudo mkdir -p /etc/systemd/system/docker.service.d/
 sudo sh -c "echo  '[Service]
@@ -93,14 +78,6 @@ Environment=NO_PROXY=localhost,127.0.0.1,localaddress,.localdomain.com' >> /etc/
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 mkdir -p ~/docker/xe-18c
-
-
-#WALLPAPER:
-mkdir -p /home/$USER/.local/share/wallpapers
-SRC_URI="https://raw.githubusercontent.com/Nitrux/luv-icon-theme/master/Wallpapers/Night/contents/images/2560x1080.png"
-FNAME="/home/$USER/.local/share/wallpapers/arkimint.png"
-wget "$SRC_URI" -O "$FNAME"
-gsettings set org.mate.background picture-filename "$FNAME"
 
 #SIEGFRIED:
 sudo sf -update
