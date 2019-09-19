@@ -79,12 +79,6 @@
         "recipe": ["sublime-text"]
     },
     {
-        "name": "Arkimacs",
-        "description": "Emacs for Digital Preservation Work",
-        "type": "generic",
-        "recipe": ["./ArkimacsInstall.sh"]
-    },
-    {
         "name": "Joplin",
         "description": "A note taking and to-do application with synchronisation",
         "type": "generic",
