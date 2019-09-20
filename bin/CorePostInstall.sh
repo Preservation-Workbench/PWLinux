@@ -47,7 +47,12 @@ export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$USR_ID/bus
 su $OWNER -m -c "xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s $FNAME"
 
 #TODO: Bruk mappe under fra PWB for å sjekke om er på Arkimint eller ikke
-sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.arkimint"
+sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.arkimint";
+
+#Set Arkimint icon for whisker menu
+sudo -H -u $OWNER bash -c "cp arkimint_fin_32px.png /home/$OWNER/.arkimint";
+sudo -H -u $OWNER bash -c 'sed -i "s:^button-icon=.*:button-icon=/home/'"$OWNER"'/.arkimint/arkimint_fin_32px.png:g" ~/.config/xfce4/panel/whiskermenu-1.rc'
+su $OWNER -m -c "xfce4-panel -r "
 
 # Install virtualbox guest extensions if vb virtual machine
 VIRT=$( dmidecode -s system-manufacturer )
