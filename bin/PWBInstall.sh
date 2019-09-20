@@ -2,11 +2,6 @@
 
 apt install -y wimtools python3-pandas graphviz python3-lxml python3-tk openjdk-11-jdk;
 
-
-# TODO: Legg inn dokumentasjon på at ojdbc10.jar og sophos må lastes ned manuelt og legges i bin-katalog
-#ojdbc10.jar fra her: https://www.oracle.com/database/technologies/appdev/jdbc-downloads.html
-#sav-linux-free-9.tgz fra her: https://secure2.sophos.com/en-us/products/free-tools/sophos-antivirus-for-linux/download.aspx
-
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH)
 
