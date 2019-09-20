@@ -64,5 +64,11 @@ fi
 #Hide user list from login screen
 sed -i '/^greeter-hide-users=/{h;s/=.*/=true/};${x;/^$/{s//greeter-hide-users=true/;H};x}' /etc/lightdm/lightdm.conf
 
-
-
+# Firefox
+ff_prefs=/home/$OWNER/.mozilla/firefox/*.default-release/prefs.js
+isInFile=$(cat $ff_prefs | grep -c 'startup.homepage", "')
+if [ $isInFile -eq 0 ]; then
+    sudo -H -u $OWNER bash -c "killall firefox"
+    echo "user_pref(\"browser.startup.homepage\", \"https://www.google.com\");" >> $ff_prefs
+    chown $OWNER:$OWNER $ff_prefs;
+fi
