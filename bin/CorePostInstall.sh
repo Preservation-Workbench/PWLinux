@@ -49,12 +49,15 @@ su $OWNER -m -c "xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/wor
 #TODO: Bruk mappe under fra PWB for å sjekke om er på Arkimint eller ikke
 sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.arkimint"
 
+# Install virtualbox guest extensions if vb virtual machine
 VIRT=$( dmidecode -s system-manufacturer )
 if [ "$VIRT" == "innotek GmbH" ]; then #Virtualbox
     sudo usermod -aG vboxsf $OWNER;
     lsmod | grep vboxguest  || apt-get install -y build-essential dkms linux-headers-generic virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11;
 fi
 
+#Hide user list from login screen
+sed -i '/^greeter-hide-users=/{h;s/=.*/=true/};${x;/^$/{s//greeter-hide-users=true/;H};x}' /etc/lightdm/lightdm.conf
 
 
 
