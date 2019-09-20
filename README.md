@@ -5,10 +5,8 @@ Install Linux Mint 19.2 Xfce from here: http://ftp.acc.umu.se/mirror/linuxmint.c
 Download this repo as zip or git clone.
 
 Download proprietary dependencies and put in *bin directory*.
-Get ojdbc10.jar from here: 
-https://www.oracle.com/database/technologies/appdev/jdbc-downloads.html
-Get sav-linux-free-9.tgz from here:
-https://secure2.sophos.com/en-us/products/free-tools/sophos-antivirus-for-linux/download.aspx
+Get ojdbc10.jar from here: https://www.oracle.com/database/technologies/appdev/jdbc-downloads.html
+Get sav-linux-free-9.tgz from here: https://secure2.sophos.com/en-us/products/free-tools/sophos-antivirus-for-linux/download.aspx
 
 Run or click *Arkimint Installer*
 
