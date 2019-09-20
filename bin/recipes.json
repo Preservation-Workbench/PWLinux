@@ -46,7 +46,7 @@
     },
     {
         "name": "Tika",
-        "description": "Tool to create and display an archival DIP",
+        "description": "Detect format and extract metadata from files",
         "type": "generic",
         "recipe": ["./TikaInstall.sh"]
     },
