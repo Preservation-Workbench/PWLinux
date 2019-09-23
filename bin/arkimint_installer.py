@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+# Based on https://github.com/derkomai/alfred
+
 # TODO: Se også denne: https://github.com/yiwensong/ubuntu-setup?files=1
 
 import sys
