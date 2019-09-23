@@ -91,8 +91,8 @@ sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclex
 sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclexe-readdocumentation.desktop
 
 
-sudo bash -c 'echo "bba ALL = (root) NOPASSWD: /etc/init.d/oracle-xe" > /etc/sudoers.d/xe'
-sudo chmod 0440 /etc/sudoers.d/xe
+echo "$OWNER ALL = (root) NOPASSWD: /etc/init.d/oracle-xe" > /etc/sudoers.d/xe;
+sudo chmod 0440 /etc/sudoers.d/xe;
 
 
 
