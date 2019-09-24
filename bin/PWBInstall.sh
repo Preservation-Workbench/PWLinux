@@ -39,9 +39,9 @@ if ! [ -x "$(command -v savscan)" ]; then
         /opt/sophos-av/bin/savdctl disable;
         /opt/sophos-av/bin/savdctl disableOnBoot;
         /opt/sophos-av/bin/savconfig set DisableFeedback true;
-        sed -i -e 's/#user_allow_other/user_allow_other/' /etc/fuse.conf;
         rm -rdf $SCRIPTPATH/sophos-av
     fi
 fi
 
+sed -i -e 's/#user_allow_other/user_allow_other/' /etc/fuse.conf;
 
