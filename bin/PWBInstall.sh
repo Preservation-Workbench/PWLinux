@@ -40,6 +40,7 @@ if ! [ -x "$(command -v savscan)" ]; then
         /opt/sophos-av/bin/savdctl disableOnBoot;
         /opt/sophos-av/bin/savconfig set DisableFeedback true;
         rm -rdf $SCRIPTPATH/sophos-av
+        /opt/sophos-av/bin/savupdate
     fi
 fi
 
