@@ -45,4 +45,5 @@ if ! [ -x "$(command -v savscan)" ]; then
 fi
 
 sed -i -e 's/#user_allow_other/user_allow_other/' /etc/fuse.conf;
+mv /etc/ImageMagick-6/policy.xml /etc/ImageMagick-6/policy.xmlout  2>/dev/null;
 
