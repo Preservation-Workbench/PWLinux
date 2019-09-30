@@ -1,6 +1,6 @@
 #!/bin/bash
 
-apt install -y wimtools python3-pandas graphviz python3-lxml python3-tk openjdk-11-jdk img2pdf imagemagick;
+apt install -y wimtools python3-pandas graphviz python3-lxml python3-tk openjdk-11-jdk img2pdf imagemagick python3-pgmagick;
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH)
