@@ -8,7 +8,7 @@ apt remove -y hexchat-common hexchat thunderbird rhythmbox tomboy xplayer xfce4-
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 # TODO: Flytt deler av dette til PWBInstall.sh
-sudo -H -u $OWNER bash -c "python3 -m pip install -U ttkthemes unoconv zenipy execsql epc --user";
+sudo -H -u $OWNER bash -c "python3 -m pip install -U ttkthemes unoconv zenipy execsql pdfy epc --user";
 
 if [ $(dpkg-query -W -f='${Status}' ripgrep 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
     wget -qO /tmp/ripgrep.deb https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb;
