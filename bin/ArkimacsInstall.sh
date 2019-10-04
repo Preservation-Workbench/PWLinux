@@ -11,6 +11,7 @@ apt-get install -y libvterm-dev libtool-bin cmake wmctrl;
 # og så:
 #git clone --depth 1 https://git.savannah.gnu.org/git/emacs.git
 #cd emacs
+#git reset --hard 52ab9485107919771d3627b93c8a996563b34abd #TODO: Denne virket ikke
 #./autogen.sh
 #./configure --with-modules #Andre valg også?
 #make
