@@ -7,6 +7,14 @@
 # viste heller ikke tabs
 
 apt-get install -y libvterm-dev libtool-bin cmake wmctrl;
+# TODO: Hvis fra source heller: apt-get install -y libvterm-dev libtool-bintexinfo libx11-dev libxpm-dev libjpeg-dev libpng-dev libgif-dev autoconf libtiff-dev libgtk2.0-dev libncurses-dev gnutls-dev libgtk-3-dev;
+# og så:
+#git clone --depth 1 https://git.savannah.gnu.org/git/emacs.git
+#cd emacs
+#./autogen.sh
+#./configure --with-modules #Andre valg også?
+#make
+#./src/emacs & -> juster her. Evt installere til hvor?
 
 if [ $(dpkg-query -W -f='${Status}' emacs26 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
     curl -sSL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x873503a090750cdaeb0754d93ff0e01eeaafc9cd' | sudo apt-key add -;
