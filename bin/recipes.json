@@ -104,6 +104,12 @@
         "recipe": ["flathub","com.wps.Office"]
     },
     {
+        "name": "ONLYOFFICE",
+        "description": "Another cross-platform Office Suite",
+        "type": "generic",
+        "recipe": ["./OnlyofficeInstall.sh"]
+    },
+    {
         "name": "Spotify",
         "description": "Work music",
         "type": "flatpak",
