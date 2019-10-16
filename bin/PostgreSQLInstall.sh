@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# WAIT: Bør bruke denne sjekken i tillegg til sjekk på om program er installert for å sikre at ikke duplikat entries i sources
 #isInFile=$(cat /etc/apt/sources.list | grep -c "http://apt.postgresql.org/pub/repos/apt/")
 #if [ $isInFile -eq 0 ]; then
     #wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
@@ -8,7 +9,7 @@
 #fi
 
 if [ $(dpkg-query -W -f='${Status}' postgresql-11 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
-    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -;
+    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -;
     echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" > /etc/apt/sources.list.d/PostgreSQL.list;
     apt-get update;
     apt-get install -y postgresql-11;
