@@ -1,6 +1,13 @@
 #!/bin/bash
 
-apt install -y wimtools python3-pandas graphviz python3-lxml python3-tk openjdk-11-jdk img2pdf imagemagick python3-pgmagick;
+isInFile=$(cat /etc/apt/sources.list | grep -c "https://download.onlyoffice.com/repo/debian")
+if [ $isInFile -eq 0 ]; then
+    curl -sSL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xe09ca29f6e178040ef22b4098320ca65cb2de8e5' | sudo apt-key add -;
+    echo "deb https://download.onlyoffice.com/repo/debian squeeze main" >> /etc/apt/sources.list;
+    apt-get update;
+fi
+
+apt-get install -y wimtools python3-pandas graphviz python3-lxml python3-tk openjdk-11-jdk img2pdf imagemagick python3-pgmagick onlyoffice-documentbuilder;
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH)
@@ -45,5 +52,8 @@ if ! [ -x "$(command -v savscan)" ]; then
 fi
 
 sed -i -e 's/#user_allow_other/user_allow_other/' /etc/fuse.conf;
-mv /etc/ImageMagick-6/policy.xml /etc/ImageMagick-6/policy.xmlout  2>/dev/null;
+
+if [ -f "/etc/ImageMagick-6/policy.xml" ]; then
+    mv /etc/ImageMagick-6/policy.xml /etc/ImageMagick-6/policy.xmlout  2>/dev/null;
+fi
 
