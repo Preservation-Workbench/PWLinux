@@ -7,7 +7,7 @@ if [ $isInFile -eq 0 ]; then
     apt-get update;
 fi
 
-apt-get install -y wimtools python3-pandas graphviz python3-lxml python3-tk openjdk-11-jdk img2pdf imagemagick python3-pgmagick onlyoffice-documentbuilder;
+apt-get install -y wimtools python3-pandas graphviz python3-lxml python3-tk openjdk-11-jdk img2pdf imagemagick python3-pgmagick onlyoffice-documentbuilder abiword;
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH)
