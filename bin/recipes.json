@@ -153,6 +153,12 @@
         "recipe": ["flathub","com.skype.Client"]
     },
     {
+        "name": "Foliate",
+        "description": "A simple and modern eBook viewer",
+        "type": "generic",
+        "recipe": ["./FoliateInstall.sh"]
+    },
+    {
         "name": "FileZilla",
         "description": "Download and upload files via FTP, FTPS and SFTP",
         "type": "package",
