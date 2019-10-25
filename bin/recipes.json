@@ -63,6 +63,18 @@
         "recipe": ["./BlueMailInstall.sh"]
     },
     {
+        "name": "DBeaver",
+        "description": "Universal database tool",
+        "type": "generic",
+        "recipe": ["./DBeaverInstall.sh"]
+    },
+    {
+        "name": "Madedit-Mod",
+        "description": "Cross platform hex editor",
+        "type": "generic",
+        "recipe": ["./MadeditModInstall.sh"]
+    },
+    {
         "name": "VSCodium",
         "description": "Freely-licensed distribution of VSCode editor",
         "type": "ppa",
