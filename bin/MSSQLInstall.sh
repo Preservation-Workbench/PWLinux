@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo apt install libc++1 libc++abi1 libsasl2-modules-gssapi-mit libsss-nss-idmap0;
+
 # TODO: Aktiver installasjon fra repo heller når feil med korrupt fil etter restart fikset av MS (er feil i versjon 15.0.1900.25-1)
 if [ $(dpkg-query -W -f='${Status}' mssql-server 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
     #wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -;
