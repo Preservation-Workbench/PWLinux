@@ -667,7 +667,7 @@ class Alfred:
                 message = "All tasks completed succesfully. If you can't find some of the installed apps, reboot your computer."
             else:
                 self.runAndLogCmd(['dpkg', '--configure', '-a'])
-                message = 'Some tasks ended with errors and may not have been correctly installed. Check the lock at ' + self.logFile
+                message = 'Some tasks ended with errors and may not have been correctly installed. Check the log at ' + self.logFile
 
             notify(message)
             updateBar(message)
