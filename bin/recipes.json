@@ -116,6 +116,12 @@
         "recipe": ["typora"]
     },
     {
+        "name": "Mark Text",
+        "description": "Another markdown reader and editor",
+        "type": "generic",
+        "recipe": ["./MarkTextInstall.sh"]
+    },
+    {
         "name": "WPS Office",
         "description": "Cross-platform Office Suite",
         "type": "flatpak",
