@@ -85,7 +85,7 @@ if [ ! -f /home/$OWNER/bin/verapdf/verapdf ]; then
     </AutomatedInstallation>
     EOF
     java -jar verapdf-izpack-installer-* auto.xml;
-    ln -s /home/$OWNER/bin/verapdf/verapdf /home/$OWNER/bin;'
+    ln -s /home/bba/bin/verapdf/verapdf /home/bba/bin/verapdf.sh;'
 fi
 
 
