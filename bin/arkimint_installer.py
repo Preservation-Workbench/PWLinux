@@ -551,10 +551,10 @@ class Alfred:
             #Set proxy for git if proxy values found
             # TODO: Test på virtuell
             if checkPackage('git') and proxy_address and proxy_port:
-                self.runAndLogCmd([
-                    'git', 'config', '--global', 'http.proxy',
-                    'http://' + proxy_address + ':' + proxy_port
-                ])
+                # self.runAndLogCmd([
+                #     'git', 'config', '--global', 'http.proxy',
+                #     'http://' + proxy_address + ':' + proxy_port
+                # ])
                 self.runAndLogCmd([
                     'git', 'config', '--global',
                     'url.https://github.com/.insteadOf', 'git://github.com/'
@@ -667,7 +667,7 @@ class Alfred:
                 message = "All tasks completed succesfully. If you can't find some of the installed apps, reboot your computer."
             else:
                 self.runAndLogCmd(['dpkg', '--configure', '-a'])
-                message = 'Some tasks ended with errors and may not have been correctly installed. Check the lock at ' + self.logFile
+                message = 'Some tasks ended with errors and may not have been correctly installed. Check the log at ' + self.logFile
 
             notify(message)
             updateBar(message)
@@ -818,11 +818,12 @@ def main():
     # Check root privileges
     if os.geteuid() == 0:
         if proxy_address and proxy_port:
-            with open('/etc/environment', 'r+') as f:
-                if not 'http_proxy' in f.read():
-                    f.write('http_proxy=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
-                            'https_proxy=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
-                            'no_proxy=localhost,127.0.0.0,127.0.1.1,127.0.1.1,local.home')
+            # TODO: Laget krøll for apt-get. Trengs for annet?
+            # with open('/etc/environment', 'r+') as f:
+            #     if not 'http_proxy' in f.read():
+            #         f.write('http_proxy=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
+            #                 'https_proxy=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
+            #                 'no_proxy=localhost,127.0.0.0,127.0.1.1,127.0.1.1,local.home')
 
             with open('/etc/wgetrc', 'r+') as f:
                 proxy_set = False
