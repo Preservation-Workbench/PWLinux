@@ -1,3 +1,8 @@
+We recommend at least 16GB of RAM.
+
+
+
+
 ### Install instructions:
 
 Install Linux Mint 19.2 Xfce from here:  
@@ -19,6 +24,10 @@ Run or click *Arkimint Installer*
 
 Slow shutdown because of oracle sysv init script.  
 This will be replaced with a systemd unit file later on.
+
+
+
+
 
 
 
