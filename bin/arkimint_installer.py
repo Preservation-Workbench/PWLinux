@@ -636,8 +636,6 @@ class Alfred:
             #         self.runAndLogCmd(cmd)
 
             # Process debs
-            # TODO: Bruk curl heller og legg inn sjekk på om curl ny nok -> installer ny fra ppa hvis ikke
-            # --> bruk denne: https://launchpad.net/~savoury1/+archive/ubuntu/curl34?field.series_filter=bionic
             if len(debs) > 0:
                 for deb in debs:
                     updateBar('Installing {}'.format(deb))

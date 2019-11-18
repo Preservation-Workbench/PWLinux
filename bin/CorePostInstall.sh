@@ -63,6 +63,7 @@ if [ "$VIRT" == "innotek GmbH" ]; then #Virtualbox
 fi
 
 #Hide user list from login screen
+# TODO: Har ikke virket ved siste kjøring -> fiks
 sed -i '/^greeter-hide-users=/{h;s/=.*/=true/};${x;/^$/{s//greeter-hide-users=true/;H};x}' /etc/lightdm/lightdm.conf
 
 # Firefox
