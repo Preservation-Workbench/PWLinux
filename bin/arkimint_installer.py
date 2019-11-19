@@ -636,7 +636,6 @@ class Alfred:
             #         self.runAndLogCmd(cmd)
 
             # Process debs
-            # WAIT: Legg inn bedre sjekk for wget så ikke kun får ap-feil hvis problemet er med wget
             if len(debs) > 0:
                 for deb in debs:
                     updateBar('Installing {}'.format(deb))
@@ -805,49 +804,49 @@ def main():
                         if os.path.exists(search_prov_path):
                             os.remove(search_prov_path)
 
-    if proxy_address and proxy_port:
-        svn_folder = str(Path.home()) + '/.subversion'
-        pathlib.Path(svn_folder).mkdir(parents=True, exist_ok=True)
-        svn_servers = svn_folder + '/servers'
-        pathlib.Path(svn_servers).touch()
-        with open(svn_servers, 'r+') as f:
-            if not 'http-proxy-host' in f.read():
-                f.write('http-proxy-host = ' + proxy_address + '\n' \
-                        'http-proxy-port = ' + proxy_port)
+    # if proxy_address and proxy_port:
+    #     svn_folder = str(Path.home()) + '/.subversion'
+    #     pathlib.Path(svn_folder).mkdir(parents=True, exist_ok=True)
+    #     svn_servers = svn_folder + '/servers'
+    #     pathlib.Path(svn_servers).touch()
+    #     with open(svn_servers, 'r+') as f:
+    #         if not 'http-proxy-host' in f.read():
+    #             f.write('http-proxy-host = ' + proxy_address + '\n' \
+    #                     'http-proxy-port = ' + proxy_port)
 
     # Check root privileges
     if os.geteuid() == 0:
-        if proxy_address and proxy_port:
-            # TODO: Laget krøll for apt-get. Trengs for annet?
-            # with open('/etc/environment', 'r+') as f:
-            #     if not 'http_proxy' in f.read():
-            #         f.write('http_proxy=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
-            #                 'https_proxy=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
-            #                 'no_proxy=localhost,127.0.0.0,127.0.1.1,127.0.1.1,local.home')
+        # if proxy_address and proxy_port:
+        # TODO: Laget krøll for apt-get. Trengs for annet?
+        # with open('/etc/environment', 'r+') as f:
+        #     if not 'http_proxy' in f.read():
+        #         f.write('http_proxy=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
+        #                 'https_proxy=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
+        #                 'no_proxy=localhost,127.0.0.0,127.0.1.1,127.0.1.1,local.home')
 
-            with open('/etc/wgetrc', 'r+') as f:
-                proxy_set = False
-                for line in f.readlines():
-                    if line.startswith('http_proxy'):
-                        proxy_set = True
-                if not proxy_set:
-                    f.write('http_proxy=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
-                            'https_proxy=http://' + proxy_address + ':' + proxy_port + '/')
+        # with open('/etc/wgetrc', 'r+') as f:
+        #     proxy_set = False
+        #     for line in f.readlines():
+        #         if line.startswith('http_proxy'):
+        #             proxy_set = True
+        #     if not proxy_set:
+        #         f.write('http_proxy=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
+        #                 'https_proxy=http://' + proxy_address + ':' + proxy_port + '/')
 
-            docker_folder = '/etc/systemd/system/docker.service.d/'
-            pathlib.Path(docker_folder).mkdir(parents=True, exist_ok=True)
-            docker_conf = docker_folder + '/http-proxy.conf'
-            pathlib.Path(docker_conf).touch()
-            with open(docker_conf, 'r+') as f:
-                if not 'Environment=HTTP_PROXY' in f.read():
-                    f.write('Environment=HTTP_PROXY=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
-                            'Environment=HTTPS_PROXY=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
-                            'Environment=NO_PROXY=localhost,127.0.0.1,localaddress,.localdomain.com')
+        # docker_folder = '/etc/systemd/system/docker.service.d/'
+        # pathlib.Path(docker_folder).mkdir(parents=True, exist_ok=True)
+        # docker_conf = docker_folder + '/http-proxy.conf'
+        # pathlib.Path(docker_conf).touch()
+        # with open(docker_conf, 'r+') as f:
+        #     if not 'Environment=HTTP_PROXY' in f.read():
+        #         f.write('Environment=HTTP_PROXY=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
+        #                 'Environment=HTTPS_PROXY=http://' + proxy_address + ':' + proxy_port + '/' + '\n' \
+        #                 'Environment=NO_PROXY=localhost,127.0.0.1,localaddress,.localdomain.com')
 
-            #self.runAndLogCmd(['git', 'config', '--global', 'http.proxy'])
+        #self.runAndLogCmd(['git', 'config', '--global', 'http.proxy'])
 
-            #git config --global http.proxy http://85.19.187.24:8080
-            #git config --global url.https://github.com/.insteadOf git://github.com/
+        #git config --global http.proxy http://85.19.187.24:8080
+        #git config --global url.https://github.com/.insteadOf git://github.com/
 
         #runCmd(['sudo', 'usermod', '-aG', 'vboxsf', '$USER'])
         # TODO: vboxsf gruppe mangler -> gjøre hva først. Sjekk om på virtuell hvordan?
