@@ -3,171 +3,253 @@
         "name": "Arkimint Core",
         "description": "Base install",
         "type": "generic",
-        "recipe": ["apt", "install", "-y", "git ttf-mscorefonts-installer mint-meta-codecs exfat-fuse chromium-chromedriver exfat-utils plank rar regexxer soundconverter openjfx npm yapf3 chm2pdf python3-virtualenv python3-setuptools uchardet libtool-bin meld mercurial python3-dev checkinstall galternatives xchm subversion dos2unix meld checkinstall apt-transport-https ca-certificates xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor xul-ext-ublock-origin python3-rope pylint3 flake8 python3-wheel python3-pip build-essential snapd dos2unix"],
-        "preInstall": ["./CorePreInstall.sh"],
-        "postInstall": ["./CorePostInstall.sh"]
+        "recipe": [
+            "apt",
+            "install",
+            "-y",
+            "git ttf-mscorefonts-installer mint-meta-codecs exfat-fuse chromium-chromedriver exfat-utils plank rar regexxer soundconverter openjfx npm yapf3 chm2pdf python3-virtualenv python3-setuptools uchardet libtool-bin meld mercurial python3-dev checkinstall galternatives xchm subversion dos2unix meld checkinstall apt-transport-https ca-certificates xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor xul-ext-ublock-origin python3-rope pylint3 flake8 python3-wheel python3-pip build-essential snapd dos2unix python3-tk"
+        ],
+        "preInstall": [
+            "./CorePreInstall.sh"
+        ],
+        "postInstall": [
+            "./CorePostInstall.sh"
+        ]
     },
     {
         "name": "Preservation Workbench",
         "description": "Solution for extracting data from systems and generating an archive package",
         "type": "generic",
-        "recipe": ["./PWBInstall.sh"]
+        "recipe": [
+            "./PWBInstall.sh"
+        ]
     },
     {
         "name": "MySQL 8",
         "description": "Open source database",
         "type": "generic",
-        "recipe": ["./MySQLInstall.sh"]
+        "recipe": [
+            "./MySQLInstall.sh"
+        ]
     },
     {
         "name": "PostgreSQL 11",
         "description": "A better open source database",
         "type": "generic",
-        "recipe": ["./PostgreSQLInstall.sh"]
+        "recipe": [
+            "./PostgreSQLInstall.sh"
+        ]
     },
     {
         "name": "MS SQL Server 2019",
         "description": "Proprietary database",
         "type": "generic",
-        "recipe": ["./MSSQLInstall.sh"]
+        "recipe": [
+            "./MSSQLInstall.sh"
+        ]
     },
     {
         "name": "Oracle 11",
         "description": "An even more proprietary database",
         "type": "generic",
-        "recipe": ["./OracleInstall.sh"]
+        "recipe": [
+            "./OracleInstall.sh"
+        ]
     },
     {
         "name": "URD",
         "description": "Tool to create and display an archival DIP",
         "type": "generic",
-        "recipe": ["./URDInstall.sh"],
-        "preInstall": ["./MySQLInstall.sh"]
+        "recipe": [
+            "./URDInstall.sh"
+        ],
+        "preInstall": [
+            "./MySQLInstall.sh"
+        ]
     },
     {
         "name": "Tika",
         "description": "Detect format and extract metadata from files",
         "type": "generic",
-        "recipe": ["./TikaInstall.sh"]
+        "recipe": [
+            "./TikaInstall.sh"
+        ]
     },
     {
         "name": "Clojure",
         "description": "Java with a lisp",
         "type": "generic",
-        "recipe": ["./ClojureInstall.sh"]
+        "recipe": [
+            "./ClojureInstall.sh"
+        ]
     },
     {
         "name": "BlueMail",
         "description": "Mail client with support for Exchange",
         "type": "generic",
-        "recipe": ["./BlueMailInstall.sh"]
+        "recipe": [
+            "./BlueMailInstall.sh"
+        ]
     },
     {
         "name": "DBeaver",
         "description": "Universal database tool",
         "type": "generic",
-        "recipe": ["./DBeaverInstall.sh"]
+        "recipe": [
+            "./DBeaverInstall.sh"
+        ]
     },
     {
         "name": "Madedit-Mod",
         "description": "Cross platform hex editor",
         "type": "generic",
-        "recipe": ["./MadeditModInstall.sh"]
+        "recipe": [
+            "./MadeditModInstall.sh"
+        ]
     },
     {
         "name": "VSCodium",
         "description": "Freely-licensed distribution of VSCode editor",
         "type": "ppa",
-        "recipe": ["deb https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/repos/debs/ vscodium main", "codium"],
-        "preInstall": ["wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | sudo apt-key add -"],
-        "postInstall": ["./VSCodiumPostInstall.sh"]
+        "recipe": [
+            "deb https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/repos/debs/ vscodium main",
+            "codium"
+        ],
+        "preInstall": [
+            "wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | sudo apt-key add -"
+        ],
+        "postInstall": [
+            "./VSCodiumPostInstall.sh"
+        ]
     },
     {
         "name": "Textadept",
         "description": "Open source extensible text editor",
         "type": "deb",
-        "preInstall": ["./TextadeptPreInstall.sh"],
-        "recipe": ["https://sourceforge.net/projects/d-apt/files/pool/main/t/textadept/textadept_10.5-0_amd64.deb"],
-        "postInstall": ["./TextadeptPostInstall.sh"]
+        "preInstall": [
+            "./TextadeptPreInstall.sh"
+        ],
+        "recipe": [
+            "https://sourceforge.net/projects/d-apt/files/pool/main/t/textadept/textadept_10.5-0_amd64.deb"
+        ],
+        "postInstall": [
+            "./TextadeptPostInstall.sh"
+        ]
     },
     {
         "name": "Sublime",
         "description": "Proprietary extensible text editor",
         "type": "package",
-        "recipe": ["sublime-text"]
+        "recipe": [
+            "sublime-text"
+        ]
     },
     {
         "name": "FF Multi Converter",
         "description": "Convert between all popular file formats",
         "type": "deb",
-        "recipe": ["https://launchpad.net/~noobslab/+archive/ubuntu/apps/+files/ffmulticonverter_1.8.0-z~bionic~NoobsLab.com_all.deb"]
+        "recipe": [
+            "https://launchpad.net/~noobslab/+archive/ubuntu/apps/+files/ffmulticonverter_1.8.0-z~bionic~NoobsLab.com_all.deb"
+        ]
     },
     {
         "name": "Joplin",
         "description": "A note taking and to-do application with synchronisation",
         "type": "generic",
-        "recipe": ["./JoplinInstall.sh"]
+        "recipe": [
+            "./JoplinInstall.sh"
+        ]
     },
     {
         "name": "Typora",
         "description": "Markdown reader and editor",
         "type": "package",
-        "preInstall": ["./TyporaPreInstall.sh"],
-        "recipe": ["typora"]
+        "preInstall": [
+            "./TyporaPreInstall.sh"
+        ],
+        "recipe": [
+            "typora"
+        ]
     },
     {
         "name": "Mark Text",
         "description": "Another markdown reader and editor",
         "type": "generic",
-        "recipe": ["./MarkTextInstall.sh"]
+        "recipe": [
+            "./MarkTextInstall.sh"
+        ]
     },
     {
         "name": "WPS Office",
         "description": "Cross-platform Office Suite",
         "type": "flatpak",
-        "recipe": ["flathub","com.wps.Office"]
+        "recipe": [
+            "flathub",
+            "com.wps.Office"
+        ]
     },
     {
         "name": "ONLYOFFICE",
         "description": "Another cross-platform Office Suite",
         "type": "generic",
-        "recipe": ["./OnlyofficeInstall.sh"]
+        "recipe": [
+            "./OnlyofficeInstall.sh"
+        ]
     },
     {
         "name": "FreeOffice",
         "description": "Yet another cross-platform Office Suite",
         "type": "generic",
-        "recipe": ["./FreeofficeInstall.sh"]
+        "recipe": [
+            "./FreeofficeInstall.sh"
+        ]
     },
     {
         "name": "Spotify",
         "description": "Work music",
         "type": "flatpak",
-        "recipe": ["flathub","com.spotify.Client"]
+        "recipe": [
+            "flathub",
+            "com.spotify.Client"
+        ]
     },
     {
         "name": "Dropbox",
         "description": "A cloud hosting service to store your files online",
         "type": "deb",
-        "recipe": ["https://linux.dropbox.com/packages/ubuntu/dropbox_2019.02.14_amd64.deb"],
-        "preInstall": ["apt", "install", "-y", "python3-gpg thunar-dropbox-plugin"]
+        "recipe": [
+            "https://linux.dropbox.com/packages/ubuntu/dropbox_2019.02.14_amd64.deb"
+        ],
+        "preInstall": [
+            "apt",
+            "install",
+            "-y",
+            "python3-gpg thunar-dropbox-plugin"
+        ]
     },
     {
         "name": "Skype",
         "description": "Communication tool for free calls and chat",
         "type": "flatpak",
-        "recipe": ["flathub","com.skype.Client"]
+        "recipe": [
+            "flathub",
+            "com.skype.Client"
+        ]
     },
     {
         "name": "Foliate",
         "description": "A simple and modern eBook viewer",
         "type": "generic",
-        "recipe": ["./FoliateInstall.sh"]
+        "recipe": [
+            "./FoliateInstall.sh"
+        ]
     },
     {
         "name": "FileZilla",
         "description": "Download and upload files via FTP, FTPS and SFTP",
         "type": "package",
-        "recipe": ["filezilla"]
+        "recipe": [
+            "filezilla"
+        ]
     }
 ]
