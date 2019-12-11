@@ -20,6 +20,12 @@ if [ ! -f /home/$OWNER/bin/xsv ]; then
     sudo -H -u $OWNER bash -c "cd /home/$OWNER/bin && dtrx xsv.tar.gz && rm xsv.tar.gz";
 fi
 
+if [ ! -f /home/$OWNER/bin/csvcleaner ]; then
+    sudo -H -u $OWNER bash -c "wget -qO /home/$OWNER/bin/datatools.zip https://github.com/caltechlibrary/datatools/releases/download/v0.0.25/datatools-v0.0.25-linux-amd64.zip";
+    sudo -H -u $OWNER bash -c "cd /home/$OWNER/bin && dtrx datatools.zip && rm datatools.zip";
+    sudo -H -u $OWNER bash -c "cd /home/$OWNER/bin/datatools/bin && cp * ../../ && rm -rdf /home/$OWNER/bin/datatools";
+fi
+
 cat <<\EOF > /home/$OWNER/bin/div_fix.sh
 #! /bin/bash
 pkill gvfsd-fuse && /usr/lib/gvfs/gvfsd-fuse -o allow_other /var/run/user/1000/gvfs/
