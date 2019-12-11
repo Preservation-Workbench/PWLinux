@@ -15,6 +15,11 @@ if [ $(dpkg-query -W -f='${Status}' ripgrep 2>/dev/null | grep -c "ok installed"
     apt-get install -y /tmp/ripgrep.deb;
 fi
 
+if [ ! -f /home/$OWNER/bin/xsv ]; then
+    sudo -H -u $OWNER bash -c "wget -qO /home/$OWNER/bin/xsv.tar.gz https://github.com/BurntSushi/xsv/releases/download/0.13.0/xsv-0.13.0-x86_64-unknown-linux-musl.tar.gz";
+    sudo -H -u $OWNER bash -c "cd /home/$OWNER/bin && dtrx xsv.tar.gz && rm xsv.tar.gz";
+fi
+
 cat <<\EOF > /home/$OWNER/bin/div_fix.sh
 #! /bin/bash
 pkill gvfsd-fuse && /usr/lib/gvfs/gvfsd-fuse -o allow_other /var/run/user/1000/gvfs/
@@ -28,6 +33,7 @@ EOF
 chmod a+rx /home/$OWNER/bin/div_fix.sh
 chown $OWNER:$OWNER /home/$OWNER/bin/div_fix.sh;
 
+# TODO: xfce og ikke mate under?
 echo "[Desktop Entry]
 Type=Application
 Exec=/home/$OWNER/bin/div_fix.sh
