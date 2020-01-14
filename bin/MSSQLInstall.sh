@@ -22,5 +22,5 @@ export MSSQL_SA_PASSWORD="P@ssw0rd"
 sudo systemctl enable mssql-server
 sudo systemctl start mssql-server
 
-sudo -H -u $OWNER bash -c "python -m pip install -U mssql-cli --user";
+# sudo -H -u $OWNER bash -c "python -m pip install -U mssql-cli --user";
 
