@@ -84,14 +84,6 @@
         ]
     },
     {
-        "name": "BlueMail",
-        "description": "Mail client with support for Exchange",
-        "type": "generic",
-        "recipe": [
-            "./BlueMailInstall.sh"
-        ]
-    },
-    {
         "name": "DBeaver",
         "description": "Universal database tool",
         "type": "generic",
