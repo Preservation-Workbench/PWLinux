@@ -5,8 +5,8 @@ sudo apt install libc++1 libc++abi1 libsasl2-modules-gssapi-mit libsss-nss-idmap
 # TODO: Aktiver installasjon fra repo heller når feil med korrupt fil etter restart fikset av MS (er feil i versjon 15.0.1900.25-1)
 if [ $(dpkg-query -W -f='${Status}' mssql-server 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
     wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -;
-    add-apt-repository "deb https://packages.microsoft.com/ubuntu/16.04/mssql-server-preview/ xenial main"; # TODO: Endre repo når tilgjengelig for 18.04
-    add-apt-repository "deb https://packages.microsoft.com/ubuntu/18.04/prod bionic main"; 
+    add-apt-repository "deb https://packages.microsoft.com/ubuntu/16.04/mssql-server-2019/ xenial main"; # TODO: Endre repo når tilgjengelig for 18.04
+    add-apt-repository "deb https://packages.microsoft.com/ubuntu/18.04/prod bionic main";
     apt-get update;
     apt-get install -y mssql-server;
     ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev;
