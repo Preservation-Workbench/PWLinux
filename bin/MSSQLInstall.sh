@@ -9,7 +9,7 @@ if [ $(dpkg-query -W -f='${Status}' mssql-server 2>/dev/null | grep -c "ok insta
     add-apt-repository "deb https://packages.microsoft.com/ubuntu/18.04/prod bionic main";
     apt-get update;
     apt-get install -y mssql-server;
-    ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev;
+    ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev freetds-dev freetds-bin unixodbc-dev tdsodbc;
     #cd /tmp && wget -c https://packages.microsoft.com/ubuntu/16.04/mssql-server-preview/pool/main/m/mssql-server/mssql-server_15.0.1800.32-1_amd64.deb
     #sudo DEBIAN_FRONTEND=noninteractive dpkg --install mssql-server_15.0.1800.32-1_amd64.deb
 fi
@@ -23,4 +23,5 @@ sudo systemctl enable mssql-server
 sudo systemctl start mssql-server
 
 # sudo -H -u $OWNER bash -c "python -m pip install -U mssql-cli --user";
+sudo -H -u $OWNER bash -c "python -m pip install -U pyodbc --user";
 
