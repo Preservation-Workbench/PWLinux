@@ -2,6 +2,8 @@
 
 apt remove -y hexchat-common hexchat thunderbird rhythmbox tomboy xplayer xfce4-taskmanager;
 
+# snap install curl-simosx;
+
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 # TODO: Flytt deler av dette til PWBInstall.sh

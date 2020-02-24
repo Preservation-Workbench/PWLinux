@@ -76,14 +76,6 @@
         ]
     },
     {
-        "name": "Clojure",
-        "description": "Java with a lisp",
-        "type": "generic",
-        "recipe": [
-            "./ClojureInstall.sh"
-        ]
-    },
-    {
         "name": "DBeaver",
         "description": "Universal database tool",
         "type": "generic",
