@@ -20,12 +20,6 @@ Run or click *Arkimint Installer*
 
 
 
-### Known bugs:
-
-Slow shutdown because of oracle sysv init script.  
-This will be replaced with a systemd unit file later on.
-
-
 
 
 
