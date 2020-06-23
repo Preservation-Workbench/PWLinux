@@ -1,5 +1,15 @@
 #!/bin/bash
 
+if [ $(dpkg-query -W -f='${Status}' loolwsd 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+    cd /tmp/ && wget https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-centos7/repodata/repomd.xml.key && apt-key add repomd.xml.key;
+    echo 'deb https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-ubuntu1804 ./' >> /etc/apt/sources.list;
+    apt-get update;
+    apt-get install -y loolwsd code-brand;
+    # TODO: script endring i loolwsd.xml til at ssl skal være false (gjort manuelt på laptop for testing foreløpig)
+    systemctl enable loolwsd;
+    systemctl restart loolwsd;
+fi
+
 apt remove -y hexchat-common hexchat thunderbird rhythmbox tomboy xplayer xfce4-taskmanager;
 
 # snap install curl-simosx;
