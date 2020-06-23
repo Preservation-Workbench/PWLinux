@@ -10,6 +10,14 @@ if [ $(dpkg-query -W -f='${Status}' loolwsd 2>/dev/null | grep -c "ok installed"
     systemctl restart loolwsd;
 fi
 
+if [ $(dpkg-query -W -f='${Status}' siegfried 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+    wget -qO - https://bintray.com/user/downloadSubjectPublicKey?username=bintray | apt-key add -;
+    echo "deb http://dl.bintray.com/siegfried/debian wheezy main" | tee -a /etc/apt/sources.list;
+    sudo apt-get update;
+    sudo apt-get install siegfried=1.8.0-1;
+    echo "siegfried hold" | sudo dpkg --set-selections; # TODO: Prevent breaking changes for now. Remove or change to fido later on
+fi    
+
 apt remove -y hexchat-common hexchat thunderbird rhythmbox tomboy xplayer xfce4-taskmanager;
 
 # snap install curl-simosx;
