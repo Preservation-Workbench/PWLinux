@@ -18,7 +18,7 @@ if [ $(dpkg-query -W -f='${Status}' siegfried 2>/dev/null | grep -c "ok installe
     echo "siegfried hold" | sudo dpkg --set-selections; # TODO: Prevent breaking changes for now. Remove or change to fido later on
 fi    
 
-apt remove -y hexchat-common hexchat thunderbird rhythmbox tomboy xplayer xfce4-taskmanager;
+apt remove -y hexchat-common hexchat rhythmbox tomboy xplayer xfce4-taskmanager;
 
 # snap install curl-simosx;
 
