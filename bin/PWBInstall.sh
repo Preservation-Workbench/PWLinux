@@ -53,6 +53,9 @@ fi
 #     fi
 # fi
 
+systemctl enable clamav-daemon
+systemctl start clamav-daemon
+
 sed -i -e 's/#user_allow_other/user_allow_other/' /etc/fuse.conf;
 
 if [ -f "/etc/ImageMagick-6/policy.xml" ]; then
