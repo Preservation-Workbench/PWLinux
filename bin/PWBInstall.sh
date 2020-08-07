@@ -34,24 +34,24 @@ if [ ! -f $LOCALREPO/bin/ojdbc10.jar ]; then
 fi
 
 
-if ! [ -x "$(command -v savscan)" ]; then
-    if [ -f $SCRIPTPATH/sav-linux-free-9.tgz ]; then
-        sudo -H -u $OWNER bash -c "tar zxvf $SCRIPTPATH/sav-linux-free-9.tgz;";
+# if ! [ -x "$(command -v savscan)" ]; then
+#     if [ -f $SCRIPTPATH/sav-linux-free-9.tgz ]; then
+#         sudo -H -u $OWNER bash -c "tar zxvf $SCRIPTPATH/sav-linux-free-9.tgz;";
 
-        ENV_PROXY=$( env | grep https_proxy | cut -c 13- | rev | cut -c 2- | rev )
-        if [ -z "$ENV_PROXY" ]; then
-            $SCRIPTPATH/sophos-av/install.sh --acceptlicence --automatic --live-protection=False --SavWebUsername=pwb --SavWebPassword=pwb --update-free=True --update-period=24 --update-type=f /opt/sophos-av;
-        else
-            $SCRIPTPATH/sophos-av/install.sh --acceptlicence --automatic --update-proxy-address=$ENV_PROXY --live-protection=False --SavWebUsername=pwb --SavWebPassword=pwb --update-free=True --update-period=24 --update-type=f /opt/sophos-av;
-        fi
+#         ENV_PROXY=$( env | grep https_proxy | cut -c 13- | rev | cut -c 2- | rev )
+#         if [ -z "$ENV_PROXY" ]; then
+#             $SCRIPTPATH/sophos-av/install.sh --acceptlicence --automatic --live-protection=False --SavWebUsername=pwb --SavWebPassword=pwb --update-free=True --update-period=24 --update-type=f /opt/sophos-av;
+#         else
+#             $SCRIPTPATH/sophos-av/install.sh --acceptlicence --automatic --update-proxy-address=$ENV_PROXY --live-protection=False --SavWebUsername=pwb --SavWebPassword=pwb --update-free=True --update-period=24 --update-type=f /opt/sophos-av;
+#         fi
 
-        /opt/sophos-av/bin/savdctl disable;
-        /opt/sophos-av/bin/savdctl disableOnBoot;
-        /opt/sophos-av/bin/savconfig set DisableFeedback true;
-        rm -rdf $SCRIPTPATH/sophos-av
-        /opt/sophos-av/bin/savupdate
-    fi
-fi
+#         /opt/sophos-av/bin/savdctl disable;
+#         /opt/sophos-av/bin/savdctl disableOnBoot;
+#         /opt/sophos-av/bin/savconfig set DisableFeedback true;
+#         rm -rdf $SCRIPTPATH/sophos-av
+#         /opt/sophos-av/bin/savupdate
+#     fi
+# fi
 
 sed -i -e 's/#user_allow_other/user_allow_other/' /etc/fuse.conf;
 
