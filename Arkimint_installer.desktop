@@ -1,6 +1,6 @@
 [Desktop Entry]
-Name=Arkimint Installer
-Exec=./bin/arkimint_installer.py
+Name=PWLinux Installer
+Exec=./bin/pwlinux_installer.py
 Icon=/home/bba/Arkimint/bin/arkimint_fin_32px.png
 Terminal=false
 Type=Application
