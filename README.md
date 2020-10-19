@@ -16,7 +16,7 @@ https://www.oracle.com/database/technologies/appdev/jdbc-downloads.html
 Get sav-linux-free-9.tgz from here:  
 https://secure2.sophos.com/en-us/products/free-tools/sophos-antivirus-for-linux/download.aspx
 
-Run or click *Arkimint Installer*
+Run or click *PWLinux Installer*
 
 
 
