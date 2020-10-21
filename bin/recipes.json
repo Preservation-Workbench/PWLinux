@@ -7,7 +7,7 @@
             "apt",
             "install",
             "-y",
-            "git ttf-mscorefonts-installer mint-meta-codecs exfat-fuse chromium-chromedriver exfat-utils plank rar dtrx pandoc regexxer soundconverter openjfx npm yapf3 chm2pdf sqlite3 python3-virtualenv python3-setuptools uchardet libtool-bin meld mercurial python3-dev checkinstall galternatives xchm subversion dos2unix meld checkinstall apt-transport-https ca-certificates xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor xul-ext-ublock-origin python3-rope pylint3 python3-wheel python3-pip build-essential snapd dos2unix python3-tk ghostscript icc-profiles-free liblept5 libxml2 xul-ext-lightning thunderbird-locale-en clamtk tesseract-ocr clamav-daemon clamav-unofficial-sigs clamdscan libclamunrar9 pngquant"
+            "git ttf-mscorefonts-installer mint-meta-codecs exfat-fuse hunspell hunspell-no chromium-chromedriver exfat-utils plank rar dtrx pandoc regexxer soundconverter openjfx npm yapf3 chm2pdf sqlite3 python3-virtualenv python3-setuptools uchardet libtool-bin meld mercurial python3-dev checkinstall galternatives xchm subversion dos2unix meld checkinstall apt-transport-https ca-certificates xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor xul-ext-ublock-origin python3-rope pylint3 python3-wheel python3-pip build-essential snapd dos2unix python3-tk ghostscript icc-profiles-free liblept5 libxml2 xul-ext-lightning thunderbird-locale-en clamtk tesseract-ocr clamav-daemon clamav-unofficial-sigs clamdscan libclamunrar9 pngquant"
         ],
         "preInstall": [
             "./CorePreInstall.sh"
