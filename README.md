@@ -9,6 +9,7 @@ Install Linux Mint 20 Xfce from here:
 https://linuxmint.com/edition.php?id=283
 
 Additionals steps if installed on virtualbox:
+- Apply all OS updates
 - sudo apt install -y virtualbox-guest-additions-iso
 - sudo mount -o loop /usr/share/virtualbox/VBoxGuestAdditions.iso /media/
 - sudo /media/VBoxLinuxAdditions.run
