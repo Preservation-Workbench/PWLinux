@@ -1,6 +1,6 @@
 [
     {
-        "name": "Arkimint Core",
+        "name": "PWLinux Core",
         "description": "Base install",
         "type": "generic",
         "recipe": [
@@ -17,7 +17,7 @@
         ]
     },
     {
-        "name": "Preservation Workbench",
+        "name": "Preservation Workbench -> bytt ut med PWCode",
         "description": "Solution for extracting data from systems and generating an archive package",
         "type": "generic",
         "recipe": [

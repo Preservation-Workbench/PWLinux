@@ -166,7 +166,7 @@ def notify(message):
     runCmd([
         'sudo', '-u', os.environ['SUDO_USER'],
         'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/{}/bus'.format(userID),
-        'notify-send', '-i', 'utilities-terminal', 'Arkimint Installer',
+        'notify-send', '-i', 'utilities-terminal', 'PWLinux Installer',
         message
     ])
 
@@ -196,7 +196,7 @@ class Zenity:
 
         while True:
             getPasswordCmd = runCmd([
-                'zenity', '--password', '--title=Arkimint Installer',
+                'zenity', '--password', '--title=PWLinux Installer',
                 '--window-icon=arkimint_fin_32px.png'
             ])
 
@@ -211,7 +211,7 @@ class Zenity:
                 else:
                     runCmd([
                         'zenity', '--info', '--width=200',
-                        '--title=Arkimint Installer',
+                        '--title=PWLinux Installer',
                         '--text=Wrong password, try again'
                     ])
             else:
@@ -263,7 +263,7 @@ class Zenity:
     @staticmethod
     def error(message):
         runCmd([
-            'zenity', '--error', '--title=Arkimint Installer', '--height=100',
+            'zenity', '--error', '--title=PWLinux Installer', '--height=100',
             '--width=500',
             '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png',
             '--text={}'.format(message)
@@ -273,7 +273,7 @@ class Zenity:
     def table(data):
         args = [
             'zenity', '--list', '--checklist', '--height=720', '--width=1000',
-            '--title=Arkimint Installer',
+            '--title=PWLinux Installer',
             '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png',
             '--text=Select tasks to perform:', '--column=Selection',
             '--column=Task', '--column=Description'
@@ -286,7 +286,7 @@ class Zenity:
     @staticmethod
     def info(message):
         runCmd([
-            'zenity', '--info', '--title=Arkimint Installer',
+            'zenity', '--info', '--title=PWLinux Installer',
             '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png',
             '--height=100', '--width=200', '--text={}'.format(message)
         ])
@@ -294,7 +294,7 @@ class Zenity:
     @staticmethod
     def question(message, height=100, width=200):
         question = runCmd([
-            'zenity', '--question', '--title=Arkimint Installer',
+            'zenity', '--question', '--title=PWLinux Installer',
             '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png',
             '--height={}'.format(height), '--width={}'.format(width),
             '--text={}'.format(message)
@@ -308,7 +308,7 @@ class Zenity:
         runCmd(
             [
                 'zenity', '--text-info', '--height=700', '--width=800',
-                '--title=Arkimint Installer',
+                '--title=PWLinux Installer',
                 '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png'
             ],
             stdin=data)
@@ -317,7 +317,7 @@ class Zenity:
     def list(message, elements):
         cmd = [
             'zenity', '--list', '--height=500', '--width=500',
-            '--title=Arkimint Installer',
+            '--title=PWLinux Installer',
             '--window-icon=/usr/share/icons/Mint-X/categories/32/applications-development.png',
             '--text={}'.format(message), '--hide-header', '--column',
             'Tasks with errors'
@@ -329,7 +329,7 @@ class Zenity:
 
 class Alfred:
     def __init__(self, localRecipes=True):
-        self.logFile = '/var/log/arkimint_installer.log'
+        self.logFile = '/var/log/pwlinux_installer.log'
 
         with open(self.logFile, 'a') as f:
             f.write(100 * '=' + '\n')
@@ -385,7 +385,7 @@ class Alfred:
         lock = runCmd(['fuser', '/var/lib/dpkg/lock'])
 
         if lock.stdout != '':
-            message = 'Another program is installing or updating packages. Please wait until this process finishes and then launch Arkimint Installer again.'
+            message = 'Another program is installing or updating packages. Please wait until this process finishes and then launch PWLinux Installer again.'
 
             if zenity:
                 Zenity.error(message)
@@ -398,7 +398,7 @@ class Alfred:
         ping = self.runAndLogCmd(['ping', '-c', '1', 'google.com'])
 
         if not ping.succeeded:
-            message = 'There is no connection to the Internet. Please connect and then launch Arkimint Installer again.'
+            message = 'There is no connection to the Internet. Please connect and then launch PWLinux Installer again.'
 
             if zenity:
                 Zenity.error(message)
@@ -434,7 +434,7 @@ class Alfred:
             # Build table
             tableData = []
 
-            default_install = ["Arkimint Core", "Preservation Workbench"]
+            default_install = ["PWLinux Core", "Preservation Workbench"]
             for recipe in self.recipes:
                 if recipe['name'] in default_install:
                     recipe['selected'] = True
@@ -538,7 +538,7 @@ class Alfred:
         updateBar = Zenity.progressBar(
             pulsating=True,
             noCancel=True,
-            title='Arkimint Installer',
+            title='PWLinux Installer',
             text='Processing tasks')
 
         try:
@@ -712,7 +712,7 @@ class Alfred:
                         'LOCKED /var/lib/dpkg/lock or /var/lib/apt/lists/lock\n'
                     )
                     Zenity.error(
-                        'Another program is installing or updating packages. Please wait until this process finishes and then launch Arkimint Installer again.'
+                        'Another program is installing or updating packages. Please wait until this process finishes and then launch PWLinux Installer again.'
                     )
                     sys.exit()
 
@@ -743,7 +743,7 @@ def main():
     # Fix desktop file icon
     bindir = os.path.abspath(os.path.dirname(__file__))
     desktop_file = os.path.abspath(
-        os.path.join(bindir, '..', 'Arkimint_installer.desktop'))
+        os.path.join(bindir, '..', 'PWLinux_installer.desktop'))
     icon_file = os.path.abspath(os.path.join(bindir, 'arkimint_fin_32px.png'))
     # TODO: Hvordan ha icon_file som arg til alle zenity def?
     subprocess.run(
