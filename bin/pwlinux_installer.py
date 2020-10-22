@@ -866,13 +866,13 @@ def main():
             shell=True)
 
         supported = False
-        arr = ['Linux Mint 19.2 Tina', 'xfce']
+        arr = ['Linux Mint 20 Ulyana', 'xfce']
         with open('/tmp/distro_check', 'r+') as f:
             data = f.read()
             if all(x in data for x in arr):
                 supported = True
 
-        if supported:
+        if supported: #Fjern annen kode lenger oppe som også sjekker om supported distro
             # Check Zenity and run as superuser
             if checkPackage('zenity'):
                 runCmd(
