@@ -181,14 +181,6 @@
         ]
     },
     {
-        "name": "FreeOffice",
-        "description": "Yet another cross-platform Office Suite",
-        "type": "generic",
-        "recipe": [
-            "./FreeofficeInstall.sh"
-        ]
-    },
-    {
         "name": "Spotify",
         "description": "Work music",
         "type": "flatpak",
