@@ -511,6 +511,10 @@ class GUI:
                                        text='Processing tasks')
 
         try:
+            #Ensure git is installed
+            if not checkPackage('git'):
+                updateBar('Installing git')
+                self.runAndLogCmd(['apt-get', 'install', '-y', 'git'], checkLock=True)            
 
             # Ensure software-properties-common is installed
             if len(ppas) > 0 and not checkPackage('software-properties-common'):
