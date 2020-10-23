@@ -209,6 +209,12 @@
         "type": "generic",
         "recipe": [
             "./FoliateInstall.sh"
+        ],
+        "preInstall": [
+            "apt",
+            "install",
+            "-y",
+            "flatpak"
         ]
     },
     {
