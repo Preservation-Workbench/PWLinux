@@ -1,12 +1,13 @@
 #!/usr/bin/python3
 
+# Based on https://github.com/derkomai/alfred
+
 import sys
 
 # Check Python version
 if sys.version_info[0] < 3:
     print('You have invoked PWLinux installer with Python 2. PWLinux installer must be run with Python 3.')
     sys.exit()
-
 else:
     import os
     import subprocess
