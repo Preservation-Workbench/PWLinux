@@ -212,15 +212,6 @@
         ]
     },
     {
-        "name": "Skype",
-        "description": "Communication tool for free calls and chat",
-        "type": "flatpak",
-        "recipe": [
-            "flathub",
-            "com.skype.Client"
-        ]
-    },
-    {
         "name": "Foliate",
         "description": "A simple and modern eBook viewer",
         "type": "generic",
