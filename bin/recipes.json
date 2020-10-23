@@ -183,10 +183,16 @@
     {
         "name": "Spotify",
         "description": "Work music",
-        "type": "flatpak",
+        "type": "generic",
         "recipe": [
             "flathub",
             "com.spotify.Client"
+        ],
+        "preInstall": [
+            "apt",
+            "install",
+            "-y",
+            "flatpak"
         ]
     },
     {
