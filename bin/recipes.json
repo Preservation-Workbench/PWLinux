@@ -166,10 +166,15 @@
     {
         "name": "WPS Office",
         "description": "Cross-platform Office Suite",
-        "type": "flatpak",
+        "type": "generic",
         "recipe": [
-            "flathub",
-            "com.wps.Office"
+            "./WPSOfficeInstall.sh"
+        ],
+        "preInstall": [
+            "apt",
+            "install",
+            "-y",
+            "flatpak"
         ]
     },
     {
@@ -185,8 +190,7 @@
         "description": "Work music",
         "type": "generic",
         "recipe": [
-            "flathub",
-            "com.spotify.Client"
+            "./SpotifyInstall.sh"
         ],
         "preInstall": [
             "apt",
@@ -200,7 +204,7 @@
         "description": "A cloud hosting service to store your files online",
         "type": "deb",
         "recipe": [
-            "https://linux.dropbox.com/packages/ubuntu/dropbox_2019.02.14_amd64.deb"
+            "https://linux.dropbox.com/packages/ubuntu/dropbox_2020.03.04_amd64.deb"
         ],
         "preInstall": [
             "apt",
