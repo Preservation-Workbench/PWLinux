@@ -191,12 +191,6 @@
         "type": "generic",
         "recipe": [
             "./SpotifyInstall.sh"
-        ],
-        "preInstall": [
-            "apt",
-            "install",
-            "-y",
-            "flatpak"
         ]
     },
     {
