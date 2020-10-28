@@ -161,6 +161,12 @@
         "type": "generic",
         "recipe": [
             "./MarkTextInstall.sh"
+        ],
+        "preInstall": [
+            "apt",
+            "install",
+            "-y",
+            "flatpak"
         ]
     },
     {
