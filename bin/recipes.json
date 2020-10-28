@@ -107,20 +107,6 @@
         ]
     },
     {
-        "name": "Textadept",
-        "description": "Open source extensible text editor",
-        "type": "deb",
-        "preInstall": [
-            "./TextadeptPreInstall.sh"
-        ],
-        "recipe": [
-            "https://sourceforge.net/projects/d-apt/files/pool/main/t/textadept/textadept_10.5-0_amd64.deb"
-        ],
-        "postInstall": [
-            "./TextadeptPostInstall.sh"
-        ]
-    },
-    {
         "name": "Sublime",
         "description": "Proprietary extensible text editor",
         "type": "package",
