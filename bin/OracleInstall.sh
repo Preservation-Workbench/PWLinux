@@ -1,5 +1,6 @@
 #!/bin/sh -e
-#Modified from this: https://github.com/Vincit/travis-oracledb-xe
+# Bases on these: 
+# https://github.com/Vincit/travis-oracledb-xe
 # https://github.com/cbandy/travis-oracle/blob/master/install.sh
 #
 # Copyright (c) 2013, Christopher Bandy
@@ -66,7 +67,6 @@ if [ ! -f $sqlplus_path ]; then
     ( echo ; echo ; echo $OWNER ; echo $OWNER ; echo n ) | sudo AWK='/usr/bin/awk' /etc/init.d/oracle-xe configure
 fi
 
-# WAIT: Ikke sikkert linjene under trengs:
 /etc/init.d/oracle-xe start && "$ORACLE_HOME"/bin/lsnrctl reload
 chown oracle:dba /var/tmp/.oracle
 

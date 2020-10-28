@@ -1,18 +1,25 @@
 #!/bin/bash
 
-sudo apt install libc++1 libc++abi1 libsasl2-modules-gssapi-mit libsss-nss-idmap0;
-
-# TODO: Aktiver installasjon fra repo heller når feil med korrupt fil etter restart fikset av MS (er feil i versjon 15.0.1900.25-1)
-if [ $(dpkg-query -W -f='${Status}' mssql-server 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
-    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -;
-    add-apt-repository "deb https://packages.microsoft.com/ubuntu/16.04/mssql-server-2019/ xenial main"; # TODO: Endre repo når tilgjengelig for 18.04
-    add-apt-repository "deb https://packages.microsoft.com/ubuntu/18.04/prod bionic main";
-    apt-get update;
-    apt-get install -y mssql-server;
-    ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev freetds-dev freetds-bin unixodbc-dev tdsodbc;
-    #cd /tmp && wget -c https://packages.microsoft.com/ubuntu/16.04/mssql-server-preview/pool/main/m/mssql-server/mssql-server_15.0.1800.32-1_amd64.deb
-    #sudo DEBIAN_FRONTEND=noninteractive dpkg --install mssql-server_15.0.1800.32-1_amd64.deb
+if [ ! -f /tmp/microsoft.gpg ]; then
+    cd /tmp && curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg;
+    install -o root -g root -m 644 /tmp/microsoft.gpg /usr/share/keyrings/microsoft-archive-keyring.gpg;
 fi
+
+isInFile=$(cat /etc/apt/sources.list.d/mssql-server-2019.list | grep -c "https://packages.microsoft.com/ubuntu/18.04/mssql-server-2019")
+if [ $isInFile -eq 0 ]; then
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/ubuntu/18.04/mssql-server-2019 bionic main" > /etc/apt/sources.list.d/mssql-server-2019.list;
+    apt-get update;
+fi
+
+apt-get install -y mssql-server;
+
+isInFile=$(cat /etc/apt/sources.list.d/prod.list | grep -c "https://packages.microsoft.com/ubuntu/20.04/prod")
+if [ $isInFile -eq 0 ]; then
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/ubuntu/20.04/prod focal main" > /etc/apt/sources.list.d/prod.list;
+    apt-get update;
+fi
+
+ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev freetds-dev freetds-bin unixodbc-dev tdsodbc;
 
 export ACCEPT_EULA="Y"
 export MSSQL_PID="Express"
@@ -21,4 +28,3 @@ export MSSQL_SA_PASSWORD="P@ssw0rd"
 
 sudo systemctl enable mssql-server
 sudo systemctl start mssql-server
-
