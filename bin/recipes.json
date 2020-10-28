@@ -145,19 +145,8 @@
         ]
     },
     {
-        "name": "Typora",
-        "description": "Markdown reader and editor",
-        "type": "package",
-        "preInstall": [
-            "./TyporaPreInstall.sh"
-        ],
-        "recipe": [
-            "typora"
-        ]
-    },
-    {
         "name": "Mark Text",
-        "description": "Another markdown reader and editor",
+        "description": "Markdown reader and editor",
         "type": "generic",
         "recipe": [
             "./MarkTextInstall.sh"
