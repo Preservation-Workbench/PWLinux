@@ -129,14 +129,6 @@
         ]
     },
     {
-        "name": "FF Multi Converter",
-        "description": "Convert between all popular file formats",
-        "type": "deb",
-        "recipe": [
-            "https://launchpad.net/~noobslab/+archive/ubuntu/apps/+files/ffmulticonverter_1.8.0-z~bionic~NoobsLab.com_all.deb"
-        ]
-    },
-    {
         "name": "Joplin",
         "description": "A note taking and to-do application with synchronisation",
         "type": "generic",
