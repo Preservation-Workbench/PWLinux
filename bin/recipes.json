@@ -33,7 +33,7 @@
         ]
     },
     {
-        "name": "PostgreSQL 11",
+        "name": "PostgreSQL 12",
         "description": "A better open source database",
         "type": "generic",
         "recipe": [
