@@ -2,7 +2,7 @@
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 
-isInFile=$(cat /etc/apt/sources.list | grep -c "https://packages.microsoft.com/repos/vscode")
+isInFile=$(cat /etc/apt/sources.list.d/vscode.list | grep -c "https://packages.microsoft.com/repos/vscode")
 if [ $isInFile -eq 0 ]; then
     apt-get install -y software-properties-common apt-transport-https wget;
     cd /tmp && curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg;
