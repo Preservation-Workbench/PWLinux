@@ -92,23 +92,16 @@
         ]
     },
     {
-        "name": "VSCodium",
-        "description": "Freely-licensed distribution of VSCode editor",
-        "type": "ppa",
+        "name": "VSCode",
+        "description": "Proprietary extensible text editor",
+        "type": "generic",
         "recipe": [
-            "deb https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/repos/debs/ vscodium main",
-            "codium"
-        ],
-        "preInstall": [
-            "wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | sudo apt-key add -"
-        ],
-        "postInstall": [
-            "./VSCodiumPostInstall.sh"
+            "./VSCodeInstall.sh"
         ]
     },
     {
         "name": "Sublime",
-        "description": "Proprietary extensible text editor",
+        "description": "Another proprietary extensible text editor",
         "type": "package",
         "recipe": [
             "sublime-text"
