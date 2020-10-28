@@ -68,14 +68,6 @@
         ]
     },
     {
-        "name": "Tika",
-        "description": "Detect format and extract metadata from files",
-        "type": "generic",
-        "recipe": [
-            "./TikaInstall.sh"
-        ]
-    },
-    {
         "name": "DBeaver",
         "description": "Universal database tool",
         "type": "generic",
