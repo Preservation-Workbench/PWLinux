@@ -15,14 +15,6 @@ apt-get install -y code;
 
 
 
-
-
-
-
-
-
-
-
 # sudo -H -u $OWNER bash -c "codium --install-extension smlombardi.soho; \
 # codium --install-extension fabiospampinato.vscode-highlight; \
 # codium --install-extension ms-python.python;";
