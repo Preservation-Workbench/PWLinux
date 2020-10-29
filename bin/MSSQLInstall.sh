@@ -16,7 +16,7 @@ if [ $isInFile -eq 0 ]; then
 fi
 
 apt-get update;
-apt-get install -y mssql-server mssql-tools unixodbc-dev freetds-dev freetds-bin unixodbc-dev tdsodbc;
+ACCEPT_EULA=Y apt-get install -y mssql-server mssql-tools unixodbc-dev freetds-dev freetds-bin unixodbc-dev tdsodbc;
 
 export ACCEPT_EULA="Y"
 export MSSQL_PID="Express"
