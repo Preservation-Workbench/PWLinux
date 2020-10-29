@@ -1,5 +1,6 @@
 #!/bin/bash
 
+apt-get update;
 apt install -y composer php-mysql;
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"

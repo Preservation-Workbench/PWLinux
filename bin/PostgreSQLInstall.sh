@@ -1,5 +1,6 @@
 #!/bin/bash
 
+apt-get update;
 apt-get install -y postgresql-12 postgresql-autodoc postgresql-plpython3-12;
 
 systemctl enable postgresql.service;

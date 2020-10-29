@@ -10,9 +10,9 @@ fi
 isInFile=$(cat /etc/apt/sources.list.d/vscode.list | grep -c "https://packages.microsoft.com/repos/vscode")
 if [ $isInFile -eq 0 ]; then
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list;
-    apt-get update;
 fi
 
+apt-get update;
 apt-get install -y code;
 
 sudo -H -u $OWNER bash -c "code --install-extension smlombardi.soho; \

@@ -10,8 +10,8 @@ fi
 isInFile=$(cat /etc/apt/sources.list.d/teams.list | grep -c "https://packages.microsoft.com/repos/ms-teams")
 if [ $isInFile -eq 0 ]; then
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/ms-teams stable main" > /etc/apt/sources.list.d/teams.list;
-    apt-get update;
 fi
 
+apt-get update;
 apt-get install -y teams;
 

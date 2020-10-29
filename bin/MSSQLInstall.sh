@@ -8,18 +8,15 @@ fi
 isInFile=$(cat /etc/apt/sources.list.d/mssql-server-2019.list | grep -c "https://packages.microsoft.com/ubuntu/18.04/mssql-server-2019")
 if [ $isInFile -eq 0 ]; then
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/ubuntu/18.04/mssql-server-2019 bionic main" > /etc/apt/sources.list.d/mssql-server-2019.list;
-    apt-get update;
 fi
-
-apt-get install -y mssql-server;
 
 isInFile=$(cat /etc/apt/sources.list.d/prod.list | grep -c "https://packages.microsoft.com/ubuntu/20.04/prod")
 if [ $isInFile -eq 0 ]; then
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/ubuntu/20.04/prod focal main" > /etc/apt/sources.list.d/prod.list;
-    apt-get update;
 fi
 
-ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev freetds-dev freetds-bin unixodbc-dev tdsodbc;
+apt-get update;
+apt-get install -y mssql-server mssql-tools unixodbc-dev freetds-dev freetds-bin unixodbc-dev tdsodbc;
 
 export ACCEPT_EULA="Y"
 export MSSQL_PID="Express"

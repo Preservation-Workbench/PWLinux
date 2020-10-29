@@ -1,5 +1,6 @@
 #!/bin/bash
 
+apt-get update;
 apt-get install -y mysql-server-8.0;
 
 sudo mysql -e "UPDATE mysql.user SET authentication_string=null WHERE User='root';FLUSH PRIVILEGES;"
