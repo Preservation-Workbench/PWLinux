@@ -122,6 +122,14 @@
         ]
     },
     {
+        "name": "Microsoft Teams ",
+        "description": "Proprietary extensible text editor",
+        "type": "generic",
+        "recipe": [
+            "./MSTeamsInstall.sh"
+        ]
+    },
+    {
         "name": "WPS Office",
         "description": "Cross-platform Office Suite",
         "type": "generic",
