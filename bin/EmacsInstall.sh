@@ -9,13 +9,22 @@ fi
 apt-get update;
 apt-get install -y emacs27 libvterm-dev libtool-bin cmake;
 
+SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+OWNER=$(stat -c '%U' $SCRIPTPATH);
+
+# WAIT: Legg inn sjekk og beskjed hvis emacs installert men ikke doom variant
+REPOSRC="https://github.com/hlissner/doom-emacs"
+LOCALREPO="/home/$OWNER/.emacs.d"
+if [ ! -f "$LOCALREPO"/bin/doom ]; then
+    sudo -H -u $OWNER bash -c "git clone --depth 1 "$REPOSRC" "$LOCALREPO" && "$LOCALREPO"/bin/doom install;";
+fi    
+
+REPOSRC="https://github.com/Preservation-Workbench/PWEmacs"
+LOCALREPO="/home/$OWNER/.doom.d"
+sudo -H -u $OWNER bash -c "git clone --depth 1 "$REPOSRC" "$LOCALREPO" 2> /dev/null || git -C "$LOCALREPO" pull;";
+sudo -H -u $OWNER bash -c ""$LOCALREPO"/bin/doom sync;";
 
 
-
-
-
-# SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
-# OWNER=$(stat -c '%U' $SCRIPTPATH);
 
 # echo '#!/bin/bash
 # emacs --daemon' > /home/$OWNER/bin/emacs_daemon.sh;
