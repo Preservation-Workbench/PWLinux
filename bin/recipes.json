@@ -144,6 +144,14 @@
         ]
     },
     {
+        "name": "TeamViewer",
+        "description": "Remote access and desktop sharing",
+        "type": "generic",
+        "recipe": [
+            "./TeamViewerInstall.sh"
+        ]
+    },
+    {
         "name": "Spotify",
         "description": "Work music",
         "type": "generic",
