@@ -76,11 +76,11 @@
         ]
     },
     {
-        "name": "Madedit-Mod",
-        "description": "Cross platform hex editor",
+        "name": "Emacs",
+        "description": "Open source extensible text editor",
         "type": "generic",
         "recipe": [
-            "./MadeditModInstall.sh"
+            "./EmacsInstall.sh"
         ]
     },
     {
@@ -193,6 +193,14 @@
             "install",
             "-y",
             "flatpak"
+        ]
+    },
+    {
+        "name": "Madedit-Mod",
+        "description": "Cross platform hex editor",
+        "type": "generic",
+        "recipe": [
+            "./MadeditModInstall.sh"
         ]
     },
     {
