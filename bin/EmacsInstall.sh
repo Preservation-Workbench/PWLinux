@@ -7,7 +7,7 @@ if [ $isInFile -eq 0 ]; then
 fi
 
 apt-get update;
-apt-get install -y emacs27 git libvterm-dev libtool-bin cmake;
+apt-get install -y emacs27 git libvterm-dev libtool-bin cmake ripgrep;
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH);
@@ -25,6 +25,13 @@ REPOSRC="https://github.com/Preservation-Workbench/PWEmacs"
 DOOMREPO="/home/$OWNER/.doom.d"
 sudo -H -u $OWNER bash -c "git clone --depth 1 "$REPOSRC" "$DOOMREPO" 2> /dev/null || git -C "$DOOMREPO" pull;";
 sudo -H -u $OWNER bash -c ""$EMACSREPO"/bin/doom sync;";
+
+FONTDIR="/home/$OWNER/.local/share/fonts"
+if [ ! -f $FONTDIR/all-the-icons.ttf ]; then
+    sudo -H -u $OWNER bash -c "cd /tmp/ && git clone --depth 1 https://github.com/domtronn/all-the-icons.el.git;";
+    sudo -H -u $OWNER bash -c "cp /tmp/all-the-icons.el/fonts/* $FONTDIR;";   
+    sudo -H -u $OWNER bash -c "fc-cache -f -v;";   
+fi
 
 
 
