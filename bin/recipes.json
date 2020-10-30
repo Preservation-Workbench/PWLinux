@@ -123,7 +123,7 @@
     },
     {
         "name": "Microsoft Teams ",
-        "description": "Proprietary extensible text editor",
+        "description": "Chat, Meetings, Calling, Collaboration",
         "type": "generic",
         "recipe": [
             "./MSTeamsInstall.sh"

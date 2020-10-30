@@ -7,22 +7,24 @@ if [ $isInFile -eq 0 ]; then
 fi
 
 apt-get update;
-apt-get install -y emacs27 libvterm-dev libtool-bin cmake;
+apt-get install -y emacs27 git libvterm-dev libtool-bin cmake;
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 
 # WAIT: Legg inn sjekk og beskjed hvis emacs installert men ikke doom variant
 REPOSRC="https://github.com/hlissner/doom-emacs"
-LOCALREPO="/home/$OWNER/.emacs.d"
-if [ ! -f "$LOCALREPO"/bin/doom ]; then
-    sudo -H -u $OWNER bash -c "git clone --depth 1 "$REPOSRC" "$LOCALREPO" && "$LOCALREPO"/bin/doom install;";
+EMACSREPO="/home/$OWNER/.emacs.d"
+if [ ! -f "$EMACSREPO"/bin/doom ]; then
+    sudo -H -u $OWNER bash -c "git clone --depth 1 "$REPOSRC" "$EMACSREPO";";
+    sudo -H -u $OWNER bash -c ""$EMACSREPO"/bin/doom -y install --no-config --no-env --no-fonts;";
+    sudo -H -u $OWNER bash -c ""$EMACSREPO"/bin/doom env;";
 fi    
 
 REPOSRC="https://github.com/Preservation-Workbench/PWEmacs"
-LOCALREPO="/home/$OWNER/.doom.d"
-sudo -H -u $OWNER bash -c "git clone --depth 1 "$REPOSRC" "$LOCALREPO" 2> /dev/null || git -C "$LOCALREPO" pull;";
-sudo -H -u $OWNER bash -c ""$LOCALREPO"/bin/doom sync;";
+DOOMREPO="/home/$OWNER/.doom.d"
+sudo -H -u $OWNER bash -c "git clone --depth 1 "$REPOSRC" "$DOOMREPO" 2> /dev/null || git -C "$DOOMREPO" pull;";
+sudo -H -u $OWNER bash -c ""$EMACSREPO"/bin/doom sync;";
 
 
 
@@ -66,5 +68,4 @@ sudo -H -u $OWNER bash -c ""$LOCALREPO"/bin/doom sync;";
 # sudo -H -u $OWNER bash -c "git clone "$REPOSRC" "$LOCALREPO" 2> /dev/null || git -C "$LOCALREPO" pull"
 
 # #xdg-mime default codium.desktop text/english text/plain text/x-makefile text/x-c++hdr text/x-c++src text/x-chdr text/x-csrc text/x-java text/x-moc text/x-pascal text/x-tcl text/x-tex application/x-shellscript text/x-c text/x-c++
-
 
