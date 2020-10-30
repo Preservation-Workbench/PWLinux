@@ -7,7 +7,7 @@ if [ $isInFile -eq 0 ]; then
 fi
 
 apt-get update;
-apt-get install -y emacs27 git libvterm-dev libtool-bin cmake ripgrep;
+apt-get install -y emacs27 git libvterm-dev libtool-bin cmake ripgrep hunspell-no hunspell;
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH);
@@ -34,6 +34,19 @@ if [ ! -f $FONTDIR/all-the-icons.ttf ]; then
 fi
 
 sudo -H -u $OWNER bash -c ""$EMACSREPO"/bin/doom sync;";
+
+if [ ! -f /home/$OWNER/.local/share/applications/emacs27.desktop ]; then
+    sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/applications;";  
+    sudo -H -u $OWNER bash -c "cp /usr/share/applications/emacs27.desktop /home/$OWNER/.local/share/applications/;"; 
+    # TODO: Endre exec linje med sed
+fi   
+
+isInFile=$(cat /home/$OWNER/.bashrc | grep -c "emacs()")
+if [ $isInFile -eq 0 ]; then
+    sudo -H -u $OWNER bash -c "echo "" >> /home/$OWNER/.bashrc;";
+    sudo -H -u $OWNER bash -c "echo 'emacs() { emacsclient -a \"emacs\" -n \"\$@\" 2>/dev/null || command emacs & disown; }' >> /home/$OWNER/.bashrc";
+fi    
+
 
 # echo "[Desktop Entry]
 # Type=Application
