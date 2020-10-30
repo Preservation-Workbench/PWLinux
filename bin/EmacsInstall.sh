@@ -38,7 +38,8 @@ sudo -H -u $OWNER bash -c ""$EMACSREPO"/bin/doom sync;";
 if [ ! -f /home/$OWNER/.local/share/applications/emacs27.desktop ]; then
     sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/applications;";  
     sudo -H -u $OWNER bash -c "cp /usr/share/applications/emacs27.desktop /home/$OWNER/.local/share/applications/;"; 
-    # TODO: Endre exec linje med sed
+    sed -i '/Exec=emacs/c\Exec=sh -c "emacsclient -a emacs -n \"\$@\" || emacs" dummy %F' /home/$OWNER/.local/share/applications/emacs27.desktop;
+    chown $OWNER:$OWNER /home/$OWNER/.local/share/applications/emacs27.desktop;
 fi   
 
 isInFile=$(cat /home/$OWNER/.bashrc | grep -c "emacs()")
@@ -46,37 +47,6 @@ if [ $isInFile -eq 0 ]; then
     sudo -H -u $OWNER bash -c "echo "" >> /home/$OWNER/.bashrc;";
     sudo -H -u $OWNER bash -c "echo 'emacs() { emacsclient -a \"emacs\" -n \"\$@\" 2>/dev/null || command emacs & disown; }' >> /home/$OWNER/.bashrc";
 fi    
-
-
-# echo "[Desktop Entry]
-# Type=Application
-# Exec=/home/$OWNER/bin/emacs_daemon.sh
-# Hidden=false
-# X-MATE-Autostart-enabled=true
-# Name=Emacs_Daemon" > /home/$OWNER/.config/autostart/Emacs_Daemon.desktop;
-# chown $OWNER:$OWNER /home/$OWNER/.config/autostart/Emacs_Daemon.desktop;
-
-# cat <<\EOF > /home/$OWNER/bin/amacs
-# #! /bin/bash -e
-# frame=`emacsclient -a '' -e "(member \"$DISPLAY\" (mapcar 'terminal-name (frames-on-display-list)))" 2>/dev/null`
-# [[ "$frame" == "nil" ]] && opts='-c' # if there is no frame open create one
-# [[ "${@/#-nw/}" == "$@" ]] && opts="$opts -n"
-# if [ -z "$@" ] ; then
-# 	wmctrl -xa emacs || emacsclient -n -c
-# else
-# 	exec emacsclient -a '' $opts "$@"
-# fi
-# wmctrl -xa emacs
-# EOF
-
-# chmod a+rx /home/$OWNER/bin/amacs;
-# chown $OWNER:$OWNER /home/$OWNER/bin/amacs;
-
-# if [ ! -f /home/$OWNER/.local/share/applications/emacs26.desktop ]; then
-#     cp /usr/share/applications/emacs26.desktop  /home/$OWNER/.local/share/applications;
-#     sed -i -e 's/emacs26 %F/amacs %F/' /home/$OWNER/.local/share/applications/emacs26.desktop;
-#     chown $OWNER:$OWNER /home/$OWNER/.local/share/applications/emacs26.desktop;
-# fi
 
 # #xdg-mime default codium.desktop text/english text/plain text/x-makefile text/x-c++hdr text/x-c++src text/x-chdr text/x-csrc text/x-java text/x-moc text/x-pascal text/x-tcl text/x-tex application/x-shellscript text/x-c text/x-c++
 
