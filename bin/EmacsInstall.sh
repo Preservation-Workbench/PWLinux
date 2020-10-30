@@ -24,21 +24,16 @@ fi
 REPOSRC="https://github.com/Preservation-Workbench/PWEmacs"
 DOOMREPO="/home/$OWNER/.doom.d"
 sudo -H -u $OWNER bash -c "git clone --depth 1 "$REPOSRC" "$DOOMREPO" 2> /dev/null || git -C "$DOOMREPO" pull;";
-sudo -H -u $OWNER bash -c ""$EMACSREPO"/bin/doom sync;";
 
 FONTDIR="/home/$OWNER/.local/share/fonts"
 if [ ! -f $FONTDIR/all-the-icons.ttf ]; then
     sudo -H -u $OWNER bash -c "cd /tmp/ && git clone --depth 1 https://github.com/domtronn/all-the-icons.el.git;";
+    sudo -H -u $OWNER bash -c "mkdir -p $FONTDIR;"; 
     sudo -H -u $OWNER bash -c "cp /tmp/all-the-icons.el/fonts/* $FONTDIR;";   
     sudo -H -u $OWNER bash -c "fc-cache -f -v;";   
 fi
 
-
-
-# echo '#!/bin/bash
-# emacs --daemon' > /home/$OWNER/bin/emacs_daemon.sh;
-# chmod a+rx /home/$OWNER/bin/emacs_daemon.sh;
-# chown $OWNER:$OWNER /home/$OWNER/bin/emacs_daemon.sh;
+sudo -H -u $OWNER bash -c ""$EMACSREPO"/bin/doom sync;";
 
 # echo "[Desktop Entry]
 # Type=Application
@@ -69,10 +64,6 @@ fi
 #     sed -i -e 's/emacs26 %F/amacs %F/' /home/$OWNER/.local/share/applications/emacs26.desktop;
 #     chown $OWNER:$OWNER /home/$OWNER/.local/share/applications/emacs26.desktop;
 # fi
-
-# REPOSRC="https://github.com/BBATools/Arkimacs.git"
-# LOCALREPO="/home/$OWNER/.emacs.d"
-# sudo -H -u $OWNER bash -c "git clone "$REPOSRC" "$LOCALREPO" 2> /dev/null || git -C "$LOCALREPO" pull"
 
 # #xdg-mime default codium.desktop text/english text/plain text/x-makefile text/x-c++hdr text/x-c++src text/x-chdr text/x-csrc text/x-java text/x-moc text/x-pascal text/x-tcl text/x-tex application/x-shellscript text/x-c text/x-c++
 
