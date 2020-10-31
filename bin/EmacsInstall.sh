@@ -7,7 +7,7 @@ if [ $isInFile -eq 0 ]; then
 fi
 
 apt-get update;
-apt-get install -y emacs27 git libvterm-dev libtool-bin cmake ripgrep hunspell-no hunspell;
+apt-get install -y emacs27 git libvterm-dev libtool-bin cmake ripgrep hunspell-no hunspell fzf;
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH);
@@ -48,5 +48,5 @@ if [ $isInFile -eq 0 ]; then
     sudo -H -u $OWNER bash -c "echo 'emacs() { emacsclient -a \"emacs\" -n \"\$@\" 2>/dev/null || command emacs & disown; }' >> /home/$OWNER/.bashrc";
 fi    
 
-# #xdg-mime default codium.desktop text/english text/plain text/x-makefile text/x-c++hdr text/x-c++src text/x-chdr text/x-csrc text/x-java text/x-moc text/x-pascal text/x-tcl text/x-tex application/x-shellscript text/x-c text/x-c++
+# #xdg-mime default emacs27.desktop text/english text/plain text/x-makefile text/x-c++hdr text/x-c++src text/x-chdr text/x-csrc text/x-java text/x-moc text/x-pascal text/x-tcl text/x-tex application/x-shellscript text/x-c text/x-c++
 
