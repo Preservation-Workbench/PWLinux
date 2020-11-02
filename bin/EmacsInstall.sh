@@ -7,7 +7,7 @@ if [ $isInFile -eq 0 ]; then
 fi
 
 apt-get update;
-apt-get install -y emacs27 git libvterm-dev libtool-bin cmake ripgrep hunspell-no hunspell fzf universal-ctags;
+apt-get install -y emacs27 git libvterm-dev libtool-bin cmake ripgrep hunspell-no hunspell fzf fd-find universal-ctags;
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH);
