@@ -7,14 +7,7 @@ if [ $isInFile -eq 0 ]; then
 fi
 
 apt-get update;
-apt-get install -y emacs27 git libvterm-dev libtool-bin cmake ripgrep hunspell-no hunspell fzf fd-find universal-ctags python3-pip;
-
-# WAIT: Lag config for xkeysnail og start auto med emacs eller ved login
-pip3 install xkeysnail -U;
-if [ ! -f "/etc/sudoers.d/xkeysnail" ]; then
-    echo "$USER ALL = (root) NOPASSWD: /usr/local/bin/xkeysnail" | tee /etc/sudoers.d/xkeysnail;
-    chmod 0440 /etc/sudoers.d/xkeysnail;
-fi    
+apt-get install -y emacs27 git libvterm-dev libtool-bin cmake ripgrep hunspell-no hunspell fzf fd-find universal-ctags; 
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH);
