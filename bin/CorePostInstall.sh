@@ -1,105 +1,104 @@
 #!/bin/bash
 
-if [ $(dpkg-query -W -f='${Status}' loolwsd 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+isInFile=$(cat /etc/apt/sources.list | grep -c "https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-ubuntu2004")
+if [ $isInFile -eq 0 ]; then    
+    apt-get install apt-transport-https ca-certificates; #Needed for all https repos    
     cd /tmp/ && wget https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-centos7/repodata/repomd.xml.key && apt-key add repomd.xml.key;
-    echo 'deb https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-ubuntu1804 ./' >> /etc/apt/sources.list;
-    apt-get update;
-    apt-get install -y loolwsd code-brand;
-    # TODO: script endring i loolwsd.xml til at ssl skal være false (gjort manuelt på laptop for testing foreløpig)
-    systemctl enable loolwsd;
-    systemctl restart loolwsd;
+    echo 'deb https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-ubuntu2004 ./' >> /etc/apt/sources.list;
 fi
 
-if [ $(dpkg-query -W -f='${Status}' siegfried 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
-    wget -qO - https://bintray.com/user/downloadSubjectPublicKey?username=bintray | apt-key add -;
-    echo "deb http://dl.bintray.com/siegfried/debian wheezy main" | tee -a /etc/apt/sources.list;
-    sudo apt-get update;
-    sudo apt-get install siegfried=1.8.0-1;
-    echo "siegfried hold" | sudo dpkg --set-selections; # TODO: Prevent breaking changes for now. Remove or change to fido later on
-fi    
+apt-get update;
+apt-get install -y loolwsd code-brand;
+loolconfig set ssl.enable false;
+loolconfig set ssl.termination true;
+systemctl enable loolwsd;    
+systemctl restart loolwsd;  
 
-apt remove -y hexchat-common hexchat rhythmbox tomboy xplayer xfce4-taskmanager;
+# Test: curl --insecure -F "data=@test.docx" http://localhost:9980/lool/convert-to/pdf > out.pdf
 
-# snap install curl-simosx;
+# if [ $(dpkg-query -W -f='${Status}' siegfried 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+#     wget -qO - https://bintray.com/user/downloadSubjectPublicKey?username=bintray | apt-key add -;
+#     echo "deb http://dl.bintray.com/siegfried/debian wheezy main" | tee -a /etc/apt/sources.list;
+#     sudo apt-get update;
+#     sudo apt-get install siegfried=1.8.0-1;
+#     echo "siegfried hold" | sudo dpkg --set-selections; # TODO: Prevent breaking changes for now. Remove or change to fido later on
+# fi    
 
-SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
-OWNER=$(stat -c '%U' $SCRIPTPATH);
-# TODO: Flytt deler av dette til PWBInstall.sh
-sudo -H -u $OWNER bash -c "python3 -m pip install -U ttkthemes unoconv zenipy execsql pdfy autopep8 rope toposort petl execsql epc JPype1==0.6.3 jaydebeapi --user";
+# apt remove -y hexchat-common hexchat rhythmbox tomboy xplayer xfce4-taskmanager;
 
-if [ $(dpkg-query -W -f='${Status}' ripgrep 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
-    wget -qO /tmp/ripgrep.deb https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb;
-    apt-get install -y /tmp/ripgrep.deb;
-fi
+# # snap install curl-simosx;
 
-if [ ! -f /home/$OWNER/bin/xsv ]; then
-    sudo -H -u $OWNER bash -c "wget -qO /home/$OWNER/bin/xsv.tar.gz https://github.com/BurntSushi/xsv/releases/download/0.13.0/xsv-0.13.0-x86_64-unknown-linux-musl.tar.gz";
-    sudo -H -u $OWNER bash -c "cd /home/$OWNER/bin && dtrx xsv.tar.gz && rm xsv.tar.gz";
-fi
+# SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+# OWNER=$(stat -c '%U' $SCRIPTPATH);
+# # TODO: Flytt deler av dette til PWBInstall.sh
+# sudo -H -u $OWNER bash -c "python3 -m pip install -U ttkthemes unoconv zenipy execsql pdfy autopep8 rope toposort petl execsql epc JPype1==0.6.3 jaydebeapi --user";
 
-if [ ! -f /home/$OWNER/bin/csvcleaner ]; then
-    sudo -H -u $OWNER bash -c "wget -qO /home/$OWNER/bin/datatools.zip https://github.com/caltechlibrary/datatools/releases/download/v0.0.25/datatools-v0.0.25-linux-amd64.zip";
-    sudo -H -u $OWNER bash -c "cd /home/$OWNER/bin && dtrx datatools.zip && rm datatools.zip";
-    sudo -H -u $OWNER bash -c "cd /home/$OWNER/bin/datatools/bin && cp * ../../ && rm -rdf /home/$OWNER/bin/datatools";
-fi
+# if [ $(dpkg-query -W -f='${Status}' ripgrep 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+#     wget -qO /tmp/ripgrep.deb https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb;
+#     apt-get install -y /tmp/ripgrep.deb;
+# fi
 
-cat <<\EOF > /home/$OWNER/bin/div_fix.sh
-#! /bin/bash
-pkill gvfsd-fuse && /usr/lib/gvfs/gvfsd-fuse -o allow_other /var/run/user/1000/gvfs/
-setxkbmap -option 'numpad:microsoft'
-#"$ORACLE_HOME"/bin/lsnrctl start && sudo /etc/init.d/oracle-xe start
-if [ -f /etc/init.d/oracle-xe ]; then
-    #/u01/app/oracle/product/11.2.0/xe/config/scripts/startdb.sh;
-    sudo /etc/init.d/oracle-xe start;
-fi
-EOF
-chmod a+rx /home/$OWNER/bin/div_fix.sh
-chown $OWNER:$OWNER /home/$OWNER/bin/div_fix.sh;
+# if [ ! -f /home/$OWNER/bin/xsv ]; then
+#     sudo -H -u $OWNER bash -c "wget -qO /home/$OWNER/bin/xsv.tar.gz https://github.com/BurntSushi/xsv/releases/download/0.13.0/xsv-0.13.0-x86_64-unknown-linux-musl.tar.gz";
+#     sudo -H -u $OWNER bash -c "cd /home/$OWNER/bin && dtrx xsv.tar.gz && rm xsv.tar.gz";
+# fi
 
-# TODO: xfce og ikke mate under?
-echo "[Desktop Entry]
-Type=Application
-Exec=/home/$OWNER/bin/div_fix.sh
-Hidden=false
-X-MATE-Autostart-enabled=true
-Name=Div_Fix" > /home/$OWNER/.config/autostart/Div_Fix.desktop;
-chown $OWNER:$OWNER /home/$OWNER/.config/autostart/Div_Fix.desktop;
+# if [ ! -f /home/$OWNER/bin/csvcleaner ]; then
+#     sudo -H -u $OWNER bash -c "wget -qO /home/$OWNER/bin/datatools.zip https://github.com/caltechlibrary/datatools/releases/download/v0.0.25/datatools-v0.0.25-linux-amd64.zip";
+#     sudo -H -u $OWNER bash -c "cd /home/$OWNER/bin && dtrx datatools.zip && rm datatools.zip";
+#     sudo -H -u $OWNER bash -c "cd /home/$OWNER/bin/datatools/bin && cp * ../../ && rm -rdf /home/$OWNER/bin/datatools";
+# fi
 
-# Set wallpaper
-sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/wallpapers"
-SRC_URI="https://raw.githubusercontent.com/Nitrux/luv-icon-theme/master/Wallpapers/Night/contents/images/2560x1080.png"
-FNAME="/home/$OWNER/.local/share/wallpapers/arkimint.png"
-if [ ! -f $FNAME ]; then
-    sudo -H -u $OWNER bash -c "wget $SRC_URI -O $FNAME"
-fi
-USR_ID=$( id -u $OWNER )
-export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$USR_ID/bus
-su $OWNER -m -c "xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s $FNAME"
+# cat <<\EOF > /home/$OWNER/bin/div_fix.sh
+# #! /bin/bash
+# pkill gvfsd-fuse && /usr/lib/gvfs/gvfsd-fuse -o allow_other /var/run/user/1000/gvfs/
+# setxkbmap -option 'numpad:microsoft'
+# #"$ORACLE_HOME"/bin/lsnrctl start && sudo /etc/init.d/oracle-xe start
+# if [ -f /etc/init.d/oracle-xe ]; then
+#     #/u01/app/oracle/product/11.2.0/xe/config/scripts/startdb.sh;
+#     sudo /etc/init.d/oracle-xe start;
+# fi
+# EOF
+# chmod a+rx /home/$OWNER/bin/div_fix.sh
+# chown $OWNER:$OWNER /home/$OWNER/bin/div_fix.sh;
 
-#TODO: Bruk mappe under fra PWB for å sjekke om er på Arkimint eller ikke
-sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.arkimint";
+# # TODO: xfce og ikke mate under?
+# echo "[Desktop Entry]
+# Type=Application
+# Exec=/home/$OWNER/bin/div_fix.sh
+# Hidden=false
+# X-MATE-Autostart-enabled=true
+# Name=Div_Fix" > /home/$OWNER/.config/autostart/Div_Fix.desktop;
+# chown $OWNER:$OWNER /home/$OWNER/.config/autostart/Div_Fix.desktop;
 
-#Set Arkimint icon for whisker menu
-sudo -H -u $OWNER bash -c "cp arkimint_fin_32px.png /home/$OWNER/.arkimint";
-sudo -H -u $OWNER bash -c 'sed -i "s:^button-icon=.*:button-icon=/home/'"$OWNER"'/.arkimint/arkimint_fin_32px.png:g" ~/.config/xfce4/panel/whiskermenu-1.rc'
-su $OWNER -m -c "xfce4-panel -r "
+# # Set wallpaper
+# sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/wallpapers"
+# SRC_URI="https://raw.githubusercontent.com/Nitrux/luv-icon-theme/master/Wallpapers/Night/contents/images/2560x1080.png"
+# FNAME="/home/$OWNER/.local/share/wallpapers/arkimint.png"
+# if [ ! -f $FNAME ]; then
+#     sudo -H -u $OWNER bash -c "wget $SRC_URI -O $FNAME"
+# fi
+# USR_ID=$( id -u $OWNER )
+# export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$USR_ID/bus
+# su $OWNER -m -c "xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s $FNAME"
 
-# Install virtualbox guest extensions if vb virtual machine
-VIRT=$( dmidecode -s system-manufacturer )
-if [ "$VIRT" == "innotek GmbH" ]; then #Virtualbox
-    sudo usermod -aG vboxsf $OWNER;
-    lsmod | grep vboxguest  || apt-get install -y build-essential dkms linux-headers-generic virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11;
-fi
+# #TODO: Bruk mappe under fra PWB for å sjekke om er på Arkimint eller ikke
+# sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.arkimint";
 
-#Hide user list from login screen
-# TODO: Har ikke virket ved siste kjøring -> fiks
-sed -i '/^greeter-hide-users=/{h;s/=.*/=true/};${x;/^$/{s//greeter-hide-users=true/;H};x}' /etc/lightdm/lightdm.conf
+# #Set Arkimint icon for whisker menu
+# sudo -H -u $OWNER bash -c "cp arkimint_fin_32px.png /home/$OWNER/.arkimint";
+# sudo -H -u $OWNER bash -c 'sed -i "s:^button-icon=.*:button-icon=/home/'"$OWNER"'/.arkimint/arkimint_fin_32px.png:g" ~/.config/xfce4/panel/whiskermenu-1.rc'
+# su $OWNER -m -c "xfce4-panel -r "
 
-# Firefox
-ff_prefs=/home/$OWNER/.mozilla/firefox/*.default-release/prefs.js
-isInFile=$(cat $ff_prefs | grep -c 'startup.homepage", "')
-if [ $isInFile -eq 0 ]; then
-    sudo -H -u $OWNER bash -c "killall firefox"
-    echo "user_pref(\"browser.startup.homepage\", \"https://www.google.com\");" >> $ff_prefs
-    chown $OWNER:$OWNER $ff_prefs;
-fi
+# #Hide user list from login screen
+# # TODO: Har ikke virket ved siste kjøring -> fiks
+# sed -i '/^greeter-hide-users=/{h;s/=.*/=true/};${x;/^$/{s//greeter-hide-users=true/;H};x}' /etc/lightdm/lightdm.conf
+
+# # Firefox
+# ff_prefs=/home/$OWNER/.mozilla/firefox/*.default-release/prefs.js
+# isInFile=$(cat $ff_prefs | grep -c 'startup.homepage", "')
+# if [ $isInFile -eq 0 ]; then
+#     sudo -H -u $OWNER bash -c "killall firefox"
+#     echo "user_pref(\"browser.startup.homepage\", \"https://www.google.com\");" >> $ff_prefs
+#     chown $OWNER:$OWNER $ff_prefs;
+# fi
