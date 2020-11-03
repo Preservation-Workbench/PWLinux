@@ -13,16 +13,18 @@ loolconfig set ssl.enable false;
 loolconfig set ssl.termination true;
 systemctl enable loolwsd;    
 systemctl restart loolwsd;  
-
 # Test: curl --insecure -F "data=@test.docx" http://localhost:9980/lool/convert-to/pdf > out.pdf
 
-# if [ $(dpkg-query -W -f='${Status}' siegfried 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
-#     wget -qO - https://bintray.com/user/downloadSubjectPublicKey?username=bintray | apt-key add -;
-#     echo "deb http://dl.bintray.com/siegfried/debian wheezy main" | tee -a /etc/apt/sources.list;
-#     sudo apt-get update;
-#     sudo apt-get install siegfried=1.8.0-1;
-#     echo "siegfried hold" | sudo dpkg --set-selections; # TODO: Prevent breaking changes for now. Remove or change to fido later on
-# fi    
+
+isInFile=$(cat /etc/apt/sources.list | grep -c "http://dl.bintray.com/siegfried/debian")
+if [ $isInFile -eq 0 ]; then  
+    wget -qO - https://bintray.com/user/downloadSubjectPublicKey?username=bintray | apt-key add -;
+    echo "deb http://dl.bintray.com/siegfried/debian wheezy main" | tee -a /etc/apt/sources.list;
+fi    
+
+sudo apt-get update;
+sudo apt-get install siegfried;
+
 
 # apt remove -y hexchat-common hexchat rhythmbox tomboy xplayer xfce4-taskmanager;
 
