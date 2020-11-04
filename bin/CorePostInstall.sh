@@ -1,5 +1,9 @@
 #!/bin/bash
 
+SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+OWNER=$(stat -c '%U' $SCRIPTPATH);
+PWCONFIGDIR=/home/$OWNER/.config/pwlinux
+
 isInFile=$(cat /etc/apt/sources.list | grep -c "https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-ubuntu2004")
 if [ $isInFile -eq 0 ]; then    
     apt-get install apt-transport-https ca-certificates; #Needed for all https repos    
@@ -28,10 +32,6 @@ sudo apt-get install siegfried;
 
 # apt remove -y hexchat-common hexchat rhythmbox tomboy xplayer xfce4-taskmanager;
 
-
-SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
-OWNER=$(stat -c '%U' $SCRIPTPATH);
-
 # TODO: Test uten div-fiks først. Ikke sikkert trenger alt. Evt. sette noen i bashrc el heller
 # cat <<\EOF > /home/$OWNER/bin/div_fix.sh
 # #! /bin/bash
@@ -57,23 +57,27 @@ OWNER=$(stat -c '%U' $SCRIPTPATH);
 
 # # Set wallpaper
 sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/wallpapers"
-SRC=$SCRIPTPATH/img/pwlinux.png
-FNAME="/home/$OWNER/.local/share/wallpapers/pwlinux.png"
+SRC=$SCRIPTPATH/img/pwlinux_wallpaper.png
+FNAME="/home/$OWNER/.local/share/wallpapers/pwlinux_wallpaper.png"
 if [ ! -f $FNAME ]; then
     sudo -H -u $OWNER bash -c "cp $SRC $FNAME"
+    USR_ID=$( id -u $OWNER )
+    export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$USR_ID/bus
+    su $OWNER -m -c "xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s $FNAME"
+    su $OWNER -m -c "xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual1/workspace0/last-image -s $FNAME"    
 fi
-USR_ID=$( id -u $OWNER )
-export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$USR_ID/bus
-su $OWNER -m -c "xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s $FNAME"
-su $OWNER -m -c "xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual1/workspace0/last-image -s $FNAME"
 
-# #TODO: Bruk mappe under fra PWB for å sjekke om er på Arkimint eller ikke
-# sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.arkimint";
+# #WAIT: Bruk mappe under fra PWCode for å sjekke om er på PWLinux eller ikke
+sudo -H -u $OWNER bash -c "mkdir -p $PWCONFIGDIR/img";
 
-# #Set Arkimint icon for whisker menu
-# sudo -H -u $OWNER bash -c "cp arkimint_fin_32px.png /home/$OWNER/.arkimint";
-# sudo -H -u $OWNER bash -c 'sed -i "s:^button-icon=.*:button-icon=/home/'"$OWNER"'/.arkimint/arkimint_fin_32px.png:g" ~/.config/xfce4/panel/whiskermenu-1.rc'
-# su $OWNER -m -c "xfce4-panel -r "
+# #Set icon for whisker menu
+SRC=$SCRIPTPATH/img/pwlinux_icon.png
+FNAME="$PWCONFIGDIR/img/pwlinux_icon.png"
+if [ ! -f $FNAME ]; then
+    sudo -H -u $OWNER bash -c "cp $SRC $FNAME"
+    sudo -H -u $OWNER bash -c 'sed -i "s:^button-icon=.*:button-icon=/home/'"$PWCONFIGDIR"'/img/pwlinux_icon.png:g" ~/.config/xfce4/panel/whiskermenu-1.rc'
+    su $OWNER -m -c "xfce4-panel -r "
+fi
 
 # #Hide user list from login screen
 # # TODO: Har ikke virket ved siste kjøring -> fiks
