@@ -70,12 +70,15 @@ fi
 # #WAIT: Bruk mappe under fra PWCode for å sjekke om er på PWLinux eller ikke
 sudo -H -u $OWNER bash -c "mkdir -p $PWCONFIGDIR/img";
 
-# #Set icon for whisker menu
+# #Set menu icon and theme
 SRC=$SCRIPTPATH/img/pwlinux_icon.png
 FNAME="$PWCONFIGDIR/img/pwlinux_icon.png"
 if [ ! -f $FNAME ]; then
     sudo -H -u $OWNER bash -c "cp $SRC $FNAME"
     sudo -H -u $OWNER bash -c 'sed -i "s:^button-icon=.*:button-icon='"$PWCONFIGDIR"'/img/pwlinux_icon.png:g" ~/.config/xfce4/panel/whiskermenu-1.rc'
+    su $OWNER -m -c "xfconf-query -c xsettings -p /Net/IconThemeName -s 'Mint-Y-Aqua'"
+    su $OWNER -m -c "xfconf-query -c xsettings -p /Net/ThemeName -s 'Mint-Y-Aqua'"
+    su $OWNER -m -c "xfconf-query -c xfwm4 -p /general/theme -s 'Mint-Y-Red'"
     su $OWNER -m -c "xfce4-panel -r "
 fi
 
