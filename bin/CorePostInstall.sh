@@ -60,11 +60,12 @@ sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/wallpapers"
 SRC=$SCRIPTPATH/img/pwlinux.png
 FNAME="/home/$OWNER/.local/share/wallpapers/pwlinux.png"
 if [ ! -f $FNAME ]; then
-    sudo -H -u $OWNER bash -c "wget $SRC -O $FNAME"
+    sudo -H -u $OWNER bash -c "cp $SRC $FNAME"
 fi
 USR_ID=$( id -u $OWNER )
 export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$USR_ID/bus
 su $OWNER -m -c "xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s $FNAME"
+su $OWNER -m -c "xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual1/workspace0/last-image -s $FNAME"
 
 # #TODO: Bruk mappe under fra PWB for å sjekke om er på Arkimint eller ikke
 # sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.arkimint";
