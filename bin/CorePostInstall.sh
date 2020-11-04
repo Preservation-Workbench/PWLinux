@@ -75,7 +75,7 @@ SRC=$SCRIPTPATH/img/pwlinux_icon.png
 FNAME="$PWCONFIGDIR/img/pwlinux_icon.png"
 if [ ! -f $FNAME ]; then
     sudo -H -u $OWNER bash -c "cp $SRC $FNAME"
-    sudo -H -u $OWNER bash -c 'sed -i "s:^button-icon=.*:button-icon=/home/'"$PWCONFIGDIR"'/img/pwlinux_icon.png:g" ~/.config/xfce4/panel/whiskermenu-1.rc'
+    sudo -H -u $OWNER bash -c 'sed -i "s:^button-icon=.*:button-icon='"$PWCONFIGDIR"'/img/pwlinux_icon.png:g" ~/.config/xfce4/panel/whiskermenu-1.rc'
     su $OWNER -m -c "xfce4-panel -r "
 fi
 
