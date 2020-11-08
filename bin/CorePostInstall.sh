@@ -31,6 +31,9 @@ sudo apt-get install siegfried;
 
 
 # apt remove -y hexchat-common hexchat rhythmbox tomboy xplayer xfce4-taskmanager;
+# TODO: Fjern firefox og fjern så /home/pwb/.config/xfce4/panel/launcher-3/ og så xfce4-panel -r  -> blir liggende igjen tom da :(
+
+
 
 # TODO: Test uten div-fiks først. Ikke sikkert trenger alt. Evt. sette noen i bashrc el heller
 # cat <<\EOF > /home/$OWNER/bin/div_fix.sh
