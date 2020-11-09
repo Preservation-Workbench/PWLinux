@@ -1,10 +1,13 @@
 #!/bin/bash
 
+url="https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x873503a090750cda\
+    eb0754d93ff0e01eeaafc9cd"
+url=$(echo $url | tr -d ' ')
+echo $url
 isInFile=$(cat /etc/apt/sources.list.d/kelleyk-emacs-focal.list | grep -c \
     "http://ppa.launchpad.net/kelleyk/emacs/ubuntu")
 if [ $isInFile -eq 0 ]; then
-    curl -sSL 'https://keyserver.ubuntu.com/pks/lookup?op=\
-        get&search=0x873503a090750cdaeb0754d93ff0e01eeaafc9cd' | apt-key add -;
+    curl -sSL "$url" | apt-key add -;
     echo "deb http://ppa.launchpad.net/kelleyk/emacs/ubuntu focal main"\
         > /etc/apt/sources.list.d/kelleyk-emacs-focal.list;
 fi
