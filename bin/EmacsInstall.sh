@@ -48,19 +48,20 @@ fi
 sudo -H -u $OWNER bash -c ""$EMACSREPO"/bin/doom sync;";
 
 if [ ! -f /home/$OWNER/.local/share/applications/emacs27.desktop ]; then
-    sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/applications"
+    sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/applications;";
     sudo -H -u $OWNER bash -c "cp /usr/share/applications/emacs27.desktop \
-        /home/$OWNER/.local/share/applications/"
-    sed -i '/Exec=emacs/c\Exec=sh -c "emacsclient -a emacs -n \"\$@\" || emacs\
-        " dummy %F' /home/$OWNER/.local/share/applications/emacs27.desktop;
+        /home/$OWNER/.local/share/applications/;";
+    sed -i \
+        '/Exec=emacs/c\Exec=sh -c "emacsclient -a emacs -n \"\$@\" || emacs" dummy %F'\
+        /home/$OWNER/.local/share/applications/emacs27.desktop;  
     chown $OWNER:$OWNER /home/$OWNER/.local/share/applications/emacs27.desktop;
 fi
 
 isInFile=$(cat /home/$OWNER/.bashrc | grep -c "emacs()")
 if [ $isInFile -eq 0 ]; then
-    sudo -H -u $OWNER bash -c "echo "" >> /home/$OWNER/.bashrc;";
-    sudo -H -u $OWNER bash -c "echo 'emacs() { emacsclient -a \"emacs\" \
-        -n \"\$@\" 2>/dev/null || command emacs & disown; }' \
+    sudo -H -u $OWNER bash -c "echo $CMD >> /home/$OWNER/.bashrc";
+    sudo -H -u $OWNER bash -c \
+        "echo 'emacs() { emacsclient -a \"emacs\" -n \"\$@\" 2>/dev/null || command emacs & disown; }'\
         >> /home/$OWNER/.bashrc";
 fi
 
