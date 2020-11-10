@@ -3,6 +3,8 @@
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 PWCONFIGDIR=/home/$OWNER/.config/pwlinux
+USERID=$(id -u $OWNER)
+export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USERID/bus"
 
 isInFile=$(cat /etc/apt/sources.list | grep -c "https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-ubuntu2004")
 if [ $isInFile -eq 0 ]; then    
@@ -93,7 +95,7 @@ source $SCRIPTPATH/EmacsInstall.sh
 
 #Update panel launchers
 sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.config/xfce4/panel/launcher-14"
-sudo -H -u $OWNER bash -c "cp /home/$OWNER/.local/share/applications/emacs27.desktop ~/.config/xfce4/panel/launcher-14"
+sudo -H -u $OWNER bash -c "cp /home/$OWNER/.local/share/applications/emacs27.desktop /home/$OWNER/.config/xfce4/panel/launcher-14"
 su $OWNER -m -c "xfconf-query -c xfce4-panel -p /panels/panel-1/plugin-ids -n -a -t int -s 1 -t int -s 2 -t int -s 3 -t int -s 4 -t int -s 5 -t int -s 14 -t int -s 6 -t int -s 7 -t int -s 8 -t int -s 9 -t int -s 10 -t int -s 11 -t int -s 12 -t int -s 13"
 su $OWNER -m -c "xfconf-query -c xfce4-panel -p /plugins/plugin-14 -n -t string -s launcher"
 su $OWNER -m -c "xfconf-query -c xfce4-panel -p /plugins/plugin-14/items -n -a -t string -s emacs27.desktop"
