@@ -16,7 +16,7 @@ apt-get update;
 apt-get install -y emacs27 git libvterm-dev libtool-bin cmake ripgrep \
     hunspell-no hunspell fzf fd-find universal-ctags python3-bashate black \
     jq clang-format pipenv python3-pytest shellcheck node-js-beautify \
-    fonts-firacode direnv;
+    fonts-firacode direnv grip;
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH);
