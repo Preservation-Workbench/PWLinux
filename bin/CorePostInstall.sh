@@ -6,7 +6,7 @@ PWCONFIGDIR=/home/$OWNER/.config/pwlinux
 
 isInFile=$(cat /etc/apt/sources.list | grep -c "https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-ubuntu2004")
 if [ $isInFile -eq 0 ]; then    
-    apt-get install apt-transport-https ca-certificates; #Needed for all https repos    
+    apt-get install -y apt-transport-https ca-certificates; #Needed for all https repos    
     cd /tmp/ && wget https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-centos7/repodata/repomd.xml.key && apt-key add repomd.xml.key;
     echo 'deb https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-ubuntu2004 ./' >> /etc/apt/sources.list;
 fi
@@ -27,7 +27,7 @@ if [ $isInFile -eq 0 ]; then
 fi    
 
 sudo apt-get update;
-sudo apt-get install siegfried;
+sudo apt-get install -y siegfried;
 
 
 # apt remove -y hexchat-common hexchat rhythmbox tomboy xplayer xfce4-taskmanager;
@@ -79,7 +79,7 @@ SRC=$SCRIPTPATH/img/pwlinux_icon.png
 FNAME="$PWCONFIGDIR/img/pwlinux_icon.png"
 if [ ! -f $FNAME ]; then
     sudo apt-get update;
-    sudo apt-get install papirus-icon-theme;
+    sudo apt-get install -y papirus-icon-theme;
     sudo -H -u $OWNER bash -c "cp $SRC $FNAME"
     sudo -H -u $OWNER bash -c 'sed -i "s:^button-icon=.*:button-icon='"$PWCONFIGDIR"'/img/pwlinux_icon.png:g" ~/.config/xfce4/panel/whiskermenu-1.rc'
     su $OWNER -m -c "xfconf-query -c xsettings -p /Net/IconThemeName -s 'Papirus'"
