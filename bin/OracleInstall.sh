@@ -1,4 +1,6 @@
 #!/bin/sh -e
+killall synaptic
+
 # Based on these: 
 # https://github.com/Vincit/travis-oracledb-xe
 # https://github.com/cbandy/travis-oracle/blob/master/install.sh

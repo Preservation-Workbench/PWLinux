@@ -1,4 +1,5 @@
 #!/bin/bash
+killall synaptic
 
 url="https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x873503a090750cda\
     eb0754d93ff0e01eeaafc9cd"

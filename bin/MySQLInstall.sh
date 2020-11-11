@@ -1,4 +1,5 @@
 #!/bin/bash
+killall synaptic
 
 apt-get update;
 apt-get install -y mysql-server-8.0;

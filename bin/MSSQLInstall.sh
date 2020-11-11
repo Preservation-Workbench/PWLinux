@@ -1,4 +1,5 @@
 #!/bin/bash
+killall synaptic
 
 if [ ! -f /tmp/microsoft.gpg ]; then
     cd /tmp && curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg;
@@ -18,10 +19,12 @@ fi
 apt-get update;
 ACCEPT_EULA=Y apt-get install -y mssql-server mssql-tools unixodbc-dev freetds-dev freetds-bin unixodbc-dev tdsodbc;
 
-export ACCEPT_EULA="Y"
-export MSSQL_PID="Express"
-export MSSQL_SA_PASSWORD="P@ssw0rd"
-/opt/mssql/bin/mssql-conf -n setup accept-eula
+if [ -f "/opt/mssql/bin/mssql-conf" ]; then
+    export ACCEPT_EULA="Y"
+    export MSSQL_PID="Express"
+    export MSSQL_SA_PASSWORD="P@ssw0rd"
+    /opt/mssql/bin/mssql-conf -n setup accept-eula
+fi
 
 sudo systemctl enable mssql-server
 sudo systemctl start mssql-server

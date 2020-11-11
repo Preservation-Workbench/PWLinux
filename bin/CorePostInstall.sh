@@ -1,4 +1,5 @@
 #!/bin/bash
+killall synaptic
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH);
@@ -92,8 +93,6 @@ fi
 
 # Install Emacs:
 source $SCRIPTPATH/EmacsInstall.sh
-
-#Update panel launchers
 LAUNCHD="/home/$OWNER/.config/xfce4/panel/launcher-100"
 LAUNCHF="emacs27.desktop"
 LAUNCHP="/home/$OWNER/.local/share/applications/$LAUNCHF"
@@ -106,13 +105,12 @@ su $OWNER -m -c "xfce4-panel -r "
 
 # Install Oracle:
 source $SCRIPTPATH/OracleInstall.sh
-
 isInFile=$(cat /etc/lightdm/lightdm.conf | grep -c "greeter-hide-users=true")
 if [ $isInFile -eq 0 ]; then    
-    echo 'greeter-hide-users=true' >> /etc/lightdm/lightdm.conf;
+    echo 'greeter-hide-users=true' >> /etc/lightdm/lightdm.conf; #Hide oracle user
 fi
 
-# #Hide user list from login screen
-# # TODO: Har ikke virket ved siste kjøring -> fiks
-# sed -i '/^greeter-hide-users=/{h;s/=.*/=true/};${x;/^$/{s//greeter-hide-users=true/;H};x}' /etc/lightdm/lightdm.conf
+# Install MSSQL:
+# TODO: Test MSSQL PÅ nytt om noen dager. Feil i deres repo
+# source $SCRIPTPATH/MSSQLInstall.sh
 
