@@ -12,8 +12,12 @@ if [ $isInFile -eq 0 ]; then
     apt-get install -y apt-transport-https ca-certificates; #Needed for all https repos   
     wget -qO - https://deb.opera.com/archive.key | sudo apt-key add - 
     echo 'deb https://deb.opera.com/opera-stable/ stable non-free' >> /etc/apt/sources.list.d/opera.list;
+    killall firefox;
     apt remove -y hexchat-common hexchat rhythmbox firefox;    
 fi
+
+apt-get update;
+apt-get install -y opera;
 
 
 isInFile=$(cat /etc/apt/sources.list | grep -c "https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-ubuntu2004")
