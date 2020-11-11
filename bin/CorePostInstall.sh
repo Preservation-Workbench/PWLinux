@@ -1,5 +1,5 @@
 #!/bin/bash
-killall synaptic
+killall synaptic;
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH);
@@ -116,4 +116,7 @@ fi
 
 # Install MySQL:
 source $SCRIPTPATH/MySQLInstall.sh
+
+# Install PostgreSQL:
+source $SCRIPTPATH/PostgreSQLInstall.sh
 

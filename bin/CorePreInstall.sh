@@ -1,5 +1,5 @@
 #!/bin/bash
-killall synaptic
+killall synaptic;
 
 sudo mintupdate-cli -y --keep-configuration upgrade;
 apt autoremove -y;

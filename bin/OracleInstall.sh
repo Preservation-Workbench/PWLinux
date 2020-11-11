@@ -1,5 +1,5 @@
 #!/bin/sh -e
-killall synaptic
+killall synaptic;
 
 # Based on these: 
 # https://github.com/Vincit/travis-oracledb-xe

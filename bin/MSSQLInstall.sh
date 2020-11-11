@@ -1,5 +1,5 @@
 #!/bin/bash
-killall synaptic
+killall synaptic;
 
 if [ ! -f /tmp/microsoft.gpg ]; then
     cd /tmp && curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg;
