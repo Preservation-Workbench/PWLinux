@@ -90,7 +90,7 @@ if [ ! -f $FNAME ]; then
     su $OWNER -m -c "xfce4-panel -r "
 fi
 
-#Install emacs
+# Install Emacs:
 source $SCRIPTPATH/EmacsInstall.sh
 
 #Update panel launchers
@@ -104,15 +104,15 @@ su $OWNER -m -c "xfconf-query -c xfce4-panel -p /plugins/plugin-100 -n -t string
 su $OWNER -m -c "xfconf-query -c xfce4-panel -p /plugins/plugin-100/items -n -a -t string -s $LAUNCHF"
 su $OWNER -m -c "xfce4-panel -r "
 
+# Install Oracle:
+source $SCRIPTPATH/OracleInstall.sh
+
+isInFile=$(cat /etc/lightdm/lightdm.conf | grep -c "greeter-hide-users=true")
+if [ $isInFile -eq 0 ]; then    
+    echo 'greeter-hide-users=true' >> /etc/lightdm/lightdm.conf;
+fi
+
 # #Hide user list from login screen
 # # TODO: Har ikke virket ved siste kjøring -> fiks
 # sed -i '/^greeter-hide-users=/{h;s/=.*/=true/};${x;/^$/{s//greeter-hide-users=true/;H};x}' /etc/lightdm/lightdm.conf
 
-# # Firefox
-# ff_prefs=/home/$OWNER/.mozilla/firefox/*.default-release/prefs.js
-# isInFile=$(cat $ff_prefs | grep -c 'startup.homepage", "')
-# if [ $isInFile -eq 0 ]; then
-#     sudo -H -u $OWNER bash -c "killall firefox"
-#     echo "user_pref(\"browser.startup.homepage\", \"https://www.google.com\");" >> $ff_prefs
-#     chown $OWNER:$OWNER $ff_prefs;
-# fi
