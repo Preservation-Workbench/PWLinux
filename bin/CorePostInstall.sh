@@ -120,3 +120,5 @@ source $SCRIPTPATH/MySQLInstall.sh
 # Install PostgreSQL:
 source $SCRIPTPATH/PostgreSQLInstall.sh
 
+# Install OnlyOffice:
+source $SCRIPTPATH/OnlyofficeInstall.sh
