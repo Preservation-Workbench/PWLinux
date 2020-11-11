@@ -11,13 +11,14 @@ isInFile=$(cat /etc/apt/sources.list.d/opera.list | grep -c "https://deb.opera.c
 if [ $isInFile -eq 0 ]; then    
     apt-get install -y apt-transport-https ca-certificates; #Needed for all https repos   
     wget -qO - https://deb.opera.com/archive.key | sudo apt-key add - 
-    echo 'deb https://deb.opera.com/opera-stable/ stable non-free' >> /etc/apt/sources.list.d/opera.list;
+    echo 'deb https://deb.opera.com/opera-stable/ stable non-free' > /etc/apt/sources.list.d/opera.list;
     killall firefox;
     apt remove -y hexchat-common hexchat rhythmbox firefox;    
 fi
 
 apt-get update;
-apt-get install -y opera;
+printf "opera-stable opera-stable/add-deb-source boolean true\n" | sudo debconf-set-selections
+apt-get install -qqy opera-stable;
 
 
 isInFile=$(cat /etc/apt/sources.list | grep -c "https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-ubuntu2004")
@@ -105,15 +106,6 @@ fi
 
 # Install Emacs:
 source $SCRIPTPATH/EmacsInstall.sh
-LAUNCHD="/home/$OWNER/.config/xfce4/panel/launcher-100"
-LAUNCHF="emacs27.desktop"
-LAUNCHP="/home/$OWNER/.local/share/applications/$LAUNCHF"
-sudo -H -u $OWNER bash -c "mkdir -p $LAUNCHD"
-sudo -H -u $OWNER bash -c "cp $LAUNCHP $LAUNCHD"
-su $OWNER -m -c "xfconf-query -c xfce4-panel -p /panels/panel-1/plugin-ids -n -a -t int -s 1 -t int -s 2 -t int -s 3 -t int -s 4 -t int -s 5 -t int -s 100 -t int -s 6 -t int -s 7 -t int -s 8 -t int -s 9 -t int -s 10 -t int -s 11 -t int -s 12 -t int -s 13"
-su $OWNER -m -c "xfconf-query -c xfce4-panel -p /plugins/plugin-100 -n -t string -s launcher"
-su $OWNER -m -c "xfconf-query -c xfce4-panel -p /plugins/plugin-100/items -n -a -t string -s $LAUNCHF"
-su $OWNER -m -c "xfce4-panel -r "
 
 # Install Oracle:
 source $SCRIPTPATH/OracleInstall.sh
@@ -134,3 +126,24 @@ source $SCRIPTPATH/PostgreSQLInstall.sh
 
 # Install OnlyOffice:
 source $SCRIPTPATH/OnlyofficeInstall.sh
+
+# Configure Xfce panel :
+sudo -H -u $OWNER bash -c "rm -rdf /home/$OWNER/.config/xfce4/panel/launcher-3"
+LAUNCHD="/home/$OWNER/.config/xfce4/panel/launcher-100"
+EMACS="emacs27.desktop"
+LAUNCHP="/home/$OWNER/.local/share/applications/$EMACS"
+sudo -H -u $OWNER bash -c "mkdir -p $LAUNCHD"
+sudo -H -u $OWNER bash -c "cp $LAUNCHP $LAUNCHD"
+
+LAUNCHD="/home/$OWNER/.config/xfce4/panel/launcher-101"
+OPERA="opera.desktop"
+LAUNCHP="/usr/share/applications/$OPERA"
+sudo -H -u $OWNER bash -c "mkdir -p $LAUNCHD"
+sudo -H -u $OWNER bash -c "cp $LAUNCHP $LAUNCHD"
+
+su $OWNER -m -c "xfconf-query -c xfce4-panel -p /panels/panel-1/plugin-ids -n -a -t int -s 1 -t int -s 2 -t int -s 101 -t int -s 4 -t int -s 5 -t int -s 100 -t int -s 6 -t int -s 7 -t int -s 8 -t int -s 9 -t int -s 10 -t int -s 11 -t int -s 12 -t int -s 13"
+su $OWNER -m -c "xfconf-query -c xfce4-panel -p /plugins/plugin-100 -n -t string -s launcher"
+su $OWNER -m -c "xfconf-query -c xfce4-panel -p /plugins/plugin-100/items -n -a -t string -s $EMACS"
+su $OWNER -m -c "xfconf-query -c xfce4-panel -p /plugins/plugin-101 -n -t string -s launcher"
+su $OWNER -m -c "xfconf-query -c xfce4-panel -p /plugins/plugin-101/items -n -a -t string -s $OPERA"
+su $OWNER -m -c "xfce4-panel -r "

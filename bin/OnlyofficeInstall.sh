@@ -8,7 +8,7 @@ if [ $isInFile -eq 0 ]; then
 
     apt-get update;
     echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections;
-    apt-get install -y ttf-mscorefonts-installer onlyoffice-desktopeditors;
+    apt-get install -y ttf-mscorefonts-installer;
 
     # Workaround unreliable sourceforge server redirect:
     mkdir -p "/tmp/winfonts"
