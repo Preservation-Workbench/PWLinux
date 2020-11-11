@@ -7,6 +7,15 @@ PWCONFIGDIR=/home/$OWNER/.config/pwlinux
 USERID=$(id -u $OWNER)
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USERID/bus"
 
+isInFile=$(cat /etc/apt/sources.list.d/opera.list | grep -c "https://deb.opera.com/opera-stable/")
+if [ $isInFile -eq 0 ]; then    
+    apt-get install -y apt-transport-https ca-certificates; #Needed for all https repos   
+    wget -qO - https://deb.opera.com/archive.key | sudo apt-key add - 
+    echo 'deb https://deb.opera.com/opera-stable/ stable non-free' >> /etc/apt/sources.list.d/opera.list;
+    apt remove -y hexchat-common hexchat rhythmbox firefox;    
+fi
+
+
 isInFile=$(cat /etc/apt/sources.list | grep -c "https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-ubuntu2004")
 if [ $isInFile -eq 0 ]; then    
     apt-get install -y apt-transport-https ca-certificates; #Needed for all https repos    
@@ -33,8 +42,7 @@ sudo apt-get update;
 sudo apt-get install -y siegfried;
 
 
-# apt remove -y hexchat-common hexchat rhythmbox tomboy xplayer xfce4-taskmanager;
-# TODO: Fjern firefox og fjern så /home/pwb/.config/xfce4/panel/launcher-3/ og så xfce4-panel -r  -> blir liggende igjen tom da :(
+
 
 
 
