@@ -114,3 +114,6 @@ fi
 # TODO: Test MSSQL PÅ nytt om noen dager. Feil i deres repo
 # source $SCRIPTPATH/MSSQLInstall.sh
 
+# Install MySQL:
+source $SCRIPTPATH/MySQLInstall.sh
+
