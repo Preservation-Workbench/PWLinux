@@ -10,7 +10,7 @@ export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USERID/bus"
 
 isInFile=$(cat /etc/apt/sources.list.d/home-ungoogled_chromium.list | grep -c "http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/")
 if [ $isInFile -eq 0 ]; then    
-    wget -qO - https://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/Release.key' | sudo apt-key add - 
+    wget -qO - https://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/Release.key | sudo apt-key add - 
     echo 'deb http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/ /' > /etc/apt/sources.list.d/home-ungoogled_chromium.list;
     killall firefox;
     apt remove -y hexchat-common hexchat rhythmbox firefox;    
@@ -127,23 +127,24 @@ source $SCRIPTPATH/PostgreSQLInstall.sh
 # Install OnlyOffice:
 source $SCRIPTPATH/OnlyofficeInstall.sh
 
-# Configure Xfce panel :
-sudo -H -u $OWNER bash -c "rm -rdf /home/$OWNER/.config/xfce4/panel/launcher-3"
-LAUNCHD="/home/$OWNER/.config/xfce4/panel/launcher-100"
-EMACS="emacs27.desktop"
-LAUNCHP="/home/$OWNER/.local/share/applications/$EMACS"
-sudo -H -u $OWNER bash -c "mkdir -p $LAUNCHD"
-sudo -H -u $OWNER bash -c "cp $LAUNCHP $LAUNCHD"
+# Configure Xfce panel:
+sudo add-apt-repository ppa:xubuntu-dev/extras;
+sudo apt-get update;
+apt-get install -y  xfce4-docklike-plugin;
 
-LAUNCHD="/home/$OWNER/.config/xfce4/panel/launcher-101"
-CHRM="chromium.desktop"
-LAUNCHP="/usr/share/applications/$CHRM"
-sudo -H -u $OWNER bash -c "mkdir -p $LAUNCHD"
-sudo -H -u $OWNER bash -c "cp $LAUNCHP $LAUNCHD"
-
-su $OWNER -m -c "xfconf-query -c xfce4-panel -p /panels/panel-1/plugin-ids -n -a -t int -s 1 -t int -s 2 -t int -s 101 -t int -s 4 -t int -s 5 -t int -s 100 -t int -s 6 -t int -s 7 -t int -s 8 -t int -s 9 -t int -s 10 -t int -s 11 -t int -s 12 -t int -s 13"
-su $OWNER -m -c "xfconf-query -c xfce4-panel -p /plugins/plugin-100 -n -t string -s launcher"
-su $OWNER -m -c "xfconf-query -c xfce4-panel -p /plugins/plugin-100/items -n -a -t string -s $EMACS"
-su $OWNER -m -c "xfconf-query -c xfce4-panel -p /plugins/plugin-101 -n -t string -s launcher"
-su $OWNER -m -c "xfconf-query -c xfce4-panel -p /plugins/plugin-101/items -n -a -t string -s $CHRM"
+sudo -H -u $OWNER bash -c "rm -rdf /home/$OWNER/.config/xfce4/panel/launcher*"
+su $OWNER -m -c "xfconf-query -c xfce4-panel -pn "/plugins/plugin-100" -t string -s 'docklike'"
+su $OWNER -m -c "xfconf-query -c xfce4-panel -p /panels/panel-1/plugin-ids -n -a -t int -s 1 -t int -s 2 -t int -s 100 -t int -s 7 -t int -s 8 -t int -s 9 -t int -s 10 -t int -s 11 -t int -s 12 -t int -s 13"
 su $OWNER -m -c "xfce4-panel -r "
+
+cat <<\EOF > /home/$OWNER /.config/xfce4/panel/docklike-100.rc
+[user]
+pinned=/usr/share/applications/xfce4-terminal.desktop;/home/$OWNER/.local/share/applications/emacs27.desktop;/usr/share/applications/thunar.desktop;/usr/share/applications/chromium.desktop;
+EOF
+
+
+
+
+#I fil /home/$OWNER /.config/xfce4/panel/docklike-100.rc
+#[user]
+#pinned=/usr/share/applications/xfce4-terminal.desktop;/home/pwb/.local/share/applications/emacs27.desktop;/usr/share/applications/thunar.desktop;/usr/share/applications/chromium.desktop;
