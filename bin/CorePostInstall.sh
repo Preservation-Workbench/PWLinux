@@ -7,18 +7,18 @@ PWCONFIGDIR=/home/$OWNER/.config/pwlinux
 USERID=$(id -u $OWNER)
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USERID/bus"
 
-isInFile=$(cat /etc/apt/sources.list.d/opera.list | grep -c "https://deb.opera.com/opera-stable/")
+
+isInFile=$(cat /etc/apt/sources.list.d/home-ungoogled_chromium.list | grep -c "http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/")
 if [ $isInFile -eq 0 ]; then    
-    apt-get install -y apt-transport-https ca-certificates; #Needed for all https repos   
-    wget -qO - https://deb.opera.com/archive.key | sudo apt-key add - 
-    echo 'deb https://deb.opera.com/opera-stable/ stable non-free' > /etc/apt/sources.list.d/opera.list;
+    wget -qO - https://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/Release.key' | sudo apt-key add - 
+    echo 'deb http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/ /' > /etc/apt/sources.list.d/home-ungoogled_chromium.list;
     killall firefox;
     apt remove -y hexchat-common hexchat rhythmbox firefox;    
 fi
 
 apt-get update;
-printf "opera-stable opera-stable/add-deb-source boolean true\n" | sudo debconf-set-selections
-apt-get install -qqy opera-stable;
+apt-get install -y ungoogled-chromium;
+sudo -H -u $OWNER bash -c "xdg-settings set default-web-browser chromium.desktop";
 
 
 isInFile=$(cat /etc/apt/sources.list | grep -c "https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-ubuntu2004")
@@ -136,8 +136,8 @@ sudo -H -u $OWNER bash -c "mkdir -p $LAUNCHD"
 sudo -H -u $OWNER bash -c "cp $LAUNCHP $LAUNCHD"
 
 LAUNCHD="/home/$OWNER/.config/xfce4/panel/launcher-101"
-OPERA="opera.desktop"
-LAUNCHP="/usr/share/applications/$OPERA"
+CHRM="chromium.desktop"
+LAUNCHP="/usr/share/applications/$CHRM"
 sudo -H -u $OWNER bash -c "mkdir -p $LAUNCHD"
 sudo -H -u $OWNER bash -c "cp $LAUNCHP $LAUNCHD"
 
@@ -145,5 +145,5 @@ su $OWNER -m -c "xfconf-query -c xfce4-panel -p /panels/panel-1/plugin-ids -n -a
 su $OWNER -m -c "xfconf-query -c xfce4-panel -p /plugins/plugin-100 -n -t string -s launcher"
 su $OWNER -m -c "xfconf-query -c xfce4-panel -p /plugins/plugin-100/items -n -a -t string -s $EMACS"
 su $OWNER -m -c "xfconf-query -c xfce4-panel -p /plugins/plugin-101 -n -t string -s launcher"
-su $OWNER -m -c "xfconf-query -c xfce4-panel -p /plugins/plugin-101/items -n -a -t string -s $OPERA"
+su $OWNER -m -c "xfconf-query -c xfce4-panel -p /plugins/plugin-101/items -n -a -t string -s $CHRM"
 su $OWNER -m -c "xfce4-panel -r "
