@@ -135,7 +135,7 @@ apt-get install -y  xfce4-docklike-plugin;
 
 su $OWNER -m -c "cat <<\EOF > /home/$OWNER/.config/xfce4/panel/docklike-100.rc
 [user]
-pinned=/usr/share/applications/xfce4-terminal.desktop;/home/$OWNER/.local/share/applications/emacs27.desktop;/usr/share/applications/thunar.desktop;/usr/share/applications/chromium.desktop;
+pinned=/usr/share/applications/xfce4-terminal.desktop;/usr/share/applications/xfce4-taskmanager.desktop;/home/$OWNER/.local/share/applications/emacs27.desktop;/usr/share/applications/thunar.desktop;/usr/share/applications/chromium.desktop;
 EOF
 "
 
