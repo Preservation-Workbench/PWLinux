@@ -8,6 +8,14 @@ USERID=$(id -u $OWNER)
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USERID/bus"
 
 
+sudo mintupdate-cli -y --keep-configuration upgrade;
+apt autoremove -y;
+sudo apt-get remove --purge `dpkg -l | grep '^rc' | awk '{print $2}'` #Remove residual config
+echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections;
+# WAIT: Flytt noen av pakkene under til delscript 
+apt-get install -y git ttf-mscorefonts-installer mint-meta-codecs exfat-fuse exfat-utils hunspell hunspell-no rar pandoc regexxer soundconverter openoffice.org-hyphenation openjfx npm sqlite3 python3-virtualenv python3-setuptools uchardet libtool-bin meld mercurial python3-dev checkinstall galternatives xchm subversion dos2unix meld checkinstall apt-transport-https ca-certificates xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor python3-wheel python3-pip build-essential dos2unix ghostscript icc-profiles-free liblept5 libxml2 xul-ext-lightning thunderbird-locale-en clamtk tesseract-ocr clamav-daemon clamav-unofficial-sigs clamdscan libclamunrar9 pngquant hyphen-fi hyphen-ga hyphen-id;
+
+
 isInFile=$(cat /etc/apt/sources.list.d/home-ungoogled_chromium.list | grep -c "http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/")
 if [ $isInFile -eq 0 ]; then    
     wget -qO - https://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/Release.key | sudo apt-key add - 
@@ -134,7 +142,7 @@ apt-get install -y  xfce4-docklike-plugin;
 
 su $OWNER -m -c "cat <<\EOF > /home/$OWNER/.config/xfce4/panel/docklike-100.rc
 [user]
-pinned=/usr/share/applications/xfce4-terminal.desktop;/usr/share/applications/xfce4-taskmanager.desktop;/home/$OWNER/.local/share/applications/emacs27.desktop;/usr/share/applications/thunar.desktop;/usr/share/applications/chromium.desktop;
+pinned=/usr/share/applications/xfce4-terminal.desktop;/usr/share/applications/xfce4-taskmanager.desktop;/home/$OWNER/.local/share/applications/emacs27.desktop;/usr/share/applications/thunar.desktop;/usr/share/applications/chromium.desktop;/usr/share/applications/org.xfce.Catfish.desktop;
 EOF
 "
 

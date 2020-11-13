@@ -9,4 +9,6 @@ fi
 apt-get update;
 apt-get install -y dbeaver-ce;
 
+# TODO: Legg til som pinned i xfce dock
+
 
