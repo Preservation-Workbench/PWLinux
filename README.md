@@ -8,8 +8,6 @@ We recommend at least 16GB of RAM.
 Install Linux Mint 20 Xfce from here:  
 https://linuxmint.com/edition.php?id=283
 
-Apply all OS updates
-
 Additionals steps if installed on virtualbox:
 - sudo apt install -y virtualbox-guest-additions-iso
 - sudo mount -o loop /usr/share/virtualbox/VBoxGuestAdditions.iso /media/
