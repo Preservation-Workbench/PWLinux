@@ -96,9 +96,8 @@ if [ ! -f $sqlplus_path ]; then
     sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclexe-stopdb.desktop
     sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclexe-readdocumentation.desktop
 
-
     echo "$OWNER ALL=(ALL) NOPASSWD: /etc/init.d/oracle-xe" > /etc/sudoers.d/xe;
-    sudo chmod 0440 /etc/sudoers.d/xe;    
+    chmod 0440 /etc/sudoers.d/xe;    
 fi
 
 

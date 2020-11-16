@@ -34,19 +34,16 @@ if [ $(dpkg-query -W -f='${Status}' mssql-server 2>/dev/null | grep -c "ok insta
     sudo DEBIAN_FRONTEND=noninteractive dpkg --install mssql-server_15.0.4073.23-4_amd64.deb
 fi 
 
-systemctl stop mssql-server; # Stop server if alreaydy running
+systemctl stop mssql-server; # Stop server if already running
 
 if [ -f "/opt/mssql/bin/mssql-conf" ]; then
     export ACCEPT_EULA="Y"
     export MSSQL_PID="Express"
     export MSSQL_SA_PASSWORD="P@ssw0rd"
     /opt/mssql/bin/mssql-conf -n setup accept-eula;
-    echo "$OWNER ALL=(ALL) NOPASSWD: /bin/systemctl start mssql-server.service" > /etc/sudoers.d/mssql;
+    echo "$OWNER ALL=(ALL) NOPASSWD: /bin/systemctl start mssql-server.service,/bin/systemctl stop mssql-server.service" > /etc/sudoers.d/mssql;
     sudo chmod 0440 /etc/sudoers.d/mssql;  
 fi
 
 
 systemctl disable mssql-server; # Bug in mssql renders install unusable on virtualbox after power down if active as service 
-#sudo systemctl start mssql-server
-# TODO: Fiks så kan starte service som bruker uken passord (så kan startes auto av pwcode)
-# TODO: Fjern lagret deb i pwlinux config mappe
