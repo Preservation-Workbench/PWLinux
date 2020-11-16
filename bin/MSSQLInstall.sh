@@ -1,6 +1,9 @@
 #!/bin/bash
 killall synaptic;
 
+SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+OWNER=$(stat -c '%U' $SCRIPTPATH);
+
 if [ ! -f /tmp/microsoft.gpg ]; then
     cd /tmp && curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg;
     install -o root -g root -m 644 /tmp/microsoft.gpg /usr/share/keyrings/microsoft-archive-keyring.gpg;
@@ -44,5 +47,5 @@ fi
 
 sudo systemctl disable mssql-server; # Bug in mssql renders install unusable on virtualbox after power down if active as service 
 #sudo systemctl start mssql-server
-;; TODO: Fiks så kan starte service som bruker uken passord (så kan startes auto av pwcode)
-;; TODO: Fjern lagret deb i pwlinux config mappe
+# TODO: Fiks så kan starte service som bruker uken passord (så kan startes auto av pwcode)
+# TODO: Fjern lagret deb i pwlinux config mappe
