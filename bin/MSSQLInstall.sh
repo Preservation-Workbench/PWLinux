@@ -41,7 +41,7 @@ if [ -f "/opt/mssql/bin/mssql-conf" ]; then
     export MSSQL_PID="Express"
     export MSSQL_SA_PASSWORD="P@ssw0rd"
     /opt/mssql/bin/mssql-conf -n setup accept-eula;
-    echo "$OWNER ALL = (root) NOPASSWD: /bin/systemctl start mssql-server.service" > /etc/sudoers.d/mssql;
+    echo "$OWNER ALL=(ALL) NOPASSWD: /bin/systemctl start mssql-server.service" > /etc/sudoers.d/mssql;
     sudo chmod 0440 /etc/sudoers.d/mssql;  
 fi
 
