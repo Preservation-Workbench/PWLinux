@@ -1,10 +1,6 @@
 #!/bin/bash
 killall synaptic;
 
-SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
-OWNER=$(stat -c '%U' $SCRIPTPATH);
-PWCONFIGDIR=/home/$OWNER/.config/pwlinux
-
 if [ ! -f /tmp/microsoft.gpg ]; then
     cd /tmp && curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg;
     install -o root -g root -m 644 /tmp/microsoft.gpg /usr/share/keyrings/microsoft-archive-keyring.gpg;
@@ -16,25 +12,23 @@ if [ $isInFile -eq 0 ]; then
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/ubuntu/20.04/prod focal main" > /etc/apt/sources.list.d/prod.list;
 fi
 
-# Need repo even manual install for dependencies:
+
+# Need repo for dependencies for manual install also:
 isInFile=$(cat /etc/apt/sources.list.d/mssql-server-2019.list | grep -c "https://packages.microsoft.com/ubuntu/18.04/mssql-server-2019")
 if [ $isInFile -eq 0 ]; then
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/ubuntu/18.04/mssql-server-2019 bionic main" > /etc/apt/sources.list.d/mssql-server-2019.list;
 fi
 
+
 apt-get update;
 ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev freetds-dev freetds-bin unixodbc-dev tdsodbc; # mssql-server 
 
-# TODO: When on virtualbox do: sudo apt-get install --reinstall $PWCONFIGDIR/mssql-server/mssql-server_15.0.4073.23-4_amd64.deb
-# Endre så kan bruke apt-get uten passord: https://linuxconfig.org/configure-sudo-without-password-on-ubuntu-20-04-focal-fossa-linux
-# -> Eller desktop-fil for SQL Server fix on virtual machine ?
 
 # Workaround for recurring index hash error on package server:
 if [ $(dpkg-query -W -f='${Status}' mssql-server 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
-    apt-get install -y libc++1 libc++abi1 libsasl2-modules-gssapi-mit libsss-nss-idmap0; 
-    sudo -H -u $OWNER bash -c "mkdir -p $PWCONFIGDIR";   
-    cd $PWCONFIGDIR && wget -c https://packages.microsoft.com/ubuntu/18.04/mssql-server-2019/pool/main/m/mssql-server/mssql-server_15.0.4073.23-4_amd64.deb
-    sudo DEBIAN_FRONTEND=noninteractive dpkg --install $PWCONFIGDIR/mssql-server_15.0.4073.23-4_amd64.deb
+    apt-get install -y libc++1 libc++abi1 libsasl2-modules-gssapi-mit libsss-nss-idmap0;  
+    cd /tmp/ && wget -c https://packages.microsoft.com/ubuntu/18.04/mssql-server-2019/pool/main/m/mssql-server/mssql-server_15.0.4073.23-4_amd64.deb
+    sudo DEBIAN_FRONTEND=noninteractive dpkg --install mssql-server_15.0.4073.23-4_amd64.deb
 fi 
 
 
@@ -42,8 +36,13 @@ if [ -f "/opt/mssql/bin/mssql-conf" ]; then
     export ACCEPT_EULA="Y"
     export MSSQL_PID="Express"
     export MSSQL_SA_PASSWORD="P@ssw0rd"
-    /opt/mssql/bin/mssql-conf -n setup accept-eula
+    /opt/mssql/bin/mssql-conf -n setup accept-eula;
+    echo "$OWNER ALL = (root) NOPASSWD:  /bin/systemctl start mssql-server.service" > /etc/sudoers.d/mssql;
+    sudo chmod 0440 /etc/sudoers.d/mssql;  
 fi
 
-sudo systemctl enable mssql-server
-sudo systemctl start mssql-server
+
+sudo systemctl disable mssql-server; # Bug in mssql renders install unusable on virtualbox after power down if active as service 
+#sudo systemctl start mssql-server
+;; TODO: Fiks så kan starte service som bruker uken passord (så kan startes auto av pwcode)
+;; TODO: Fjern lagret deb i pwlinux config mappe
