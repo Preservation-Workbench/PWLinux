@@ -36,5 +36,12 @@ expect -c "
     expect eof
     "
 
-sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'P@ssw0rd';"
+#sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'P@ssw0rd';"
+# # TODO: Linje over gir FM:
+# Enter password for user root: 
+# Error: Access denied for user 'root'@'localhost' (using password: NO)
+# send: spawn id exp4 not open
+#     while executing
+# "send "P@ssw0rd\r""
+
 
