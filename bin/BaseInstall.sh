@@ -14,6 +14,7 @@ apt-get remove -y --purge `dpkg -l | grep '^rc' | awk '{print $2}'` #Remove resi
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections;
 
 # WAIT: Flytt noen av pakkene under til delscript 
+apt-get update;
 apt-get install -y git ttf-mscorefonts-installer mint-meta-codecs exfat-fuse exfat-utils hunspell hunspell-no rar flatpak pandoc soundconverter openoffice.org-hyphenation openjfx npm sqlite3 python3-virtualenv python3-setuptools uchardet libtool-bin meld mercurial python3-dev checkinstall xchm subversion dos2unix apt-transport-https ca-certificates xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor python3-wheel python3-pip build-essential dos2unix ghostscript icc-profiles-free liblept5 libxml2 xul-ext-lightning thunderbird-locale-en clamtk tesseract-ocr clamav-daemon clamav-unofficial-sigs clamdscan libclamunrar9 pngquant hyphen-fi hyphen-ga hyphen-id arronax birdtray;
 
 
