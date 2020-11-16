@@ -25,6 +25,7 @@ if [ $(dpkg-query -W -f='${Status}' mssql-server 2>/dev/null | grep -c "ok insta
     #cd /tmp && wget -c https://packages.microsoft.com/ubuntu/18.04/mssql-server-2019/pool/main/m/mssql-server/mssql-server_15.0.4073.23-4_amd64.deb
     #sudo DEBIAN_FRONTEND=noninteractive dpkg --install mssql-server_15.0.4073.23-4_amd64.deb
     # Downgrade as workaround for yet another longstanding bug:
+    apt-get install libc++1 libc++abi1 libsasl2-modules-gssapi-mit libsss-nss-idmap0;
     cd /tmp && wget -c https://packages.microsoft.com/ubuntu/16.04/mssql-server-preview/pool/main/m/mssql-server/mssql-server_15.0.1800.32-1_amd64.deb
     sudo DEBIAN_FRONTEND=noninteractive dpkg --install mssql-server_15.0.1800.32-1_amd64.deb    
 fi 
