@@ -30,7 +30,7 @@ if [ $(dpkg-query -W -f='${Status}' mssql-server 2>/dev/null | grep -c "ok insta
     sudo -H -u $OWNER bash -c "mkdir -p $PWCONFIGDIR";
     apt-get install -y libc++1 libc++abi1 libsasl2-modules-gssapi-mit libsss-nss-idmap0;    
     cd $PWCONFIGDIR && wget -c https://packages.microsoft.com/ubuntu/18.04/mssql-server-2019/pool/main/m/mssql-server/mssql-server_15.0.4073.23-4_amd64.deb
-    sudo DEBIAN_FRONTEND=noninteractive dpkg --install mssql-server_15.0.4073.23-4_amd64.deb
+    sudo DEBIAN_FRONTEND=noninteractive dpkg --install $PWCONFIGDIR/mssql-server_15.0.4073.23-4_amd64.deb
     # Downgrade as workaround for yet another longstanding bug: -> triggered more bugs :(
     # cd /tmp && wget -c https://packages.microsoft.com/ubuntu/16.04/mssql-server-preview/pool/main/m/mssql-server/mssql-server_15.0.1800.32-1_amd64.deb
     # sudo DEBIAN_FRONTEND=noninteractive dpkg --install mssql-server_15.0.1800.32-1_amd64.deb    
