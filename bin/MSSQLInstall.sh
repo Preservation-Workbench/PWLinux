@@ -20,10 +20,14 @@ fi
 apt-get update;
 ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev freetds-dev freetds-bin unixodbc-dev tdsodbc; # mssql-server 
 
+# TODO: When on virtualbox do: sudo apt-get install --reinstall $PWCONFIGDIR/mssql-server/mssql-server_15.0.4073.23-4_amd64.deb
+
 # Workaround for recurring index hash error on package server:
 if [ $(dpkg-query -W -f='${Status}' mssql-server 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
-    cd /tmp && wget -c https://packages.microsoft.com/ubuntu/18.04/mssql-server-2019/pool/main/m/mssql-server/mssql-server_15.0.4023.6-2_amd64.deb
-    sudo DEBIAN_FRONTEND=noninteractive dpkg --install mssql-server_15.0.4023.6-2_amd64.deb
+    PWCONFIGDIR=/home/$OWNER/.config/pwlinux
+    sudo -H -u $OWNER bash -c "mkdir -p $PWCONFIGDIR";
+    cd $PWCONFIGDIR && wget -c https://packages.microsoft.com/ubuntu/18.04/mssql-server-2019/pool/main/m/mssql-server/mssql-server_15.0.4073.23-4_amd64.deb
+    sudo DEBIAN_FRONTEND=noninteractive dpkg --install mssql-server_15.0.4073.23-4_amd64.deb
     # Downgrade as workaround for yet another longstanding bug: -> triggered more bugs :(
     # apt-get install -y libc++1 libc++abi1 libsasl2-modules-gssapi-mit libsss-nss-idmap0;
     # cd /tmp && wget -c https://packages.microsoft.com/ubuntu/16.04/mssql-server-preview/pool/main/m/mssql-server/mssql-server_15.0.1800.32-1_amd64.deb

@@ -37,7 +37,7 @@ expect -c "
     "
 
 #sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'P@ssw0rd';"
-# # TODO: Linje over gir FM:
+# # TODO: Linje over gir FM: -> koden over kan ikke kjøres etter at koden under har kjørt tidligere? Hvordan ha begge ?
 # Enter password for user root: 
 # Error: Access denied for user 'root'@'localhost' (using password: NO)
 # send: spawn id exp4 not open
