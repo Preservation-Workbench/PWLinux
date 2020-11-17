@@ -36,13 +36,8 @@ expect -c "
     expect eof
     "
 
-sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'P@ssw0rd';"
-# # TODO: Linje over gir FM: -> koden over kan ikke kjøres etter at koden under har kjørt tidligere? Hvordan ha begge ?
-# Enter password for user root: 
-# Error: Access denied for user 'root'@'localhost' (using password: NO)
-# send: spawn id exp4 not open
-#     while executing
-# "send "P@ssw0rd\r""
+mysql -e "CREATE USER IF NOT EXISTS 'pwb'@'localhost' IDENTIFIED WITH mysql_native_password BY 'P@ssw0rd';"
+mysql -e "GRANT ALL ON *.* TO 'pwb'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;"
 
 # TODO: Lag tilsvarende som for mssql så bruker kan starte/stoppe alle databaser
 # echo "$OWNER ALL=(ALL) NOPASSWD: /bin/systemctl start mssql-server.service,/bin/systemctl stop mssql-server.service" > /etc/sudoers.d/mssql;
