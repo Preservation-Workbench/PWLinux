@@ -14,6 +14,6 @@ LOCALREPO="/home/$OWNER/bin/URD"
 sudo -H -u $OWNER bash -c "git clone "$REPOSRC" "$LOCALREPO" 2> /dev/null || git -C "$LOCALREPO" pull; \
 cd /home/$OWNER/bin/URD/ && composer install;";
 
-sudo mysql -h localhost -u root -p < create_tables_mysql.sql 
+mysql -h localhost -u pwb < create_tables_mysql.sql 
 
 
