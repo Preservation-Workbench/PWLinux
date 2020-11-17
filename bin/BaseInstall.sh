@@ -133,6 +133,12 @@ source $SCRIPTPATH/PostgreSQLInstall.sh
 # Install OnlyOffice:
 source $SCRIPTPATH/OnlyofficeInstall.sh
 
+# Install DBeaver:
+source $SCRIPTPATH/DBeaverInstall.sh
+
+# Install VSCode:
+source $SCRIPTPATH/VSCodeInstall.sh
+
 # Configure Xfce panel:
 sudo add-apt-repository -y ppa:xubuntu-dev/extras;
 sudo apt-get update;
@@ -140,13 +146,14 @@ apt-get install -y  xfce4-docklike-plugin;
 
 su $OWNER -m -c "cat <<\EOF > /home/$OWNER/.config/xfce4/panel/docklike-100.rc
 [user]
-pinned=/usr/share/applications/xfce4-terminal.desktop;/usr/share/applications/gnome-system-monitor.desktop;/home/$OWNER/.local/share/applications/emacs27.desktop;/usr/share/applications/thunar.desktop;/usr/share/applications/chromium.desktop;/usr/share/applications/org.xfce.Catfish.desktop;
+pinned=/usr/share/applications/xfce4-terminal.desktop;/usr/share/applications/gnome-system-monitor.desktop;/home/$OWNER/.local/share/applications/emacs27.desktop;/usr/share/applications/thunar.desktop;/usr/share/applications/chromium.desktop;/usr/share/applications/org.xfce.Catfish.desktop;/usr/share/applications/dbeaver.desktop;/usr/share/applications/code.desktop;/usr/share/applications/clamtk.desktop;
 EOF
 "
 
 sudo -H -u $OWNER bash -c "rm -rdf /home/$OWNER/.config/xfce4/panel/launcher*"
 su $OWNER -m -c "xfconf-query -c xfce4-panel -pn "/plugins/plugin-100" -t string -s 'docklike'"
-su $OWNER -m -c "xfconf-query -c xfce4-panel -p /panels/panel-1/plugin-ids -n -a -t int -s 1 -t int -s 2 -t int -s 100 -t int -s 7 -t int -s 8 -t int -s 9 -t int -s 10 -t int -s 11 -t int -s 12 -t int -s 13"
+su $OWNER -m -c "xfconf-query -c xfce4-panel -pn "/plugins/plugin-101" -t string -s 'fsguard'"
+su $OWNER -m -c "xfconf-query -c xfce4-panel -p /panels/panel-1/plugin-ids -n -a -t int -s 1 -t int -s 2 -t int -s 100 -t int -s 7 -t int -s 101 -t int -s 8 -t int -s 9 -t int -s 10 -t int -s 11 -t int -s 12 -t int -s 13"
 su $OWNER -m -c "xfconf-query --channel 'xfce4-panel' --property '/panels/panel-1/size' --type int --set 40"
 su $OWNER -m -c "xfce4-panel -r "
 
