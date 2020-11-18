@@ -73,7 +73,7 @@ if [ ! -f $sqlplus_path ]; then
     chown oracle:dba /var/tmp/.oracle
 
     su oracle -m -c "$ORACLE_HOME/bin/sqlplus -L -S / AS SYSDBA <<SQL
-    CREATE USER oracle IDENTIFIED BY pwb;
+    CREATE USER oracle IDENTIFIED BY P@ssw0rd;
     GRANT CREATE SESSION, GRANT ANY PRIVILEGE TO oracle;
     GRANT ALL PRIVILEGES TO oracle;
     GRANT CONNECT, RESOURCE TO oracle;
