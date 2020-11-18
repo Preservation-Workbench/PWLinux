@@ -18,6 +18,6 @@ sudo -H -u $OWNER bash -c "git clone "$REPOSRC" "$LOCALREPO" 2> /dev/null || git
 cd /home/$OWNER/bin/URD/ && composer install;";
 
 # Create schema:
-mysql -h localhost -u pwb < $LOCALREPO/schemas/urd/sql/create_tables_mysql.sql;
+mysql -h localhost < $LOCALREPO/schemas/urd/sql/create_tables_mysql.sql;
 
 
