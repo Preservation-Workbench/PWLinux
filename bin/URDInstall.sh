@@ -23,5 +23,29 @@ if [ "$USER_EXISTS" -ne 1 ]; then
     mysql -h localhost < $LOCALREPO/schemas/urd/sql/create_tables_mysql.sql;
 fi   
 
+sudo -H -u $OWNER bash -c "cat <<\EOF > /home/$OWNER/bin/urd.sh
+#!/bin/bash
+
+sudo systemctl start mysql &&
+cd ~/bin/URD/bin/URD/public && 
+php -S localhost:8000 &&
+chromium --app=localhost:8000
+EOF
+"
+sudo -H -u $OWNER bash -c "chmod a+rx /home/$OWNER/bin/urd.sh;";
+
+sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/applications;";
+sudo -H -u $OWNER bash -c "cat <<\EOF > /home/$OWNER/.local/share/applications/urd.desktop
+[Desktop Entry]
+Name=URD
+Exec=/home/$OWNER/bin/urd.sh
+Icon=/usr/share/icons/Papirus/32x32/apps/0ad.svg
+Terminal=false
+Categories=Development;
+Type=Application
+Name[en_US]=URD
+EOF
+"
+
 
 
