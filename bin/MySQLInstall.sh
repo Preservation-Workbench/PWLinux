@@ -1,9 +1,6 @@
 #!/bin/bash
 killall synaptic;
 
-SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
-OWNER=$(stat -c '%U' $SCRIPTPATH);
-
 apt-get update;
 apt-get install -y mysql-server-8.0 expect;
 
@@ -40,10 +37,13 @@ if [ "$USER_EXISTS" -ne 1 ]; then
         send \"y\r\"
         expect eof
         "
-
-    mysql -e "CREATE USER IF NOT EXISTS 'pwb'@'localhost' IDENTIFIED WITH mysql_native_password BY 'P@ssw0rd';"
-    mysql -e "GRANT ALL ON *.* TO 'pwb'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;"  
 fi
+
+SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+OWNER=$(stat -c '%U' $SCRIPTPATH); # Reset by mysql_secure_installation if top of file
+
+mysql -e "CREATE USER IF NOT EXISTS 'pwb'@'localhost' IDENTIFIED WITH mysql_native_password BY 'P@ssw0rd';"
+mysql -e "GRANT ALL ON *.* TO 'pwb'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;"  
 
 echo "$OWNER ALL=(ALL) NOPASSWD: /bin/systemctl start mysql,/bin/systemctl stop mysql" > /etc/sudoers.d/mysql;
 sudo chmod 0440 /etc/sudoers.d/mysql;  
