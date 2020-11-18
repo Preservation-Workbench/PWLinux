@@ -125,6 +125,9 @@ fi
 # Install MSSQL:
 source $SCRIPTPATH/MSSQLInstall.sh
 
+# Install MSSQL:
+source $SCRIPTPATH/URDInstall.sh
+
 # Install MySQL:
 source $SCRIPTPATH/MySQLInstall.sh
 
