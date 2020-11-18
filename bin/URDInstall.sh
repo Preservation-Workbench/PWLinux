@@ -14,7 +14,7 @@ OWNER=$(stat -c '%U' $SCRIPTPATH)
 
 REPOSRC="https://github.com/fkirkholt/urd.git"
 LOCALREPO="/home/$OWNER/bin/URD"
-sudo -H -u $OWNER bash -c "git clone "$REPOSRC" "$LOCALREPO" 2> /dev/null || git -C "$LOCALREPO" pull; \
+sudo -H -u $OWNER bash -c "git clone --depth 1 "$REPOSRC" "$LOCALREPO" 2> /dev/null || git -C "$LOCALREPO" pull; \
 cd /home/$OWNER/bin/URD/ && composer install;";
 
 # Create urd-user/schema if not done:
