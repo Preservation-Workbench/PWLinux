@@ -108,6 +108,7 @@ if [ ! -f $FNAME ]; then
     su $OWNER -m -c "xfconf-query -c xsettings -p /Net/IconThemeName -s 'Papirus'"
     su $OWNER -m -c "xfconf-query -c xsettings -p /Net/ThemeName -s 'Mint-Y-Aqua'"
     su $OWNER -m -c "xfconf-query -c xfwm4 -p /general/theme -s 'Mint-Y-Red'"
+    killall Thunar;
     su $OWNER -m -c "xfce4-panel -r "
 fi
 
@@ -154,11 +155,24 @@ pinned=/usr/share/applications/xfce4-terminal.desktop;/usr/share/applications/gn
 EOF
 "
 
+su $OWNER -m -c "cat <<\EOF > /home/$OWNER/.config/xfce4/panel/fsguard-101.rc
+yellow=8
+red=2
+lab_size_visible=false
+progress_bar_visible=false
+hide_button=false
+label=
+label_visible=false
+mnt=/
+EOF
+"
+
 sudo -H -u $OWNER bash -c "rm -rdf /home/$OWNER/.config/xfce4/panel/launcher*"
 su $OWNER -m -c "xfconf-query -c xfce4-panel -pn "/plugins/plugin-100" -t string -s 'docklike'"
 su $OWNER -m -c "xfconf-query -c xfce4-panel -pn "/plugins/plugin-101" -t string -s 'fsguard'"
 su $OWNER -m -c "xfconf-query -c xfce4-panel -p /panels/panel-1/plugin-ids -n -a -t int -s 1 -t int -s 2 -t int -s 100 -t int -s 7 -t int -s 101 -t int -s 8 -t int -s 9 -t int -s 10 -t int -s 11 -t int -s 12 -t int -s 13"
 su $OWNER -m -c "xfconf-query --channel 'xfce4-panel' --property '/panels/panel-1/size' --type int --set 40"
+killall Thunar;
 su $OWNER -m -c "xfce4-panel -r "
 
 
