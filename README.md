@@ -16,7 +16,7 @@ Additionals steps if installed on virtualbox:
 
 Download this repo as zip or git clone.
 
-Run or click *PWLinux Installer*
+Run *./bin/pwlinux.py* or click *PWLinux Installer*
 
 
 
