@@ -17,7 +17,11 @@ LOCALREPO="/home/$OWNER/bin/URD"
 sudo -H -u $OWNER bash -c "git clone "$REPOSRC" "$LOCALREPO" 2> /dev/null || git -C "$LOCALREPO" pull; \
 cd /home/$OWNER/bin/URD/ && composer install;";
 
-# Create schema:
-mysql -h localhost < $LOCALREPO/schemas/urd/sql/create_tables_mysql.sql;
+# Create urd-user/schema if not done:
+USER_EXISTS="$(mysql -sse "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'urd')")"
+if [ "$USER_EXISTS" -ne 1 ]; then
+    mysql -h localhost < $LOCALREPO/schemas/urd/sql/create_tables_mysql.sql;
+fi   
+
 
 
