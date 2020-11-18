@@ -1,16 +1,16 @@
 #!/bin/bash
 
+# Install MySQL if not done:
+USER_EXISTS="$(mysql -sse "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'pwb')")"
+if [ "$USER_EXISTS" -ne 1 ]; then
+    source $SCRIPTPATH/MySQLInstall.sh
+fi   
+
 apt-get update;
 apt install -y composer php-mysql;
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 OWNER=$(stat -c '%U' $SCRIPTPATH)
-
-# Install MySQL if not done:
-USER_EXISTS="$(mysql -sse "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'pwb')")"
-if [ "$USER_EXISTS" -ne 1 ]; then
-    source $SCRIPTPATH/MySQLInstall.sh
-fi    
 
 REPOSRC="https://github.com/fkirkholt/urd.git"
 LOCALREPO="/home/$OWNER/bin/URD"
