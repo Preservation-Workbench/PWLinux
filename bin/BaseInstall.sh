@@ -101,7 +101,7 @@ SRC=$SCRIPTPATH/img/pwlinux_icon.png
 FNAME="$PWCONFIGDIR/img/pwlinux_icon.png"
 if [ ! -f $FNAME ]; then
     sudo apt-get update;
-    sudo apt-get install -y papirus-icon-theme libreoffice-style-papirus;
+    sudo apt-get install -y papirus-icon-theme;
     sudo -H -u $OWNER bash -c "cp $SRC $FNAME"
     sudo -H -u $OWNER bash -c 'sed -i "s:^button-icon=.*:button-icon='"$PWCONFIGDIR"'/img/pwlinux_icon.png:g" ~/.config/xfce4/panel/whiskermenu-1.rc'
     su $OWNER -m -c "xfconf-query -c xsettings -p /Net/IconThemeName -s 'Papirus'"
