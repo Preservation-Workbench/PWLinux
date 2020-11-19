@@ -123,25 +123,25 @@ if [ $isInFile -eq 0 ]; then
 fi
 
 # Install MSSQL:
-source $SCRIPTPATH/MSSQLInstall.sh
+source MSSQLInstall.sh
 
 # Install MySQL:
-source $SCRIPTPATH/MySQLInstall.sh
+source MySQLInstall.sh
 
 # Install URD:
-source $SCRIPTPATH/URDInstall.sh
+source URDInstall.sh
 
 # Install PostgreSQL:
-source $SCRIPTPATH/PostgreSQLInstall.sh
+source PostgreSQLInstall.sh
 
 # Install OnlyOffice:
-source $SCRIPTPATH/OnlyofficeInstall.sh
+source OnlyofficeInstall.sh
 
 # Install DBeaver:
-source $SCRIPTPATH/DBeaverInstall.sh
+source DBeaverInstall.sh
 
 # Install VSCode:
-source $SCRIPTPATH/VSCodeInstall.sh
+source VSCodeInstall.sh
 
 # Configure Xfce panel:
 sudo add-apt-repository -y ppa:xubuntu-dev/extras;
