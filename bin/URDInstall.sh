@@ -26,8 +26,8 @@ sudo -H -u $OWNER bash -c "cat <<\EOF > /home/$OWNER/bin/urd.sh
 
 sudo systemctl start mysql &&
 cd ~/bin/URD/public && 
-php -S localhost:8000 &&
-chromium --app=localhost:8000
+php -S localhost:8000;
+chromium --app=http://localhost:8000;
 EOF
 "
 sudo -H -u $OWNER bash -c "chmod a+rx /home/$OWNER/bin/urd.sh;";
