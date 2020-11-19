@@ -24,7 +24,7 @@ fi
 
 
 apt-get update;
-ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev freetds-dev freetds-bin unixodbc-dev tdsodbc; # mssql-server 
+ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev freetds-dev freetds-bin unixodbc-dev tdsodbc python-is-python2; # mssql-server 
 
 
 # Workaround for recurring index hash error on package server:
