@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # Install MySQL if not done:
-USER_EXISTS="$(mysql -sse "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'pwb')")"
-if [ "$USER_EXISTS" -ne 1 ]; then
+if [ ! -f "/etc/sudoers.d/mysql" ]; then
     source $SCRIPTPATH/MySQLInstall.sh
 fi   
 
