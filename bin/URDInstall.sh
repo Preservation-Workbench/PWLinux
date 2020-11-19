@@ -1,7 +1,6 @@
 #!/bin/bash
-killall synaptic;
-
-SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+#SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+SCRIPTPATH=$(dirname $(readlink -f $0))
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 
 # Install MySQL if not done:

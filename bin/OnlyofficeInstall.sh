@@ -1,5 +1,4 @@
 #!/bin/bash
-killall synaptic;
 
 isInFile=$(cat /etc/apt/sources.list | grep -c "https://download.onlyoffice.com/repo/debian")
 if [ $isInFile -eq 0 ]; then

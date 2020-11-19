@@ -1,7 +1,6 @@
 #!/bin/bash
-killall synaptic;
-
-SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+#SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+SCRIPTPATH=$(dirname $(readlink -f $0))
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 PWCONFIGDIR=/home/$OWNER/.config/pwlinux
 USERID=$(id -u $OWNER)
@@ -123,25 +122,25 @@ if [ $isInFile -eq 0 ]; then
 fi
 
 # Install MSSQL:
-source MSSQLInstall.sh
+source $SCRIPTPATH/MSSQLInstall.sh
 
 # Install MySQL:
-source MySQLInstall.sh
+source $SCRIPTPATH/MySQLInstall.sh
 
 # Install URD:
-source URDInstall.sh
+source $SCRIPTPATH/URDInstall.sh
 
 # Install PostgreSQL:
-source PostgreSQLInstall.sh
+source $SCRIPTPATH/PostgreSQLInstall.sh
 
 # Install OnlyOffice:
-source OnlyofficeInstall.sh
+source $SCRIPTPATH/OnlyofficeInstall.sh
 
 # Install DBeaver:
-source DBeaverInstall.sh
+source $SCRIPTPATH/DBeaverInstall.sh
 
 # Install VSCode:
-source VSCodeInstall.sh
+source $SCRIPTPATH/VSCodeInstall.sh
 
 # Configure Xfce panel:
 sudo add-apt-repository -y ppa:xubuntu-dev/extras;
