@@ -15,7 +15,7 @@
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 #SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
-SCRIPTPATH=$(dirname $BASH_SOURCE)
+SCRIPTPATH=$(dirname $(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null||echo $0))
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 ORACLE_HOME="/u01/app/oracle/product/11.2.0/xe"
 ORACLE_SID=XE

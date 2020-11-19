@@ -1,6 +1,6 @@
 #!/bin/bash
 #SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
-SCRIPTPATH=$(dirname $BASH_SOURCE)
+SCRIPTPATH=$(dirname $(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null||echo $0))
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 
 url="https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x873503a090750cda\

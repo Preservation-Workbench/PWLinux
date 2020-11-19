@@ -1,6 +1,6 @@
 #!/bin/bash
 #SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
-SCRIPTPATH=$(dirname $BASH_SOURCE)
+SCRIPTPATH=$(dirname $(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null||echo $0))
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 
 # Install MySQL if not done:
@@ -38,7 +38,7 @@ sudo -H -u $OWNER bash -c "cat <<\EOF > /home/$OWNER/.local/share/applications/u
 [Desktop Entry]
 Name=URD
 Exec=/home/$OWNER/bin/urd.sh
-Icon=/usr/share/icons/Papirus/32x32/apps/0ad.svg
+Icon=/usr/share/icons/Papirus/symbolic/apps/google-chrome-symbolic.svg
 Terminal=false
 Categories=Development;
 Type=Application
