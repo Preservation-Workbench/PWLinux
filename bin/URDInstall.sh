@@ -26,7 +26,7 @@ sudo -H -u $OWNER bash -c "cat <<\EOF > /home/$OWNER/bin/urd.sh
 #!/bin/bash
 
 sudo systemctl start mysql &&
-cd ~/bin/URD/bin/URD/public && 
+cd ~/bin/URD/public && 
 php -S localhost:8000 &&
 chromium --app=localhost:8000
 EOF
