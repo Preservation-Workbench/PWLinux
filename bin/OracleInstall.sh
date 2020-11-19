@@ -100,7 +100,7 @@ if [ ! -f $sqlplus_path ]; then
     chmod 0440 /etc/sudoers.d/xe;    
 fi
 
-
+cd $SCRIPTPATH;
 
 
 

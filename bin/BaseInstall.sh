@@ -1,5 +1,4 @@
 #!/bin/bash
-#SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 SCRIPTPATH=$(dirname $(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null||echo $0))
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 PWCONFIGDIR=/home/$OWNER/.config/pwlinux
@@ -36,6 +35,7 @@ if [ $isInFile -eq 0 ]; then
     apt-get install -y apt-transport-https ca-certificates; #Needed for all https repos    
     cd /tmp/ && wget https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-centos7/repodata/repomd.xml.key && apt-key add repomd.xml.key;
     echo 'deb https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-ubuntu2004 ./' >> /etc/apt/sources.list;
+    cd $SCRIPTPATH;
 fi
 
 apt-get update;

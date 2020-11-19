@@ -1,5 +1,4 @@
 #!/bin/bash
-#SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 SCRIPTPATH=$(dirname $(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null||echo $0))
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 
@@ -45,3 +44,5 @@ if [ -f "/opt/mssql/bin/mssql-conf" ]; then
 fi
 
 systemctl disable mssql-server; # Bug in mssql renders install unusable on virtualbox after power down if active as service 
+
+cd $SCRIPTPATH;

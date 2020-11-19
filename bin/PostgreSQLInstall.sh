@@ -1,5 +1,4 @@
 #!/bin/bash
-#SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 SCRIPTPATH=$(dirname $(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null||echo $0))
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 
@@ -13,3 +12,4 @@ sudo -i -u postgres bash -c \
 echo "$OWNER ALL=(ALL) NOPASSWD: /bin/systemctl start postgresql,/bin/systemctl stop postgresql" > /etc/sudoers.d/postgresql;
 sudo chmod 0440 /etc/sudoers.d/postgresql;  
 systemctl disable postgresql;
+cd $SCRIPTPATH;

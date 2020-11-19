@@ -1,5 +1,4 @@
 #!/bin/bash
-#SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 SCRIPTPATH=$(dirname $(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null||echo $0))
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 
@@ -64,6 +63,8 @@ if [ $isInFile -eq 0 ]; then
         "echo 'emacs() { emacsclient -a \"emacs\" -n \"\$@\" 2>/dev/null || command emacs & disown; }'\
         >> /home/$OWNER/.bashrc";
 fi
+
+cd $SCRIPTPATH;
 
 # #xdg-mime default emacs27.desktop text/english text/plain text/x-makefile \
 # text/x-c++hdr text/x-c++src text/x-chdr text/x-csrc text/x-java text/x-moc \

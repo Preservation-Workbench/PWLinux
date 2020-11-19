@@ -1,7 +1,6 @@
 #!/bin/bash
-#SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 SCRIPTPATH=$(dirname $(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null||echo $0))
-OWNER=$(stat -c '%U' $SCRIPTPATH); # Reset by mysql_secure_installation if top of file
+OWNER=$(stat -c '%U' $SCRIPTPATH);
 
 apt-get update;
 apt-get install -y mysql-server-8.0 expect;
@@ -47,7 +46,7 @@ if [ ! -f "/etc/sudoers.d/mysql" ]; then
     systemctl disable mysql;            
 fi
 
-
+cd $SCRIPTPATH;
 
    
 
