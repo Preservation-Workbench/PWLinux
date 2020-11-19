@@ -1,3 +1,3 @@
 #!/bin/bash
 
-flatpak install -y flathub com.github.johnfactotum.Foliate
+flatpak install -y --noninteractive flathub com.github.johnfactotum.Foliate

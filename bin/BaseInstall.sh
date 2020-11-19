@@ -15,7 +15,7 @@ apt-get remove -y --purge `dpkg -l | grep '^rc' | awk '{print $2}'` #Remove resi
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections;
 
 # WAIT: Flytt noen av pakkene under til delscript 
-apt-get install -y git ttf-mscorefonts-installer mint-meta-codecs exfat-fuse xfce4-fsguard-plugin exfat-utils hunspell hunspell-no rar flatpak pandoc soundconverter openoffice.org-hyphenation openjfx npm sqlite3 python3-virtualenv python3-setuptools uchardet libtool-bin meld mercurial python3-dev checkinstall xchm subversion dos2unix apt-transport-https ca-certificates xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor python3-wheel python3-pip build-essential dos2unix ghostscript icc-profiles-free liblept5 libxml2 xul-ext-lightning thunderbird-locale-en clamtk tesseract-ocr clamav-daemon clamav-unofficial-sigs clamdscan libclamunrar9 pngquant hyphen-fi hyphen-ga hyphen-id arronax birdtray;
+apt-get install -y git ttf-mscorefonts-installer mint-meta-codecs exfat-fuse xfce4-fsguard-plugin exfat-utils hunspell libreoffice-style-papirus hunspell-no rar flatpak pandoc soundconverter openoffice.org-hyphenation openjfx npm sqlite3 python3-virtualenv python3-setuptools uchardet libtool-bin meld mercurial python3-dev checkinstall xchm subversion dos2unix apt-transport-https ca-certificates xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor python3-wheel python3-pip build-essential dos2unix ghostscript icc-profiles-free liblept5 libxml2 xul-ext-lightning thunderbird-locale-en clamtk tesseract-ocr clamav-daemon clamav-unofficial-sigs clamdscan libclamunrar9 pngquant hyphen-fi hyphen-ga hyphen-id arronax birdtray;
 
 
 isInFile=$(cat /etc/apt/sources.list.d/home-ungoogled_chromium.list | grep -c "http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/")
@@ -24,7 +24,7 @@ if [ $isInFile -eq 0 ]; then
     echo 'deb http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/ /' > /etc/apt/sources.list.d/home-ungoogled_chromium.list;
     killall firefox;
     apt remove -y hexchat-common hexchat rhythmbox xfce4-taskmanager firefox;    
-    flatpak install flathub org.mozilla.firefox;
+    flatpak install -y --noninteractive flathub org.mozilla.firefox;
 fi
 
 apt-get update;
@@ -108,7 +108,6 @@ if [ ! -f $FNAME ]; then
     su $OWNER -m -c "xfconf-query -c xsettings -p /Net/IconThemeName -s 'Papirus'"
     su $OWNER -m -c "xfconf-query -c xsettings -p /Net/ThemeName -s 'Mint-Y-Aqua'"
     su $OWNER -m -c "xfconf-query -c xfwm4 -p /general/theme -s 'Mint-Y-Red'"
-    killall Thunar;
     su $OWNER -m -c "xfce4-panel -r "
 fi
 
@@ -147,7 +146,7 @@ source $SCRIPTPATH/VSCodeInstall.sh
 # Configure Xfce panel:
 sudo add-apt-repository -y ppa:xubuntu-dev/extras;
 sudo apt-get update;
-apt-get install -y  xfce4-docklike-plugin;
+apt-get install -y xfce4-docklike-plugin;
 
 su $OWNER -m -c "cat <<\EOF > /home/$OWNER/.config/xfce4/panel/docklike-100.rc
 [user]
@@ -172,7 +171,6 @@ su $OWNER -m -c "xfconf-query -c xfce4-panel -pn "/plugins/plugin-100" -t string
 su $OWNER -m -c "xfconf-query -c xfce4-panel -pn "/plugins/plugin-101" -t string -s 'fsguard'"
 su $OWNER -m -c "xfconf-query -c xfce4-panel -p /panels/panel-1/plugin-ids -n -a -t int -s 1 -t int -s 2 -t int -s 100 -t int -s 7 -t int -s 101 -t int -s 8 -t int -s 9 -t int -s 10 -t int -s 11 -t int -s 12 -t int -s 13"
 su $OWNER -m -c "xfconf-query --channel 'xfce4-panel' --property '/panels/panel-1/size' --type int --set 40"
-killall Thunar;
 su $OWNER -m -c "xfce4-panel -r "
 
 

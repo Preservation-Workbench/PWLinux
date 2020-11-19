@@ -1,3 +1,3 @@
 #!/bin/bash
 
-flatpak install -y flathub com.wps.Office
+flatpak install -y --noninteractive flathub com.wps.Office

@@ -1,5 +1,5 @@
 #!/bin/bash
 
-flatpak install -y flathub com.github.marktext.marktext
+flatpak install -y --noninteractive flathub com.github.marktext.marktext
 
 
