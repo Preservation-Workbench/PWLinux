@@ -1,6 +1,6 @@
 #!/bin/bash
 #SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
-SCRIPTPATH=$(dirname $(readlink -f $0))
+SCRIPTPATH="${BASH_SOURCE%/*}"
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 PWCONFIGDIR=/home/$OWNER/.config/pwlinux
 USERID=$(id -u $OWNER)
