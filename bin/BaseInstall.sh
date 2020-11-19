@@ -1,10 +1,10 @@
 #!/bin/bash
 #SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
-SCRIPTPATH="${BASH_SOURCE%/*}"
+SCRIPTPATH=$(dirname $BASH_SOURCE)
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 PWCONFIGDIR=/home/$OWNER/.config/pwlinux
 USERID=$(id -u $OWNER)
-export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USERID/bus"
+export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USERID/bus";
 
 sudo add-apt-repository -y ppa:diesch/stable;
 apt-get update;

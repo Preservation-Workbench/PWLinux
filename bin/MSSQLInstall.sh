@@ -1,6 +1,6 @@
 #!/bin/bash
 #SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
-SCRIPTPATH="${BASH_SOURCE%/*}"
+SCRIPTPATH=$(dirname $BASH_SOURCE)
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 
 if [ ! -f /tmp/microsoft.gpg ]; then

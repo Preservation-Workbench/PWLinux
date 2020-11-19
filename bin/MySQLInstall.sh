@@ -1,6 +1,6 @@
 #!/bin/bash
 #SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
-SCRIPTPATH="${BASH_SOURCE%/*}"
+SCRIPTPATH=$(dirname $BASH_SOURCE)
 OWNER=$(stat -c '%U' $SCRIPTPATH); # Reset by mysql_secure_installation if top of file
 
 apt-get update;
