@@ -21,29 +21,30 @@ if [ "$USER_EXISTS" -ne 1 ]; then
     mysql -h localhost < $LOCALREPO/schemas/urd/sql/create_tables_mysql.sql;
 fi   
 
-sudo -H -u $OWNER bash -c "cat <<\EOF > /home/$OWNER/bin/urd.sh
-#!/bin/bash
+# TODO: Legg til urd som bokmerke heller samt ha start/stop av webserver i tray menu
+# sudo -H -u $OWNER bash -c "cat <<\EOF > /home/$OWNER/bin/urd.sh
+# #!/bin/bash
 
-sudo systemctl start mysql &&
-cd ~/bin/URD/public && 
-php -S localhost:8000;
-chromium --app=http://localhost:8000;
-EOF
-"
-sudo -H -u $OWNER bash -c "chmod a+rx /home/$OWNER/bin/urd.sh;";
+# sudo systemctl start mysql &&
+# cd ~/bin/URD/public && 
+# php -S localhost:8000;
+# chromium --app=http://localhost:8000;
+# EOF
+# "
+# sudo -H -u $OWNER bash -c "chmod a+rx /home/$OWNER/bin/urd.sh;";
 
-sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/applications;";
-sudo -H -u $OWNER bash -c "cat <<\EOF > /home/$OWNER/.local/share/applications/urd.desktop
-[Desktop Entry]
-Name=URD
-Exec=/home/$OWNER/bin/urd.sh
-Icon=/usr/share/icons/Papirus/symbolic/apps/google-chrome-symbolic.svg
-Terminal=false
-Categories=Development;
-Type=Application
-Name[en_US]=URD
-EOF
-"
+# sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/applications;";
+# sudo -H -u $OWNER bash -c "cat <<\EOF > /home/$OWNER/.local/share/applications/urd.desktop
+# [Desktop Entry]
+# Name=URD
+# Exec=/home/$OWNER/bin/urd.sh
+# Icon=/usr/share/icons/Papirus/symbolic/apps/google-chrome-symbolic.svg
+# Terminal=false
+# Categories=Development;
+# Type=Application
+# Name[en_US]=URD
+# EOF
+# "
 
 cd $SCRIPTPATH;
 
