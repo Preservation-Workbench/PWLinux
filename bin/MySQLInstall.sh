@@ -1,13 +1,15 @@
 #!/bin/bash
 killall synaptic;
 
+SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+OWNER=$(stat -c '%U' $SCRIPTPATH); # Reset by mysql_secure_installation if top of file
+
 apt-get update;
 apt-get install -y mysql-server-8.0 expect;
 
 MYSQL_ROOT_PASSWORD='P@ssw0rd'
 MYSQL=$(grep 'temporary password' /var/log/mysqld.log | awk '{print $11}')
-USER_EXISTS="$(mysql -sse "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'pwb')")"
-if [ "$USER_EXISTS" -ne 1 ]; then
+if [ ! -f "/etc/sudoers.d/mysql" ]; then
     expect -c "
         set timeout 10
         spawn mysql_secure_installation
@@ -37,17 +39,18 @@ if [ "$USER_EXISTS" -ne 1 ]; then
         send \"y\r\"
         expect eof
         "
+
+    mysql -e "CREATE USER IF NOT EXISTS 'pwb'@'localhost' IDENTIFIED WITH mysql_native_password BY 'P@ssw0rd';"
+    mysql -e "GRANT ALL ON *.* TO 'pwb'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;"  
+
+    echo "$OWNER ALL=(ALL) NOPASSWD: /bin/systemctl start mysql,/bin/systemctl stop mysql" > /etc/sudoers.d/mysql;
+    sudo chmod 0440 /etc/sudoers.d/mysql;  
+    systemctl disable mysql;            
 fi
 
-SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
-OWNER=$(stat -c '%U' $SCRIPTPATH); # Reset by mysql_secure_installation if top of file
 
-mysql -e "CREATE USER IF NOT EXISTS 'pwb'@'localhost' IDENTIFIED WITH mysql_native_password BY 'P@ssw0rd';"
-mysql -e "GRANT ALL ON *.* TO 'pwb'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;"  
 
-echo "$OWNER ALL=(ALL) NOPASSWD: /bin/systemctl start mysql,/bin/systemctl stop mysql" > /etc/sudoers.d/mysql;
-sudo chmod 0440 /etc/sudoers.d/mysql;  
-systemctl disable mysql;       
+   
 
 
 
