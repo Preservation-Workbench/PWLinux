@@ -1,4 +1,8 @@
 #!/bin/bash
+killall synaptic;
+
+SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+OWNER=$(stat -c '%U' $SCRIPTPATH);
 
 # Install MySQL if not done:
 if [ ! -f "/etc/sudoers.d/mysql" ]; then
@@ -7,9 +11,6 @@ fi
 
 apt-get update;
 apt install -y composer php-mysql;
-
-SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
-OWNER=$(stat -c '%U' $SCRIPTPATH)
 
 REPOSRC="https://github.com/fkirkholt/urd.git"
 LOCALREPO="/home/$OWNER/bin/URD"

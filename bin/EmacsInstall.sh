@@ -1,5 +1,8 @@
 #!/bin/bash
-killall synaptic
+killall synaptic;
+
+SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+OWNER=$(stat -c '%U' $SCRIPTPATH);
 
 url="https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x873503a090750cda\
     eb0754d93ff0e01eeaafc9cd"
@@ -18,9 +21,6 @@ apt-get install -y emacs27 git libvterm-dev libtool-bin cmake ripgrep \
     hunspell-no hunspell fzf fd-find universal-ctags python3-bashate black \
     jq clang-format pipenv python3-pytest shellcheck node-js-beautify \
     fonts-firacode direnv grip;
-
-SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
-OWNER=$(stat -c '%U' $SCRIPTPATH);
 
 # WAIT: Legg inn sjekk og beskjed hvis emacs installert men ikke doom variant
 REPOSRC="https://github.com/hlissner/doom-emacs"
