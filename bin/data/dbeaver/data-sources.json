@@ -1,0 +1,150 @@
+{
+	"folders": {},
+	"connections": {
+		"oracle_thin-175e57c170d-5e97c8b2401cbae6": {
+			"provider": "oracle",
+			"driver": "oracle_thin",
+			"name": "oracle@localhost",
+			"save-password": true,
+			"show-system-objects": true,
+			"read-only": false,
+			"configuration": {
+				"host": "localhost",
+				"port": "1521",
+				"database": "xe",
+				"url": "jdbc:oracle:thin:@localhost:1521:xe",
+				"home": "/u01/app/oracle/product/11.2.0/xe",
+				"type": "dev",
+				"provider-properties": {
+					"@dbeaver-check-schema-content@": "false",
+					"@dbeaver-always-show-dba@": "false",
+					"@dbeaver-always-use-dba-views@": "false",
+					"@dbeaver-meta-use-sys-schema@": "false",
+					"@dbeaver-meta-use-simple-constraints@": "false",
+					"@dbeaver-use-rule-hint@": "false",
+					"@dbeaver-use-meta-optimizer@": "false",
+					"@dbeaver-meta-use-alternative-table-query@": "false",
+					"@dbeaver-connection-type@": "BASIC",
+					"@dbeaver-sid-service@": "SID"
+				},
+				"auth-model": "oracle_native",
+				"events": {
+					"BEFORE_CONNECT": {
+						"enabled": true,
+						"show-panel": false,
+						"wait-process": true,
+						"wait-process-timeout": -1,
+						"terminate-at-disconnect": false,
+						"pauseAfterExecute": 0,
+						"command": "sudo /etc/init.d/oracle-xe start\n"
+					}
+				},
+				"handlers": {}
+			}
+		},
+		"mysql5-175e589283e-11eb138620ae0f05": {
+			"provider": "mysql",
+			"driver": "mysql5",
+			"name": "mysql@localhost",
+			"save-password": true,
+			"show-system-objects": true,
+			"read-only": false,
+			"configuration": {
+				"host": "localhost",
+				"port": "3306",
+				"url": "jdbc:mysql://localhost:3306/",
+				"home": "/usr",
+				"type": "dev",
+				"auth-model": "native",
+				"events": {
+					"BEFORE_CONNECT": {
+						"enabled": true,
+						"show-panel": false,
+						"wait-process": true,
+						"wait-process-timeout": -1,
+						"terminate-at-disconnect": false,
+						"pauseAfterExecute": 0,
+						"command": "sudo systemctl start mysql"
+					}
+				},
+				"handlers": {}
+			}
+		},
+		"postgres-jdbc-175e58d81d8-4f8990db7ebeaa3a": {
+			"provider": "postgresql",
+			"driver": "postgres-jdbc",
+			"name": "postgresql@localhost",
+			"save-password": true,
+			"show-system-objects": true,
+			"read-only": false,
+			"configuration": {
+				"host": "localhost",
+				"port": "5432",
+				"database": "postgres",
+				"url": "jdbc:postgresql://localhost:5432/postgres",
+				"type": "dev",
+				"provider-properties": {
+					"@dbeaver-show-non-default-db@": "false",
+					"@dbeaver-show-template-db@": "false",
+					"@dbeaver-show-unavailable-db@": "false",
+					"postgresql.dd.plain.string": "false",
+					"postgresql.dd.tag.string": "false"
+				},
+				"auth-model": "native",
+				"events": {
+					"BEFORE_CONNECT": {
+						"enabled": true,
+						"show-panel": false,
+						"wait-process": true,
+						"wait-process-timeout": -1,
+						"terminate-at-disconnect": false,
+						"pauseAfterExecute": 0,
+						"command": "sudo systemctl start postgresql"
+					}
+				},
+				"handlers": {}
+			}
+		},
+		"microsoft-175e58fc9d4-67ab3d03f412c049": {
+			"provider": "sqlserver",
+			"driver": "microsoft",
+			"name": "mssql@localhost",
+			"save-password": true,
+			"show-system-objects": true,
+			"read-only": false,
+			"configuration": {
+				"host": "localhost",
+				"port": "1433",
+				"database": "master",
+				"url": "jdbc:sqlserver://;serverName=localhost;databaseName=master",
+				"type": "dev",
+				"provider-properties": {
+					"@dbeaver-authentication@": "SQL_SERVER_PASSWORD",
+					"@dbeaver-show-all-schemas@": "true"
+				},
+				"events": {
+					"BEFORE_CONNECT": {
+						"enabled": true,
+						"show-panel": false,
+						"wait-process": true,
+						"wait-process-timeout": -1,
+						"terminate-at-disconnect": false,
+						"pauseAfterExecute": 0,
+						"command": "sudo systemctl start mssql-server"
+					}
+				},
+				"handlers": {}
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false
+		}
+	}
+}

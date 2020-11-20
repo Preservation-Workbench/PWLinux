@@ -8,6 +8,14 @@ fi
 
 apt-get update;
 apt-get install -y dbeaver-ce;
+
+DBDT="/home/$OWNER/.local/share/DBeaverData/workspace6/General/.dbeaver"
+if [ ! -f "$DBDT/data-sources.json" ]; then
+    sudo -H -u $OWNER bash -c "mkdir -p $DBDT;";
+    sudo -H -u $OWNER bash -c "cp $SCRIPTPATH/data/dbeaver/data-sources.json $DBDT/data-sources.json"
+    sudo -H -u $OWNER bash -c "cp $SCRIPTPATH/data/dbeaver/credentials-config.json $DBDT/credentials-config.json"
+fi
+
 cd $SCRIPTPATH;
 
 

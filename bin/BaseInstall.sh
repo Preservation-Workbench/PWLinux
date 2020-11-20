@@ -116,7 +116,6 @@ source $SCRIPTPATH/EmacsInstall.sh
 # Install Oracle:
 source $SCRIPTPATH/OracleInstall.sh
 isInFile=$(cat /etc/lightdm/lightdm.conf | grep -c "greeter-hide-users=true")
-
 if [ $isInFile -eq 0 ]; then
     echo 'greeter-hide-users=true' >> /etc/lightdm/lightdm.conf; #Hide oracle user
 fi

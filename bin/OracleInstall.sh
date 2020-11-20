@@ -35,10 +35,10 @@ if [ ! -f $sqlplus_path ]; then
         curl -LO https://raw.githubusercontent.com/Preservation-Workbench/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.ab
         curl -LO https://raw.githubusercontent.com/Preservation-Workbench/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.ac
         curl -LO https://raw.githubusercontent.com/Preservation-Workbench/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.ad    
-        # curl -LO --doh-url https://1.1.1.1/dns-query https://raw.githubusercontent.com/Vincit/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.aa
-        # curl -LO --doh-url https://1.1.1.1/dns-query https://raw.githubusercontent.com/Vincit/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.ab
-        # curl -LO --doh-url https://1.1.1.1/dns-query https://raw.githubusercontent.com/Vincit/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.ac
-        # curl -LO --doh-url https://1.1.1.1/dns-query https://raw.githubusercontent.com/Vincit/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.ad
+        # curl -LO --doh-url https://1.1.1.1/dns-query https://raw.githubusercontent.com/Preservation-Workbench/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.aa
+        # curl -LO --doh-url https://1.1.1.1/dns-query https://raw.githubusercontent.com/Preservation-Workbench/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.ab
+        # curl -LO --doh-url https://1.1.1.1/dns-query https://raw.githubusercontent.com/Preservation-Workbench/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.ac
+        # curl -LO --doh-url https://1.1.1.1/dns-query https://raw.githubusercontent.com/Preservation-Workbench/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.ad
         cat oracle-xe-11.2.0-1.0.x86_64.rpm.zip.* > oracle-xe-11.2.0-1.0.x86_64.rpm.zip
         #cd $SCRIPTPATH
         dpkg -s bc libaio1 rpm unzip > /dev/null 2>&1 ||
