@@ -60,7 +60,7 @@ fi
 
 isInFile=$(cat /home/$OWNER/.bashrc | grep -c "emacs()")
 if [ $isInFile -eq 0 ]; then
-    sudo -H -u $OWNER bash -c "echo $CMD >> /home/$OWNER/.bashrc";
+    sudo -H -u $OWNER bash -c "echo "" >> /home/$OWNER/.bashrc;";
     sudo -H -u $OWNER bash -c \
         "echo 'emacs() { emacsclient -a \"emacs\" -n \"\$@\" 2>/dev/null || command emacs & disown; }'\
         >> /home/$OWNER/.bashrc";

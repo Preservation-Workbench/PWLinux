@@ -21,7 +21,7 @@ if [ $isInFile -eq 0 ]; then
     wget -qO - https://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/Release.key | sudo apt-key add - 
     echo 'deb http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/ /' > /etc/apt/sources.list.d/home-ungoogled_chromium.list;
     killall firefox;
-    apt remove -y hexchat-common hexchat rhythmbox xfce4-taskmanager firefox;    
+    apt remove -y hexchat-common hexchat rhythmbox xfce4-taskmanager firefox timeshift;    
     flatpak install -y --noninteractive flathub org.mozilla.firefox;
 fi
 
@@ -56,31 +56,7 @@ fi
 sudo apt-get update;
 sudo apt-get install -y siegfried;
 
-
-# TODO: Test uten div-fiks først. Ikke sikkert trenger alt. Evt. sette noen i bashrc el heller
-# cat <<\EOF > /home/$OWNER/bin/div_fix.sh
-# #! /bin/bash
-# pkill gvfsd-fuse && /usr/lib/gvfs/gvfsd-fuse -o allow_other /var/run/user/1000/gvfs/
-# setxkbmap -option 'numpad:microsoft'
-# #"$ORACLE_HOME"/bin/lsnrctl start && sudo /etc/init.d/oracle-xe start
-# if [ -f /etc/init.d/oracle-xe ]; then
-#     #/u01/app/oracle/product/11.2.0/xe/config/scripts/startdb.sh;
-#     sudo /etc/init.d/oracle-xe start;
-# fi
-# EOF
-# chmod a+rx /home/$OWNER/bin/div_fix.sh
-# chown $OWNER:$OWNER /home/$OWNER/bin/div_fix.sh;
-
-# # TODO: xfce og ikke mate under?
-# echo "[Desktop Entry]
-# Type=Application
-# Exec=/home/$OWNER/bin/div_fix.sh
-# Hidden=false
-# X-MATE-Autostart-enabled=true
-# Name=Div_Fix" > /home/$OWNER/.config/autostart/Div_Fix.desktop;
-# chown $OWNER:$OWNER /home/$OWNER/.config/autostart/Div_Fix.desktop;
-
-# # Set wallpaper
+# Set wallpaper:
 sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/wallpapers"
 SRC=$SCRIPTPATH/img/pwlinux_wallpaper.png
 FNAME="/home/$OWNER/.local/share/wallpapers/pwlinux_wallpaper.png"
@@ -92,10 +68,10 @@ if [ ! -f $FNAME ]; then
     su $OWNER -m -c "xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual1/workspace0/last-image -s $FNAME"    
 fi
 
-# #WAIT: Bruk mappe under fra PWCode for å sjekke om er på PWLinux eller ikke
+# WAIT: Bruk mappe under fra PWCode for å sjekke om er på PWLinux eller ikke
 sudo -H -u $OWNER bash -c "mkdir -p $PWCONFIGDIR/img";
 
-# #Set menu icon and theme
+# Set menu icon and theme:
 sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/themes"
 SRC=$SCRIPTPATH/img/pwlinux_icon.png
 FNAME="$PWCONFIGDIR/img/pwlinux_icon.png"
@@ -170,5 +146,12 @@ su $OWNER -m -c "xfconf-query -c xfce4-panel -pn "/plugins/plugin-101" -t string
 su $OWNER -m -c "xfconf-query -c xfce4-panel -p /panels/panel-1/plugin-ids -n -a -t int -s 1 -t int -s 2 -t int -s 100 -t int -s 7 -t int -s 101 -t int -s 8 -t int -s 9 -t int -s 10 -t int -s 11 -t int -s 12 -t int -s 13"
 su $OWNER -m -c "xfconf-query --channel 'xfce4-panel' --property '/panels/panel-1/size' --type int --set 40"
 su $OWNER -m -c "xfce4-panel -r "
+
+# Fix numpad
+isInFile=$(cat /home/$OWNER/.profile | grep -c "setxkbmap -option numpad:microsoft")
+if [ $isInFile -eq 0 ]; then
+    sudo -H -u $OWNER bash -c "echo "" >> /home/$OWNER/.profile;";
+    sudo -H -u $OWNER bash -c "echo 'setxkbmap -option numpad:microsoft' >> /home/$OWNER/.profile";
+fi
 
 
