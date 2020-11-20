@@ -12,6 +12,7 @@ Additionals steps if installed on virtualbox:
 - sudo apt install -y virtualbox-guest-additions-iso
 - sudo mount -o loop /usr/share/virtualbox/VBoxGuestAdditions.iso /media/
 - sudo /media/VBoxLinuxAdditions.run
+- sudo adduser $USER vboxsf
 - Restart
 
 Download this repo as zip or git clone.
