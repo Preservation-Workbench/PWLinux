@@ -31,10 +31,10 @@ if [ ! -f $sqlplus_path ]; then
 
     cd /tmp
     if [ ! -f $ORACLE_RPM ]; then
-        curl -LO https://raw.githubusercontent.com/Vincit/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.aa
-        curl -LO https://raw.githubusercontent.com/Vincit/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.ab
-        curl -LO https://raw.githubusercontent.com/Vincit/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.ac
-        curl -LO https://raw.githubusercontent.com/Vincit/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.ad    
+        curl -LO https://raw.githubusercontent.com/Preservation-Workbench/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.aa
+        curl -LO https://raw.githubusercontent.com/Preservation-Workbench/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.ab
+        curl -LO https://raw.githubusercontent.com/Preservation-Workbench/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.ac
+        curl -LO https://raw.githubusercontent.com/Preservation-Workbench/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.ad    
         # curl -LO --doh-url https://1.1.1.1/dns-query https://raw.githubusercontent.com/Vincit/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.aa
         # curl -LO --doh-url https://1.1.1.1/dns-query https://raw.githubusercontent.com/Vincit/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.ab
         # curl -LO --doh-url https://1.1.1.1/dns-query https://raw.githubusercontent.com/Vincit/travis-oracledb-xe/master/packages/oracle-xe-11.2.0-1.0.x86_64.rpm.zip.ac
@@ -74,14 +74,14 @@ if [ ! -f $sqlplus_path ]; then
     /etc/init.d/oracle-xe start && "$ORACLE_HOME"/bin/lsnrctl reload
     chown oracle:dba /var/tmp/.oracle
 
-    su oracle -m -c '/u01/app/oracle/product/11.2.0/xe/bin/sqlplus -L -S / AS SYSDBA <<SQL
-    CREATE USER oracle IDENTIFIED BY "P@ssw0rd";
+    su oracle -m -c "/u01/app/oracle/product/11.2.0/xe/bin/sqlplus -L -S / AS SYSDBA <<SQL
+    CREATE USER oracle IDENTIFIED BY "\""P@ssw0rd"\"";
     GRANT CREATE SESSION, GRANT ANY PRIVILEGE TO oracle;
     GRANT ALL PRIVILEGES TO oracle;
     GRANT CONNECT, RESOURCE TO oracle;
     GRANT EXECUTE ON SYS.DBMS_LOCK TO oracle;
-    ALTER DATABASE DATAFILE '\''/u01/app/oracle/oradata/XE/system.dbf'\'' AUTOEXTEND ON MAXSIZE 15G;
-    SQL'
+    ALTER DATABASE DATAFILE '/u01/app/oracle/oradata/XE/system.dbf' AUTOEXTEND ON MAXSIZE 15G;
+    SQL"
 
     rm -rdf /home/$OWNER/oradiag_root;
 
