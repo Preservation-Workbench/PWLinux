@@ -2,6 +2,8 @@
 SCRIPTPATH=$(dirname $(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null||echo $0))
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 
+# TODO: Legg inn default xresources fil
+
 url="https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x873503a090750cda\
     eb0754d93ff0e01eeaafc9cd"
 url=$(echo $url | tr -d ' ')
