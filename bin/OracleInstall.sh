@@ -74,17 +74,6 @@ if [ ! -f $sqlplus_path ]; then
     /etc/init.d/oracle-xe start && "$ORACLE_HOME"/bin/lsnrctl reload
     chown oracle:dba /var/tmp/.oracle
 
-    su oracle -m -c "$ORACLE_HOME/bin/sqlplus -L -S / AS SYSDBA <<SQL
-    CREATE USER oracle IDENTIFIED BY "\""P@ssw0rd"\"";
-    GRANT CREATE SESSION, GRANT ANY PRIVILEGE TO oracle;
-    GRANT ALL PRIVILEGES TO oracle;
-    GRANT CONNECT, RESOURCE TO oracle;
-    GRANT EXECUTE ON SYS.DBMS_LOCK TO oracle;
-    ALTER DATABASE DATAFILE '/u01/app/oracle/oradata/XE/system.dbf' AUTOEXTEND ON MAXSIZE 15G;
-    SQL"
-
-    rm -rdf /home/$OWNER/oradiag_root;
-
     #Fix desktop icons:
     rm -f /home/$OWNER/Desktop/oraclexe-gettingstarted.desktop
     sed -zi '/NoDisplay=true/!s/$/\nNoDisplay=true/' /usr/share/applications/oraclexe-getstarted.desktop
@@ -101,5 +90,17 @@ if [ ! -f $sqlplus_path ]; then
     echo "$OWNER ALL=(ALL) NOPASSWD: /etc/init.d/oracle-xe" > /etc/sudoers.d/xe;
     chmod 0440 /etc/sudoers.d/xe;    
 fi
+
+# TODO: Legg inn sjekk på om bruker finnes først
+su oracle -m -c "$ORACLE_HOME/bin/sqlplus -L -S / AS SYSDBA <<SQL
+CREATE USER oracle IDENTIFIED BY "\""P@ssw0rd"\"";
+GRANT CREATE SESSION, GRANT ANY PRIVILEGE TO oracle;
+GRANT ALL PRIVILEGES TO oracle;
+GRANT CONNECT, RESOURCE TO oracle;
+GRANT EXECUTE ON SYS.DBMS_LOCK TO oracle;
+ALTER DATABASE DATAFILE '/u01/app/oracle/oradata/XE/system.dbf' AUTOEXTEND ON MAXSIZE 15G;
+SQL"
+
+rm -rdf /home/$OWNER/oradiag_root;
 
 cd $SCRIPTPATH;
