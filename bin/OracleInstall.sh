@@ -74,7 +74,7 @@ if [ ! -f $sqlplus_path ]; then
     /etc/init.d/oracle-xe start && "$ORACLE_HOME"/bin/lsnrctl reload
     chown oracle:dba /var/tmp/.oracle
 
-    su oracle -m -c "/u01/app/oracle/product/11.2.0/xe/bin/sqlplus -L -S / AS SYSDBA <<SQL
+    su oracle -m -c "$ORACLE_HOME/bin/sqlplus -L -S / AS SYSDBA <<SQL
     CREATE USER oracle IDENTIFIED BY "\""P@ssw0rd"\"";
     GRANT CREATE SESSION, GRANT ANY PRIVILEGE TO oracle;
     GRANT ALL PRIVILEGES TO oracle;
