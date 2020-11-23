@@ -39,8 +39,8 @@ sudo -H -u $OWNER bash -c "git clone --depth 1 "$REPOSRC" "$DOOMREPO" 2> \
 
 FONTDIR="/home/$OWNER/.local/share/fonts"
 if [ ! -f $FONTDIR/all-the-icons.ttf ]; then
-    sudo -H -u $OWNER bash -c "cd /tmp/ && git clone --depth 1 \
-        https://github.com/domtronn/all-the-icons.el.git;";
+    sudo -H -u $OWNER bash -c "git clone --depth 1 \
+        https://github.com/domtronn/all-the-icons.el.git /tmp/all-the-icons.el;";
     sudo -H -u $OWNER bash -c "mkdir -p $FONTDIR;";
     sudo -H -u $OWNER bash -c "cp /tmp/all-the-icons.el/fonts/* $FONTDIR;";
     sudo -H -u $OWNER bash -c "fc-cache -f -v;";

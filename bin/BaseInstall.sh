@@ -119,6 +119,21 @@ source $SCRIPTPATH/DBeaverInstall.sh
 # Install VSCode:
 source $SCRIPTPATH/VSCodeInstall.sh
 
+# Install pwb service menu:
+SREPO="https://github.com/Preservation-Workbench/pwb_service_menu"
+LREPO="/home/$OWNER/bin/gui/pwb_service_menu"
+sudo -H -u $OWNER bash -c "git clone --depth 1 "$SREPO" "$LREPO" 2> \
+    /dev/null || git -C "$LREPO" pull;";
+
+# Autostart pwb service menu:
+$CMD="python3 ~/bin/gui/pwb_service_menu/tray_menu.py & disown"
+isInFile=$(cat /home/$OWNER/.profile | grep -c $CMD)
+if [ $isInFile -eq 0 ]; then
+    sudo -H -u $OWNER bash -c "echo "" >> /home/$OWNER/.profile;";
+    sudo -H -u $OWNER bash -c "echo $CMD >> /home/$OWNER/.profile";
+fi
+
+
 # Configure Xfce panel:
 sudo add-apt-repository -y ppa:xubuntu-dev/extras;
 sudo apt-get update;

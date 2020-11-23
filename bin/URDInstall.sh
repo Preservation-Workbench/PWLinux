@@ -21,7 +21,7 @@ if [ "$USER_EXISTS" -ne 1 ]; then
     mysql -h localhost < $LOCALREPO/schemas/urd/sql/create_tables_mysql.sql;
 fi   
 
-# Autostart urd
+# Autostart urd:
 $CMD="/usr/bin/php -S localhost:8000 -t ~/bin/URD/public & disown"
 isInFile=$(cat /home/$OWNER/.profile | grep -c $CMD)
 if [ $isInFile -eq 0 ]; then
