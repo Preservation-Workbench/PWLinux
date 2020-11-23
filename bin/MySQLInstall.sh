@@ -43,7 +43,7 @@ if [ ! -f "/etc/sudoers.d/mysql" ]; then
 
     echo "$OWNER ALL=(ALL) NOPASSWD: /bin/systemctl start mysql,/bin/systemctl stop mysql" > /etc/sudoers.d/mysql;
     sudo chmod 0440 /etc/sudoers.d/mysql;  
-    systemctl disable mysql;            
+    systemctl enable mysql; # Needed by urd            
 fi
 
 cd $SCRIPTPATH;

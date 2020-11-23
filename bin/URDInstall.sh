@@ -21,30 +21,16 @@ if [ "$USER_EXISTS" -ne 1 ]; then
     mysql -h localhost < $LOCALREPO/schemas/urd/sql/create_tables_mysql.sql;
 fi   
 
-# TODO: Legg til urd som bokmerke heller samt ha start/stop av webserver i tray menu
-# sudo -H -u $OWNER bash -c "cat <<\EOF > /home/$OWNER/bin/urd.sh
-# #!/bin/bash
+# Autostart urd
+$CMD="/usr/bin/php -S localhost:8000 -t ~/bin/URD/public & disown"
+isInFile=$(cat /home/$OWNER/.profile | grep -c $CMD)
+if [ $isInFile -eq 0 ]; then
+    sudo -H -u $OWNER bash -c "echo "" >> /home/$OWNER/.profile;";
+    sudo -H -u $OWNER bash -c "echo $CMD >> /home/$OWNER/.profile";
+fi
 
-# sudo systemctl start mysql &&
-# cd ~/bin/URD/public && 
-# php -S localhost:8000;
-# chromium --app=http://localhost:8000;
-# EOF
-# "
-# sudo -H -u $OWNER bash -c "chmod a+rx /home/$OWNER/bin/urd.sh;";
-
-# sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/applications;";
-# sudo -H -u $OWNER bash -c "cat <<\EOF > /home/$OWNER/.local/share/applications/urd.desktop
-# [Desktop Entry]
-# Name=URD
-# Exec=/home/$OWNER/bin/urd.sh
-# Icon=/usr/share/icons/Papirus/symbolic/apps/google-chrome-symbolic.svg
-# Terminal=false
-# Categories=Development;
-# Type=Application
-# Name[en_US]=URD
-# EOF
-# "
+# TODO: Legg til urd som bokmerke 
 
 cd $SCRIPTPATH;
 
+sudo systemctl start mysql && /usr/bin/php -S localhost:8000 -t ~/bin/URD/public & disown
