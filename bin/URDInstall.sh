@@ -29,8 +29,11 @@ if [ $isInFile -eq 0 ]; then
     sudo -H -u $OWNER bash -c "echo $CMD >> /home/$OWNER/.profile";
 fi
 
-# TODO: Legg til urd som bokmerke 
+# Add urd bookmark to chromium:
+CHRMDFLT="/home/$OWNER/.config/chromium/Default"
+if [ ! -f $CHRMDFLT/Bookmarks ]; then
+    sudo -H -u $OWNER bash -c "mkdir -p $CHRMDFLT;";
+    sudo -H -u $OWNER bash -c "cp $SCRIPTPATH/data/chromium/Bookmarks $CHRMDFLT/Bookmarks"
+fi    
 
 cd $SCRIPTPATH;
-
-sudo systemctl start mysql && /usr/bin/php -S localhost:8000 -t ~/bin/URD/public & disown

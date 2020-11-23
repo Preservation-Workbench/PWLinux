@@ -1,0 +1,40 @@
+{
+   "checksum": "6252cebec5512cbf3272e2bdfc808011",
+   "roots": {
+      "bookmark_bar": {
+         "children": [ {
+            "date_added": "13250596496187863",
+            "guid": "05cefcd8-cc34-4b19-84b5-afecb65386fb",
+            "id": "8",
+            "name": "URD",
+            "type": "url",
+            "url": "http://localhost:8000/#/"
+         } ],
+         "date_added": "13250596428137467",
+         "date_modified": "13250596496187863",
+         "guid": "00000000-0000-4000-a000-000000000002",
+         "id": "1",
+         "name": "Bookmarks bar",
+         "type": "folder"
+      },
+      "other": {
+         "children": [  ],
+         "date_added": "13250596428137473",
+         "date_modified": "0",
+         "guid": "00000000-0000-4000-a000-000000000003",
+         "id": "2",
+         "name": "Other bookmarks",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [  ],
+         "date_added": "13250596428137475",
+         "date_modified": "0",
+         "guid": "00000000-0000-4000-a000-000000000004",
+         "id": "3",
+         "name": "Mobile bookmarks",
+         "type": "folder"
+      }
+   },
+   "version": 1
+}
