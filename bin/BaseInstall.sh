@@ -8,13 +8,15 @@ export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USERID/bus";
 sudo add-apt-repository -y ppa:diesch/stable;
 apt-get update;
 mintupdate-cli -y --keep-configuration upgrade;
-apt-get autoremove -y;
-apt-get remove -y --purge `dpkg -l | grep '^rc' | awk '{print $2}'` #Remove residual config
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections;
 
 # WAIT: Flytt noen av pakkene under til delscript 
 apt-get install -y git ttf-mscorefonts-installer mint-meta-codecs exfat-fuse xfce4-fsguard-plugin exfat-utils hunspell hunspell-no rar flatpak pandoc soundconverter openoffice.org-hyphenation openjfx npm sqlite3 python3-virtualenv python3-setuptools uchardet libtool-bin meld mercurial python3-dev checkinstall xchm subversion dos2unix apt-transport-https ca-certificates xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor python3-wheel python3-pip build-essential dos2unix ghostscript icc-profiles-free liblept5 libxml2 xul-ext-lightning thunderbird-locale-en clamtk tesseract-ocr clamav-daemon clamav-unofficial-sigs clamdscan libclamunrar9 pngquant hyphen-fi hyphen-ga hyphen-id arronax birdtray;
 
+# WAIT: Flytt dette nederst?
+apt-get autoremove -y;
+apt-get remove -y --purge `dpkg -l | grep '^rc' | awk '{print $2}'` #Remove residual config
+flatpak uninstall -y --unused;
 
 isInFile=$(cat /etc/apt/sources.list.d/home-ungoogled_chromium.list | grep -c "http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/")
 if [ $isInFile -eq 0 ]; then    
