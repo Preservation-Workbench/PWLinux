@@ -4,7 +4,7 @@ OWNER=$(stat -c '%U' $SCRIPTPATH)
 PWCONFIGDIR=/home/$OWNER/.config/pwlinux
 APPS=/home/$OWNER/.local/share/applications
 ver="1.24.1"
-$TIKAPATH="/home/$OWNER/bin/tika"
+TIKAPATH=/home/$OWNER/bin/tika
 
 if [ ! -f $TIKAPATH/tika-app.jar ]; then
     sudo -H -u $OWNER bash -c "mkdir -p $TIKAPATH; \
