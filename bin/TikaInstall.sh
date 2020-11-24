@@ -4,7 +4,7 @@
 
 SCRIPTPATH=$(dirname $(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null||echo $0))
 OWNER=$(stat -c '%U' $SCRIPTPATH)
-ver="1.22"
+ver="1.24.1"
 tika_path="/home/$OWNER/bin/tika"
 
 if [ ! -f $tika_path/tika-app.jar ]; then

@@ -8,11 +8,11 @@
         ]
     },
     {
-        "name": "Preservation Workbench -> bytt ut med PWCode",
-        "description": "Solution for extracting data from systems and generating an archive package",
+        "name": "PWCode",
+        "description": "Export and normalize data. And more...",
         "type": "generic",
         "recipe": [
-            "./PWBInstall.sh"
+            "./PWCodeInstall.sh"
         ]
     },
     {

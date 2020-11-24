@@ -18,7 +18,7 @@ if [ $isInFile -eq 0 ]; then
     rm -r "$TMP"    
 fi
 
-apt-get install -y onlyoffice-desktopeditors;
+apt-get install -y onlyoffice-desktopeditors onlyoffice-documentbuilder;
 cd $SCRIPTPATH;
 
 
