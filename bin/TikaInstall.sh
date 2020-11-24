@@ -13,7 +13,7 @@ if [ ! -f $TIKAPATH/tika-app.jar ]; then
     sudo -H -u $OWNER bash -c "cp $SCRIPTPATH/data/tika/tika.config $TIKAPATH;";
 fi
 
-SRC=$SCRIPTPATH/img/apache_icon.png
+SRC=$SCRIPTPATH/img/apache.png
 FNAME="$PWCONFIGDIR/img/apache.png"
 if [ ! -f $FNAME ]; then
     sudo -H -u $OWNER bash -c "cp $SRC $FNAME"
@@ -21,7 +21,7 @@ fi
 
 if [ ! -f $APPS/tika.desktop ]; then
     sudo -H -u $OWNER bash -c "mkdir -p $APPS;";
-    sudo -H -u $OWNER bash -c "cp $SCRIPTPATH/desktop/tika.desktop $APPS;";
+    sudo -H -u $OWNER bash -c "cp $SCRIPTPATH/desktop/Tika.desktop $APPS;";
     sed -i "/Exec=dummy/c\Exec=/usr/bin/java -jar /home/$OWNER/bin/tika/tika-app.jar" $APPS/Tika.desktop; 
     sed -i "/Icon=dummy/c\Icon=$FNAME" $APPS/Tika.desktop;   
     chown $OWNER:$OWNER $APPS/Tika.desktop;  
