@@ -21,6 +21,8 @@ python3-pgmagick graphicsmagick graphviz openjdk-11-jdk img2pdf;
 systemctl enable clamav-daemon;
 systemctl start clamav-daemon;
 
+# TODO: Kopier mintwelcome.desktop til /home/pwb/.local/share/applications/ og endre med sed så ikke synlig
+
 sed -i -e 's/#user_allow_other/user_allow_other/' /etc/fuse.conf;
 
 if [ -f "/etc/ImageMagick-6/policy.xml" ]; then

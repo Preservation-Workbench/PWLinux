@@ -1,7 +1,8 @@
 [Desktop Entry]
 Name=Tika
 Type=Application
-Exec=/usr/bin/java -jar /home/bba/bin/tika/tika-app.jar
+Exec=dummy
 Icon=dummy
 Hidden=false
+Categories=Development;
 
