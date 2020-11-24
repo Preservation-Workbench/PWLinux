@@ -24,7 +24,7 @@ if [ ! -f $APPS/tika.desktop ]; then
     sudo -H -u $OWNER bash -c "cp $SCRIPTPATH/desktop/tika.desktop $APPS;";
     sed -i "/Exec=dummy/c\Exec=/usr/bin/java -jar /home/$OWNER/bin/tika/tika-app.jar" $APPS/Tika.desktop; 
     sed -i "/Icon=dummy/c\Icon=$FNAME" $APPS/Tika.desktop;   
-    chown $OWNER:$OWNER $APPS/Tika.desktop; ;    
+    chown $OWNER:$OWNER $APPS/Tika.desktop;  
 fi
 
 cd $SCRIPTPATH;
