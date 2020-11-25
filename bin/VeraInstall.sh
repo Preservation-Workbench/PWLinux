@@ -10,6 +10,7 @@ if [ ! -f /home/$OWNER/bin/verapdf/verapdf ]; then
     mkdir -p /home/'"$OWNER"'/bin/verapdf;
     wget -O /tmp/verapdf-installer.zip http://downloads.verapdf.org/rel/verapdf-installer.zip
     unzip /tmp/verapdf-installer.zip -d /tmp/verapdf;
+    sed -i "/dummy/c\'"$OWNER"'" '"$SCRIPTPATH"'/data/verapdf/auto.xml; 
     java -jar /tmp/verapdf/verapdf-izpack-installer-* '"$SCRIPTPATH"'/data/verapdf/auto.xml;
     ln -s /home/'"$OWNER"'/bin/verapdf/verapdf /home/'"$OWNER"'/bin/verapdf.sh;'
 fi
