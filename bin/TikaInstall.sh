@@ -19,7 +19,7 @@ if [ ! -f $FNAME ]; then
     sudo -H -u $OWNER bash -c "cp $SRC $FNAME"
 fi
 
-if [ ! -f $APPS/tika.desktop ]; then
+if [ ! -f $APPS/Tika.desktop ]; then
     sudo -H -u $OWNER bash -c "mkdir -p $APPS;";
     sudo -H -u $OWNER bash -c "cp $SCRIPTPATH/desktop/Tika.desktop $APPS;";
     sed -i "/Exec=dummy/c\Exec=/usr/bin/java -jar /home/$OWNER/bin/tika/tika-app.jar" $APPS/Tika.desktop; 
