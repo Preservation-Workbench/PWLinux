@@ -50,8 +50,8 @@ sudo -H -u $OWNER bash -c "xdg-settings set default-web-browser chromium.desktop
 
 isInFile=$(cat /etc/apt/sources.list | grep -c "https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-ubuntu2004")
 if [ $isInFile -eq 0 ]; then    
-    apt-get install -y apt-transport-https ca-certificates; #Needed for all https repos    
-    cd /tmp/ && wget https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-centos7/repodata/repomd.xml.key && apt-key add repomd.xml.key;
+    apt-get install -y apt-transport-https ca-certificates; #Needed for all https repos  
+    wget -O /tmp/repomd.xml.key https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-centos7/repodata/repomd.xml.key && apt-key add /tmp/repomd.xml.key;
     echo 'deb https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-ubuntu2004 ./' >> /etc/apt/sources.list;
     cd $SCRIPTPATH;
 fi
