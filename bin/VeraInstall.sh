@@ -11,7 +11,8 @@ if [ ! -f $VERADIR ]; then
     mkdir -p '"$VERADIR"';
     wget -O /tmp/verapdf-installer.zip http://downloads.verapdf.org/rel/verapdf-installer.zip
     unzip /tmp/verapdf-installer.zip -d /tmp/verapdf;
-    sed -i "/<installpath></installpath>/c\<installpath>'"$VERADIR"'</installpath>" '"$SCRIPTPATH"'/data/verapdf/auto.xml; 
+    cp '"$SCRIPTPATH"'/data/verapdf/auto.xml /tmp/auto.xml;
+    sed -i "/<installpath></installpath>/c\<installpath>'"$VERADIR"'</installpath>" /tmp/auto.xml; 
     java -jar /tmp/verapdf/verapdf-greenfield-*/verapdf-izpack-installer-* '"$SCRIPTPATH"'/data/verapdf/auto.xml;
     ln -s '"$VERADIR"' /home/'"$OWNER"'/bin/verapdf.sh;'
 fi
