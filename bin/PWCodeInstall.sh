@@ -21,7 +21,7 @@ fi
 
 if [ ! -f $APPS/SQLWB.desktop ]; then
     sudo -H -u $OWNER bash -c "mkdir -p $APPS;";
-    sudo -H -u $OWNER bash -c "cp $LOCALREPO/SQLWB.desktop $APPS;";
+    sudo -H -u $OWNER bash -c "cp $LOCALREPO/bin/vendor/config/SQLWB.desktop $APPS;";
     sed -i "/Exec=/c\Exec=$LOCALREPO/bin/sqlwb" $APPS/SQLWB.desktop
     sed -i "/Icon=/c\Icon=$LOCALREPO/bin/img/sqlwb.png" $APPS/SQLWB.desktop;   
     chown $OWNER:$OWNER $APPS/SQLWB.desktop;  
