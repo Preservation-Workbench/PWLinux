@@ -1,6 +1,7 @@
 #!/bin/bash
 SCRIPTPATH=$(dirname $(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null||echo $0))
 OWNER=$(stat -c '%U' $SCRIPTPATH);
+APPS=/home/$OWNER/.local/share/applications
 REPOSRC="https://github.com/Preservation-Workbench/PWCode"
 LOCALREPO="/home/$OWNER/bin/PWCode"
 
