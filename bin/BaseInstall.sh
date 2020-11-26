@@ -163,7 +163,7 @@ apt-get install -y xfce4-docklike-plugin;
 
 su $OWNER -m -c "cat <<\EOF > /home/$OWNER/.config/xfce4/panel/docklike-100.rc
 [user]
-pinned=/usr/share/applications/xfce4-terminal.desktop;/usr/share/applications/gnome-system-monitor.desktop;/home/$OWNER/.local/share/applications/emacs27.desktop;/usr/share/applications/thunar.desktop;/usr/share/applications/chromium.desktop;/usr/share/applications/org.xfce.Catfish.desktop;/usr/share/applications/dbeaver.desktop;/usr/share/applications/code.desktop;/usr/share/applications/clamtk.desktop;
+pinned=/usr/share/applications/xfce4-terminal.desktop;/usr/share/applications/gnome-system-monitor.desktop;/home/pwb/.local/share/applications/emacs27.desktop;/usr/share/applications/thunar.desktop;/usr/share/applications/chromium.desktop;/home/pwb/.local/share/applications/PWCode.desktop;/usr/share/applications/org.xfce.Catfish.desktop;/home/pwb/.local/share/applications/SQLWB.desktop;/usr/share/applications/dbeaver.desktop;/usr/share/applications/code.desktop;/usr/share/applications/clamtk.desktop;
 EOF
 "
 
