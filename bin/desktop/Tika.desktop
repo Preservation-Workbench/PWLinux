@@ -1,8 +1,11 @@
 [Desktop Entry]
 Name=Tika
+Comment=Detects file formats and extracts metadata
 Type=Application
 Exec=dummy
 Icon=dummy
 Hidden=false
 Categories=Development;
+StartupWMClass=org-apache-tika-cli-TikaCLI
+StartupNotify=false
 

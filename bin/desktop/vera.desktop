@@ -1,8 +1,11 @@
 [Desktop Entry]
 Name=veraPDF
+Comment=PDF/A validation
 Type=Application
 Exec=dummy
 Icon=dummy
 Hidden=false
 Categories=Development;
+StartupWMClass=org-verapdf-apps-GreenfieldGuiWrapper
+StartupNotify=false
 
