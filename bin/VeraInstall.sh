@@ -5,7 +5,7 @@ PWCONFIGDIR=/home/$OWNER/.config/pwlinux
 APPS=/home/$OWNER/.local/share/applications
 VERADIR=/home/$OWNER/bin/verapdf
 
-if [ ! -f $VERADIR ]; then
+if [ ! -f $VERADIR/verapdf-gui ]; then
     rm -rdf /tmp/verapdf*
     cp $SCRIPTPATH/data/verapdf/auto.xml /tmp/auto.xml;
     sed -i "s#<installpath></installpath>#<installpath>$VERADIR</installpath>#" /tmp/auto.xml;
