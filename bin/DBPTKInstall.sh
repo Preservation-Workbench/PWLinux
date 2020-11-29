@@ -2,6 +2,7 @@
 SCRIPTPATH=$(dirname $(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null||echo $0))
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 APPS=/home/$OWNER/.local/share/applications
+PWCONFIGDIR=/home/$OWNER/.config/pwlinux
 URL=https://github.com/keeps/dbptk-desktop/releases/download/v2.5.4/dbptk-desktop-2.5.4.AppImage
 DBPTKDIR=/home/$OWNER/bin/dbptk
 
