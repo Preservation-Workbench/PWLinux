@@ -39,7 +39,7 @@ if [ $isInFile -eq 0 ]; then
     wget -qO - https://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/Release.key | sudo apt-key add - 
     echo 'deb http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/ /' > /etc/apt/sources.list.d/home-ungoogled_chromium.list;
     killall firefox;
-    apt remove -y hexchat-common hexchat rhythmbox xfce4-taskmanager firefox timeshift;    
+    apt remove -y hexchat-common hexchat rhythmbox xfce4-taskmanager firefox timeshift gnote;    
     flatpak install -y --noninteractive flathub org.mozilla.firefox;
 fi
 
@@ -164,9 +164,10 @@ sudo add-apt-repository -y ppa:xubuntu-dev/extras;
 sudo apt-get update;
 apt-get install -y xfce4-docklike-plugin;
 
+APPS=/home/$OWNER/.local/share/applications
 su $OWNER -m -c "cat <<\EOF > /home/$OWNER/.config/xfce4/panel/docklike-100.rc
 [user]
-pinned=/usr/share/applications/xfce4-terminal.desktop;/usr/share/applications/gnome-system-monitor.desktop;/home/pwb/.local/share/applications/emacs27.desktop;/usr/share/applications/thunar.desktop;/usr/share/applications/chromium.desktop;/home/pwb/.local/share/applications/PWCode.desktop;/usr/share/applications/org.xfce.Catfish.desktop;/home/pwb/.local/share/applications/SQLWB.desktop;/usr/share/applications/dbeaver.desktop;/usr/share/applications/code.desktop;/usr/share/applications/clamtk.desktop;
+pinned=/usr/share/applications/xfce4-terminal.desktop;/usr/share/applications/gnome-system-monitor.desktop;$APPS/emacs27.desktop;/usr/share/applications/thunar.desktop;/usr/share/applications/chromium.desktop;$APPS/PWCode.desktop;/usr/share/applications/org.xfce.Catfish.desktop;$APPS/SQLWB.desktop;/usr/share/applications/dbeaver.desktop;/usr/share/applications/code.desktop;$APPS/dbptk.desktop;/usr/share/applications/clamtk.desktop;
 EOF
 "
 
