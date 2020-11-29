@@ -29,9 +29,5 @@ fi
 
 cd $SCRIPTPATH;
 
-# TODO: Legg til dock for sqlwb og pwcode 
-
-# TODO: Legg til i desktop-filer
-
 
 

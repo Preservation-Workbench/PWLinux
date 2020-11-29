@@ -138,8 +138,11 @@ source $SCRIPTPATH/VSCodeInstall.sh
 # Install VSCode:
 source $SCRIPTPATH/TikaInstall.sh
 
-# Install VSCode:
+# Install PWCode:
 source $SCRIPTPATH/PWCodeInstall.sh
+
+# Install DBPTK:
+source $SCRIPTPATH/DBPTKInstall.sh
 
 # Install pwb service menu:
 SREPO="https://github.com/Preservation-Workbench/pwb_service_menu"

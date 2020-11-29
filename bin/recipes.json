@@ -16,6 +16,14 @@
         ]
     },
     {
+        "name": "DBPTK",
+        "description": "Export, import and browse databases in siard format",
+        "type": "generic",
+        "recipe": [
+            "./DBPTKInstall.sh"
+        ]
+    },
+    {
         "name": "MySQL 8",
         "description": "Open source database",
         "type": "generic",
