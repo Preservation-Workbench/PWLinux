@@ -26,7 +26,7 @@ fi
 
 
 SRC=$SCRIPTPATH/data/siardsuite/siardgui.sh
-if [ ! -f $SRC ]; then
+if [ ! -f $BINDIR/siardgui.sh ]; then
     sudo -H -u $OWNER bash -c "cp $SRC $BINDIR/siardgui.sh";
 fi
 
