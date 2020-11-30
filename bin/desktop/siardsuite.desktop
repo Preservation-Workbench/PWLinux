@@ -6,6 +6,6 @@ Exec=dummy
 Icon=dummy
 Hidden=false
 Categories=Development;
-StartupWMClass=dbptk-desktop
+StartupWMClass=ch.admin.bar.siard2.gui.SiardGui
 StartupNotify=false
 
