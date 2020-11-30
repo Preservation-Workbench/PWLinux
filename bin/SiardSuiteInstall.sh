@@ -3,21 +3,13 @@ SCRIPTPATH=$(dirname $(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null||echo $0))
 OWNER=$(stat -c '%U' $SCRIPTPATH);
 APPS=/home/$OWNER/.local/share/applications
 PWCONFIGDIR=/home/$OWNER/.config/pwlinux
+TAG="2.1.34"
 VER="2.1.134"
-URL=https://github.com/sfa-siard/SiardGui/releases/download/${VER}/SIARD-Suite-${VER}.zip
+URL=https://github.com/sfa-siard/SiardGui/releases/download/${TAG}/SIARD-Suite-${VER}.zip
 BINDIR=/home/$OWNER/bin
 SIARDDIR=$BINDIR/sfa-siard
 
 # TODO: For dbptk cli bruk: /usr/lib/jvm/bellsoft-java8-runtime-full-amd64/bin/java -jar dbptk-app-2.9.6.jar 
-
-isInFile=$(cat /etc/apt/sources.list.d/bellsoft.list | grep -c "https://apt.bell-sw.com/")
-if [ $isInFile -eq 0 ]; then    
-    wget -qO - https://download.bell-sw.com/pki/GPG-KEY-bellsoft | sudo apt-key add - 
-    echo 'deb [arch=amd64] https://apt.bell-sw.com/ stable main' > /etc/apt/sources.list.d/bellsoft.list;
-fi
-
-apt-get update;
-apt-get install bellsoft-java8-runtime-full;
 
 if [ ! -f $SIARDDIR/siardgui.sh ]; then
     sudo -H -u $OWNER bash -c "mkdir -p $SIARDDIR;";

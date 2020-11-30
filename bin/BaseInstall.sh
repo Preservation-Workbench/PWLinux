@@ -6,6 +6,13 @@ USERID=$(id -u $OWNER)
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USERID/bus";
 
 sudo add-apt-repository -y ppa:diesch/stable;
+
+isInFile=$(cat /etc/apt/sources.list.d/bellsoft.list | grep -c "https://apt.bell-sw.com/")
+if [ $isInFile -eq 0 ]; then    
+    wget -qO - https://download.bell-sw.com/pki/GPG-KEY-bellsoft | sudo apt-key add - 
+    echo 'deb [arch=amd64] https://apt.bell-sw.com/ stable main' > /etc/apt/sources.list.d/bellsoft.list;
+fi
+
 apt-get update;
 mintupdate-cli -y --keep-configuration upgrade;
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections;
@@ -16,7 +23,7 @@ soundconverter openoffice.org-hyphenation npm sqlite3 python3-virtualenv python3
 checkinstall xchm subversion dos2unix apt-transport-https ca-certificates xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor python3-wheel \
 python3-pip build-essential dos2unix ghostscript icc-profiles-free liblept5 libxml2 xul-ext-lightning thunderbird-locale-en clamtk tesseract-ocr clamav-daemon \
 clamav-unofficial-sigs clamdscan libclamunrar9 pngquant hyphen-fi hyphen-ga hyphen-id arronax birdtray wimtools wkhtmltopdf abiword imagemagick \
-python3-pgmagick graphicsmagick graphviz img2pdf;
+python3-pgmagick graphicsmagick graphviz img2pdf bellsoft-java8-runtime-full;
 
 systemctl enable clamav-daemon;
 systemctl start clamav-daemon;
