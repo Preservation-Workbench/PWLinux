@@ -12,11 +12,11 @@ echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select tr
 
 # WAIT: Flytt noen av pakkene under til delscript. Noen bør også kunne fjernes
 apt-get install -y git ttf-mscorefonts-installer mint-meta-codecs exfat-fuse xfce4-fsguard-plugin exfat-utils hunspell hunspell-no rar flatpak pandoc \
-soundconverter openoffice.org-hyphenation openjfx npm sqlite3 python3-virtualenv python3-setuptools uchardet libtool-bin meld mercurial python3-dev \
+soundconverter openoffice.org-hyphenation npm sqlite3 python3-virtualenv python3-setuptools uchardet libtool-bin meld mercurial python3-dev \
 checkinstall xchm subversion dos2unix apt-transport-https ca-certificates xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor python3-wheel \
 python3-pip build-essential dos2unix ghostscript icc-profiles-free liblept5 libxml2 xul-ext-lightning thunderbird-locale-en clamtk tesseract-ocr clamav-daemon \
 clamav-unofficial-sigs clamdscan libclamunrar9 pngquant hyphen-fi hyphen-ga hyphen-id arronax birdtray wimtools wkhtmltopdf abiword imagemagick \
-python3-pgmagick graphicsmagick graphviz openjdk-11-jdk img2pdf;
+python3-pgmagick graphicsmagick graphviz img2pdf;
 
 systemctl enable clamav-daemon;
 systemctl start clamav-daemon;
