@@ -20,12 +20,13 @@ if [ ! -f $SIARDDIR/siardgui.sh ]; then
     sudo -H -u $OWNER bash -c "mkdir -p $SIARDDIR;";
     sudo -H -u $OWNER bash -c "wget -O /tmp/SIARD-Suite.zip $URL";
     sudo -H -u $OWNER bash -c "unzip /tmp/SIARD-Suite.zip -d $BINDIR;";
-    sudo -H -u $OWNER bash -c "mv $BINDIR/siard_suite-* $SIARDDIR;";
+    sudo -H -u $OWNER bash -c "mv -v $BINDIR/siard_suite-*/* $SIARDDIR;";
+    sudo -H -u $OWNER bash -c "rm -rdf $BINDIR/siard_suite-*/;";
 fi
 
 
 SRC=$SCRIPTPATH/data/siardsuite/siardgui.sh
-if [ ! -f $FNAME ]; then
+if [ ! -f $SRC ]; then
     sudo -H -u $OWNER bash -c "cp $SRC $BINDIR/siardgui.sh";
 fi
 
@@ -45,14 +46,6 @@ if [ ! -f $APPS/siardsuite.desktop ]; then
 fi
 
 cd $SCRIPTPATH;
-
-
-# /usr/lib/jvm/bellsoft-java8-runtime-full-amd64/bin/java  -Xmx1024m -Dsun.awt.disablegrab=true -Djava.util.logging.config.file=./etc/logging.properties -jar ./lib/siardgui.jar  
-# # TODO: Fix så ikke spør om installasjon
-
-
-# /usr/lib/jvm/bellsoft-java8-runtime-full-amd64/bin/java -jar dbptk-app-2.9.6.jar 
-
 
 
 
