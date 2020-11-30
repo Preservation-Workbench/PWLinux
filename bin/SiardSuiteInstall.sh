@@ -19,13 +19,14 @@ apt-get install bellsoft-java8-runtime-full;
 if [ ! -f $SIARDDIR/siardgui.sh ]; then
     sudo -H -u $OWNER bash -c "mkdir -p $SIARDDIR;";
     sudo -H -u $OWNER bash -c "wget -O /tmp/SIARD-Suite.zip $URL";
-    sudo -H -u $OWNER bash -c "unzip /tmp/SIARD-Suite.zip -d $SIARDDIR;";
+    sudo -H -u $OWNER bash -c "unzip /tmp/SIARD-Suite.zip -d $BINDIR;";
+    sudo -H -u $OWNER bash -c "mv $BINDIR/siard_suite-* $SIARDDIR;";
 fi
 
 
 SRC=$SCRIPTPATH/data/siardsuite/siardgui.sh
 if [ ! -f $FNAME ]; then
-    sudo -H -u $OWNER bash -c "cp $SRC $BINDIR/siardgui.sh
+    sudo -H -u $OWNER bash -c "cp $SRC $BINDIR/siardgui.sh";
 fi
 
 SRC=$SCRIPTPATH/img/siardsuite.png
