@@ -20,6 +20,7 @@ fi
 SRC=$SCRIPTPATH/img/vera.png
 FNAME="$PWCONFIGDIR/img/vera.png"
 if [ ! -f $FNAME ]; then
+    sudo -H -u $OWNER bash -c "mkdir -p $PWCONFIGDIR/img;";
     sudo -H -u $OWNER bash -c "cp $SRC $FNAME"
 fi
 

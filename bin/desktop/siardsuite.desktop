@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Siard Suite
+Comment=Export/import databases in siard format
+Type=Application
+Exec=dummy
+Icon=dummy
+Hidden=false
+Categories=Development;
+StartupWMClass=dbptk-desktop
+StartupNotify=false
+

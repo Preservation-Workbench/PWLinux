@@ -4,34 +4,46 @@ OWNER=$(stat -c '%U' $SCRIPTPATH);
 APPS=/home/$OWNER/.local/share/applications
 PWCONFIGDIR=/home/$OWNER/.config/pwlinux
 URL=https://github.com/sfa-siard/SiardGui/releases/download/2.1.34/SIARD-Suite-2.1.134.zip
-SIARDDIR=/home/$OWNER/bin/dbptk
+BINDIR=/home/$OWNER/bin
+SIARDDIR=$BINDIR/sfa-siard
 
-if [ ! -f $SIARDDIR/dbptk-desktop.AppImage ]; then
-    sudo -H -u $OWNER bash -c "mkdir -p $SIARDDIR;";
-    sudo -H -u $OWNER bash -c "wget -O $SIARDDIR/dbptk-desktop.AppImage $URL";
-    sudo -H -u $OWNER bash -c "chmod a+rx $SIARDDIR/dbptk-desktop.AppImage";
+isInFile=$(cat /etc/apt/sources.list.d/bellsoft.list | grep -c "https://apt.bell-sw.com/")
+if [ $isInFile -eq 0 ]; then    
+    wget -qO - https://download.bell-sw.com/pki/GPG-KEY-bellsoft | sudo apt-key add - 
+    echo 'deb [arch=amd64] https://apt.bell-sw.com/ stable main' > /etc/apt/sources.list.d/bellsoft.list;
 fi
 
-SRC=$SCRIPTPATH/img/dbptk.png
-FNAME=$PWCONFIGDIR/img/dbptk.png
+apt-get update;
+apt-get install bellsoft-java8-runtime-full;
+
+if [ ! -f $SIARDDIR/siardgui.sh ]; then
+    sudo -H -u $OWNER bash -c "mkdir -p $SIARDDIR;";
+    sudo -H -u $OWNER bash -c "wget -O /tmp/SIARD-Suite.zip $URL";
+    sudo -H -u $OWNER bash -c "unzip /tmp/SIARD-Suite.zip -d $SIARDDIR;";
+fi
+
+
+SRC=$SCRIPTPATH/data/siardsuite/siardgui.sh
 if [ ! -f $FNAME ]; then
+    sudo -H -u $OWNER bash -c "cp $SRC $BINDIR/siardgui.sh
+fi
+
+SRC=$SCRIPTPATH/img/siardsuite.png
+FNAME=$PWCONFIGDIR/img/siardsuite.png
+if [ ! -f $FNAME ]; then
+    sudo -H -u $OWNER bash -c "mkdir -p $PWCONFIGDIR/img;";
     sudo -H -u $OWNER bash -c "cp $SRC $FNAME"
 fi
 
-if [ ! -f $APPS/dbptk.desktop ]; then
+if [ ! -f $APPS/siardsuite.desktop ]; then
     sudo -H -u $OWNER bash -c "mkdir -p $APPS;";
-    sudo -H -u $OWNER bash -c "cp $SCRIPTPATH/desktop/dbptk.desktop $APPS;";
-    sed -i "/Exec=dummy/c\Exec=$SIARDDIR/dbptk-desktop.AppImage" $APPS/dbptk.desktop; 
-    sed -i "/Icon=dummy/c\Icon=$FNAME" $APPS/dbptk.desktop;   
-    chown $OWNER:$OWNER $APPS/dbptk.desktop;  
+    sudo -H -u $OWNER bash -c "cp $SCRIPTPATH/desktop/siardsuite.desktop $APPS;";
+    sed -i "/Exec=dummy/c\Exec=$BINDIR/siardgui.sh" $APPS/siardsuite.desktop; 
+    sed -i "/Icon=dummy/c\Icon=$FNAME" $APPS/siardsuite.desktop;   
+    chown $OWNER:$OWNER $APPS/siardsuite.desktop;  
 fi
 
 cd $SCRIPTPATH;
-
-# wget -q -O - "https://download.bell-sw.com/pki/GPG-KEY-bellsoft" | sudo apt-key add -
-# echo "deb [arch=amd64] https://apt.bell-sw.com/ stable main" | sudo tee /etc/apt/sources.list.d/bellsoft.list
-# sudo apt-get update
-# sudo apt-get install bellsoft-java8-runtime-full
 
 
 # /usr/lib/jvm/bellsoft-java8-runtime-full-amd64/bin/java  -Xmx1024m -Dsun.awt.disablegrab=true -Djava.util.logging.config.file=./etc/logging.properties -jar ./lib/siardgui.jar  
