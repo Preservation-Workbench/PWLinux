@@ -151,6 +151,9 @@ source $SCRIPTPATH/PWCodeInstall.sh
 # Install DBPTK:
 source $SCRIPTPATH/DBPTKInstall.sh
 
+# Install Siard Suite:
+source $SCRIPTPATH/SiardSuiteInstall.sh
+
 # Install pwb service menu:
 SREPO="https://github.com/Preservation-Workbench/pwb_service_menu"
 LREPO="/home/$OWNER/bin/gui/pwb_service_menu"
@@ -174,7 +177,7 @@ apt-get install -y xfce4-docklike-plugin;
 APPS=/home/$OWNER/.local/share/applications
 su $OWNER -m -c "cat <<\EOF > /home/$OWNER/.config/xfce4/panel/docklike-100.rc
 [user]
-pinned=/usr/share/applications/xfce4-terminal.desktop;/usr/share/applications/gnome-system-monitor.desktop;$APPS/emacs27.desktop;/usr/share/applications/thunar.desktop;/usr/share/applications/chromium.desktop;$APPS/PWCode.desktop;/usr/share/applications/org.xfce.Catfish.desktop;$APPS/SQLWB.desktop;/usr/share/applications/dbeaver.desktop;/usr/share/applications/code.desktop;$APPS/dbptk.desktop;/usr/share/applications/clamtk.desktop;
+pinned=/usr/share/applications/xfce4-terminal.desktop;/usr/share/applications/gnome-system-monitor.desktop;$APPS/emacs27.desktop;/usr/share/applications/thunar.desktop;/usr/share/applications/chromium.desktop;$APPS/PWCode.desktop;/usr/share/applications/org.xfce.Catfish.desktop;$APPS/SQLWB.desktop;/usr/share/applications/dbeaver.desktop;/usr/share/applications/code.desktop;$APPS/siardsuite.desktop;$APPS/dbptk.desktop;/usr/share/applications/clamtk.desktop;
 EOF
 "
 

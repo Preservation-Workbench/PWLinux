@@ -21,7 +21,6 @@ if [ ! -f $SIARDDIR/siardgui.sh ]; then
     sudo -H -u $OWNER bash -c "rm -rdf $BINDIR/siard_suite-*/;";
 fi
 
-
 SRC=$SCRIPTPATH/data/siardsuite/siardgui.sh
 if [ ! -f $BINDIR/siardgui.sh ]; then
     sudo -H -u $OWNER bash -c "cp $SRC $BINDIR/siardgui.sh";
