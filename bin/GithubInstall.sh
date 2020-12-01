@@ -6,4 +6,4 @@ if [ $isInFile -eq 0 ]; then
     apt-get update;
 fi
 
-apt-get install github-desktop;
+apt-get install -y github-desktop;
