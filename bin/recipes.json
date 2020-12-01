@@ -76,7 +76,7 @@
     },
     {
         "name": "Emacs",
-        "description": "Open source extensible text editor",
+        "description": "An open source extensible text editor",
         "type": "generic",
         "recipe": [
             "./EmacsInstall.sh"
@@ -84,7 +84,7 @@
     },
     {
         "name": "VSCode",
-        "description": "Proprietary extensible text editor",
+        "description": "A (mostly) open source extensible text editor",
         "type": "generic",
         "recipe": [
             "./VSCodeInstall.sh"
@@ -92,10 +92,18 @@
     },
     {
         "name": "Sublime",
-        "description": "Another proprietary extensible text editor",
+        "description": "A proprietary extensible text editor",
         "type": "package",
         "recipe": [
             "sublime-text"
+        ]
+    },
+    {
+        "name": "Github Desktop",
+        "description": "Github... on the desktop",
+        "type": "generic",
+        "recipe": [
+            "./GithubInstall.sh"
         ]
     },
     {

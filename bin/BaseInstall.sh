@@ -5,7 +5,7 @@ PWCONFIGDIR=/home/$OWNER/.config/pwlinux
 USERID=$(id -u $OWNER)
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USERID/bus";
 
-sudo add-apt-repository -y ppa:diesch/stable;
+sudo add-apt-repository -y ppa:diesch/stable; # TODO: Endre så ikke bruker add-apt
 
 isInFile=$(cat /etc/apt/sources.list.d/bellsoft.list | grep -c "https://apt.bell-sw.com/")
 if [ $isInFile -eq 0 ]; then    
