@@ -12,9 +12,11 @@ fi
 
 apt-get install -y github-desktop;
 
-if [ ! -f /home/$OWNER/.local/share/applications/github-desktop.desktop ]; then
+if [ ! -f $APPS/github-desktop.desktop ]; then
     sudo -H -u $OWNER bash -c "mkdir -p $APPS;";
     sudo -H -u $OWNER bash -c "cp /usr/share/applications/github-desktop.desktop $APPS;";
+    sed -i "/Categories=/c\Categories=Development;" $APPS/github-desktop.desktop;   
+    chown $OWNER:$OWNER $APPS/github-desktop.desktop;      
 fi
 
 WMCLASS="StartupWMClass=GitHub Desktop"
