@@ -3,7 +3,7 @@ Currently undergoing som biggish changes. Please wait...
 
 We recommend at least 16GB of RAM.
 
-### Install instructions:
+### Installation:
 
 Install Linux Mint 20 Xfce from here:  
 https://linuxmint.com/edition.php?id=283
