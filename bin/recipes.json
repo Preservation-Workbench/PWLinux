@@ -9,15 +9,23 @@
     },
     {
         "name": "PWCode",
-        "description": "Export and normalize data. And more...",
+        "description": "Export and normalize data. And (much) more...",
         "type": "generic",
         "recipe": [
             "./PWCodeInstall.sh"
         ]
     },
     {
+        "name": "Siard Suite",
+        "description": "Siard. The Swiss original",
+        "type": "generic",
+        "recipe": [
+            "./SiardSuiteInstall.sh"
+        ]
+    },
+    {
         "name": "DBPTK",
-        "description": "Export, import and browse databases in siard format",
+        "description": "Siard. The Portuguese contender",
         "type": "generic",
         "recipe": [
             "./DBPTKInstall.sh"
