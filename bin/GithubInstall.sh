@@ -17,7 +17,7 @@ if [ ! -f /home/$OWNER/.local/share/applications/github-desktop.desktop ]; then
     sudo -H -u $OWNER bash -c "cp /usr/share/applications/github-desktop.desktop $APPS;";
 fi
 
-WMCLASS='StartupWMClass=GitHub Desktop'
+WMCLASS="StartupWMClass=GitHub Desktop"
 isInFile=$(cat $APPS/github-desktop.desktop | grep -c $WMCLASS)
 if [ $isInFile -eq 0 ]; then 
     sudo -H -u $OWNER bash -c "echo $WMCLASS >> $APPS/github-desktop.desktop;";
