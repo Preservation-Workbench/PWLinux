@@ -9,8 +9,6 @@ URL=https://github.com/sfa-siard/SiardGui/releases/download/${TAG}/SIARD-Suite-$
 BINDIR=/home/$OWNER/bin
 SIARDDIR=$BINDIR/sfa-siard
 
-# TODO: For dbptk cli bruk: /usr/lib/jvm/bellsoft-java8-runtime-full-amd64/bin/java -jar dbptk-app-2.9.6.jar 
-
 if [ ! -f $SIARDDIR/siardgui.sh ]; then
     sudo -H -u $OWNER bash -c "mkdir -p $SIARDDIR;";
     sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.java;";
