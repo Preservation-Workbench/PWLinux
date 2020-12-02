@@ -31,6 +31,8 @@ fi
 
 
 # WAIT: Flytt evt til PWCode installer når klart om denne skal brukes derfra
+# -> må sannsynlig finne måte å få med jaxb med jlink for openjdk11 da
+# -> må foreløpig kjøres bare på PWLinux og med "/usr/lib/jvm/bellsoft-java8-runtime-full-amd64/bin/java -jar dbptk-app.jar"
 # install CLI:
 TAG="v2.9.6"
 VER="2.9.6"

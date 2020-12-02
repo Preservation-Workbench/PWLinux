@@ -161,13 +161,19 @@ sudo -H -u $OWNER bash -c "git clone --depth 1 "$SREPO" "$LREPO" 2> \
     /dev/null || git -C "$LREPO" pull;";
 
 # Autostart pwb service menu:
-$CMD="python3 ~/bin/gui/pwb_service_menu/tray_menu.py & disown"
-isInFile=$(cat /home/$OWNER/.profile | grep -c $CMD)
+CMD="'$(cat <<-END
+
+# Autostart pwb service menu:
+if [[ -z \$(pgrep -f tray_menu.py) ]]; then
+    python3 ~/bin/gui/pwb_service_menu/tray_menu.py & disown
+fi
+END
+)'"
+
+isInFile=$(cat /home/$OWNER/.profile | grep -c "pwb_service_menu/tray_menu.py")
 if [ $isInFile -eq 0 ]; then
-    sudo -H -u $OWNER bash -c "echo "" >> /home/$OWNER/.profile;";
     sudo -H -u $OWNER bash -c "echo $CMD >> /home/$OWNER/.profile";
 fi
-
 
 # Configure Xfce panel:
 sudo add-apt-repository -y ppa:xubuntu-dev/extras;
