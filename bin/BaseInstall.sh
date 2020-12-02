@@ -13,7 +13,7 @@ if [ $isInFile -eq 0 ]; then
     echo 'deb [arch=amd64] https://apt.bell-sw.com/ stable main' > /etc/apt/sources.list.d/bellsoft.list;
 fi
 
-apt-get update;
+apt-get update --fix-missing && apt-get install -f;
 mintupdate-cli -y --keep-configuration upgrade;
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections;
 
@@ -37,9 +37,12 @@ if [ -f "/etc/ImageMagick-6/policy.xml" ]; then
 fi
 
 # WAIT: Flytt dette nederst?
-apt-get autoremove -y;
+apt-get autoremove --purge -y;
+apt-get clean;
+apt-get autoclean;
 apt-get remove -y --purge `dpkg -l | grep '^rc' | awk '{print $2}'` #Remove residual config
 flatpak uninstall -y --unused;
+flatpak update -y;
 
 isInFile=$(cat /etc/apt/sources.list.d/home-ungoogled_chromium.list | grep -c "http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/")
 if [ $isInFile -eq 0 ]; then    
