@@ -20,10 +20,10 @@ echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select tr
 # WAIT: Flytt noen av pakkene under til delscript. Noen bør også kunne fjernes
 apt-get install -y git ttf-mscorefonts-installer mint-meta-codecs exfat-fuse xfce4-fsguard-plugin exfat-utils hunspell hunspell-no rar flatpak pandoc \
 soundconverter openoffice.org-hyphenation npm sqlite3 python3-virtualenv python3-setuptools uchardet libtool-bin meld mercurial python3-dev \
-checkinstall xchm subversion dos2unix apt-transport-https ca-certificates xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor python3-wheel \
+checkinstall subversion dos2unix apt-transport-https ca-certificates xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor python3-wheel \
 python3-pip build-essential dos2unix ghostscript icc-profiles-free liblept5 libxml2 xul-ext-lightning thunderbird-locale-en clamtk tesseract-ocr clamav-daemon \
 clamav-unofficial-sigs clamdscan libclamunrar9 pngquant hyphen-fi hyphen-ga hyphen-id arronax birdtray wimtools wkhtmltopdf abiword imagemagick \
-python3-pgmagick graphicsmagick graphviz img2pdf bellsoft-java8-runtime-full;
+python3-pgmagick graphicsmagick graphviz img2pdf bellsoft-java8-runtime-full okular;
 
 systemctl enable clamav-daemon;
 systemctl start clamav-daemon;
@@ -47,7 +47,7 @@ if [ $isInFile -eq 0 ]; then
     echo 'deb http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/ /' > /etc/apt/sources.list.d/home-ungoogled_chromium.list;
     killall firefox;
     apt remove -y hexchat-common hexchat rhythmbox xfce4-taskmanager firefox timeshift gnote;    
-    flatpak install -y --noninteractive flathub org.mozilla.firefox;
+    flatpak install -y --noninteractive flathub org.mozilla.firefox xreader;
 fi
 
 apt-get update;
