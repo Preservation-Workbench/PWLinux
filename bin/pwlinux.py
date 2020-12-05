@@ -163,11 +163,13 @@ class Zenity:
         pass
 
     @staticmethod
-    def password():
+    def password(bindir):
         runCmd(['sudo', '-k'])
+        yad = bindir + '/yad'
 
         while True:
-            getPasswordCmd = runCmd(['zenity', '--password', '--title=PWLinux installer', '--window-icon=pwlinux.png'])
+            getPasswordCmd = runCmd([yad, '--class="GSu"', '--text="Enter password for user"', '--image="dialog-password"', '--title=PWLinux installer', '--entry', '--hide-text'])
+            # getPasswordCmd = runCmd(['zenity', '--password', '--title=PWLinux installer', '--window-icon=pwlinux.png'])
 
             if getPasswordCmd.succeeded:
                 checkPasswordCmd = runCmd(['sudo', '-S', 'id', '-u'],
@@ -675,7 +677,7 @@ def main():
     else:
         # Check Zenity and run as superuser
         if checkPackage('zenity'):         
-            runCmd(['sudo', 'python3', sys.argv[0]], stdin=Zenity.password())
+            runCmd(['sudo', 'python3', sys.argv[0]], stdin=Zenity.password(bindir))
         else:  
             import getpass
             password = getpass.getpass("Password: ")
