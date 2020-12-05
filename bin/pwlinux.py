@@ -4,7 +4,7 @@
 
 import sys
 
-# Check Python version
+# Check Python version:
 if sys.version_info[0] < 3:
     print('You have invoked PWLinux installer with Python 2. PWLinux installer must be run with Python 3.')
     sys.exit()
@@ -13,6 +13,7 @@ else:
     import subprocess
     import urllib.request
     import json
+    import pathlib
     import re
     from datetime import datetime
     import time
@@ -157,39 +158,55 @@ def waitForDpkgLock():
             return False
 
 
-class Zenity:
+def get_password(text):  
+    result = runCmd(['./yad', 
+                    '--class="GSu"', 
+                    '--text=' + text,
+                    '--image="dialog-password"', 
+                    '--title=Password', 
+                    '--entry', 
+                    '--hide-text', 
+                    '--undecorated',
+                    '--skip-taskbar'
+                    ]) 
+
+    return result                      
+
+
+class Yad:
 
     def __init__(self):
         pass
 
     @staticmethod
-    def password(bindir):
+    def password():
         runCmd(['sudo', '-k'])
-        yad = bindir + '/yad'
 
+        count = 0
         while True:
-            getPasswordCmd = runCmd([yad, '--class="GSu"', '--text="Enter password for user"', '--image="dialog-password"', '--title=PWLinux installer', '--entry', '--hide-text'])
-            # getPasswordCmd = runCmd(['zenity', '--password', '--title=PWLinux installer', '--window-icon=pwlinux.png'])
+            count += 1
+            if count == 1:
+                getPasswordCmd = get_password('Enter sudo password...')
+            else:
+                getPasswordCmd = get_password('Wrong password. Try again...')
 
             if getPasswordCmd.succeeded:
-                checkPasswordCmd = runCmd(['sudo', '-S', 'id', '-u'],
-                                          stdin=getPasswordCmd.stdout + '\n')
+                checkPasswordCmd = runCmd(['sudo', 
+                                            '-S', 
+                                            'id', 
+                                            '-u'],
+                                            stdin=getPasswordCmd.stdout + '\n')
                 if checkPasswordCmd.succeeded and checkPasswordCmd.stdout.replace('\n', '') == '0':
                     return getPasswordCmd.stdout.replace('\n', '')
-                else:
-                    runCmd(['zenity', 
-                            '--info', 
-                            '--width=200', 
-                            '--title=PWLinux installer', 
-                            '--text=Wrong password, try again'])
+                    
             else:
                 sys.exit()
 
 
     @staticmethod
-    def progressBar(pulsating=False, noCancel=False, title='', text='', percentage=0, height=100, width=500):
+    def progressBar(pulsating=False, noCancel=True, title='', text='', percentage=0, height=300, width=720):
 
-        args = ['zenity', '--progress']
+        args = ['./yad', '--progress']
 
         if pulsating:
             args.append('--pulsate')
@@ -203,6 +220,12 @@ class Zenity:
         args.append('--height={}'.format(height))
         args.append('--width={}'.format(width))
         args.append('--window-icon=pwlinux.png')
+        args.append('--enable-log')
+        args.append('--log-expanded')   
+        args.append('--log-on-top')         
+        args.append('--log-height=300')
+        args.append('--center')
+        
 
         process = subprocess.Popen(args, 
                                    stdin=subprocess.PIPE, 
@@ -225,7 +248,7 @@ class Zenity:
 
     @staticmethod
     def error(message):
-        runCmd(['zenity', 
+        runCmd(['./yad', 
                 '--error', 
                 '--title=PWLinux installer', 
                 '--height=100',
@@ -236,7 +259,7 @@ class Zenity:
 
     @staticmethod
     def table(data):
-        args = ['zenity',
+        args = ['./yad',
                 '--list',
                 '--checklist',
                 '--height=720',
@@ -246,7 +269,8 @@ class Zenity:
                 '--text=Select tasks to perform:',
                 '--column=Selection',
                 '--column=Task',
-                '--column=Description']
+                '--center',
+                '--column=Description']        
 
         args.extend(data)
 
@@ -255,7 +279,7 @@ class Zenity:
 
     @staticmethod
     def info(message):
-        runCmd(['zenity', 
+        runCmd(['./yad', 
                 '--info', 
                 '--title=PWLinux installer',
                 '--window-icon=pwlinux.png',
@@ -266,7 +290,7 @@ class Zenity:
 
     @staticmethod
     def question(message, height=100, width=200):
-        question = runCmd(['zenity', 
+        question = runCmd(['./yad', 
                            '--question', 
                            '--title=PWLinux installer',
                            '--window-icon=pwlinux.png',
@@ -280,10 +304,11 @@ class Zenity:
     @staticmethod
     def textInfo(message):
         data = runCmd(['echo', message]).stdout
-        runCmd(['zenity',
+        runCmd(['./yad',
                 '--text-info',
                 '--height=700',
                 '--width=800',
+                '--center',
                 '--title=PWLinux installer',
                 '--window-icon=pwlinux.png'],
                 stdin=data)
@@ -291,7 +316,7 @@ class Zenity:
     
     @staticmethod
     def list(message, elements):
-        cmd = ['zenity',
+        cmd = ['./yad',
                 '--list',
                 '--height=500',
                 '--width=500',
@@ -321,9 +346,6 @@ class GUI:
         # Set language
         runCmd(['export','LC_ALL=C'])
 
-        # Check Zenity package
-        zenity = checkPackage('zenity')
-
         # Check distro
         supportedDistro = False
 
@@ -337,11 +359,8 @@ class GUI:
 
         if not supportedDistro:
             message = "This is not an Ubuntu or Ubuntu derivative distro. You can't run PWLinux installer on this system."
-
-            if zenity:
-                Zenity.error(message)
-            else:
-                print(message)
+            Yad.error(message)
+            print(message)
 
             sys.exit()
 
@@ -350,12 +369,8 @@ class GUI:
 
         if arch.stdout != 'x86_64\n':
             message = "This is not a 64-bit system. You can't run PWLinux installer on this system."
-
-            if zenity:
-                Zenity.error(message)
-            else:
-                print(message)
-
+            Yad.error(message)
+            print(message)
             sys.exit()
 
         # Check /var/lib/dpkg/lock to ensure we can install packages
@@ -364,11 +379,8 @@ class GUI:
         if lock.stdout != '':
             message = 'Another program is installing or updating packages. Please wait until this process finishes and then launch PWLinux installer again.'
 
-            if zenity:
-                Zenity.error(message)
-            else:
-                print(message)
-
+            Yad.error(message)
+            print(message)
             sys.exit()
 
         # Check connectivity
@@ -376,23 +388,15 @@ class GUI:
 
         if not ping.succeeded:
             message = 'There is no connection to the Internet. Please connect and then launch PWLinux installer again.'
-
-            if zenity:
-                Zenity.error(message)
-            else:
-                print(message)
+            Yad.error(message)
+            print(message)
 
         # Repair installation interruptions
         self.runAndLogCmd(['dpkg', '--configure', '-a'])
 
         # Get repositories
-        self.repoList = getRepoList()
+        self.repoList = getRepoList()      
 
-        # Install Zenity if needed
-        if not zenity:
-            self.runAndLogCmd(['apt', 'install', '-y', 'zenity'])         
-
-        #bindir = os.path.abspath(os.path.dirname(__file__))
         with open('recipes.json', 'r') as f:
             self.recipes = json.load(f)   
 
@@ -417,7 +421,7 @@ class GUI:
                 tableData.append(recipe['name'])
                 tableData.append(recipe['description'])
             
-            table = Zenity.table(tableData)
+            table = Yad.table(tableData)
 
             # Check for closed window / cancel button
             if not table.succeeded:
@@ -425,7 +429,7 @@ class GUI:
 
             # Check zero tasks selected
             if table.stdout == '':
-                Zenity.info('No tasks were selected')
+                Yad.info('No tasks were selected')
 
                 for i in range(len(self.recipes)):
                     self.recipes[i]['selected'] = False
@@ -454,7 +458,7 @@ class GUI:
         message += 'Are you sure you want to continue?'
 
         while True:
-            if not Zenity.question(message, height=100, width=350):
+            if not Yad.question(message, height=100, width=350):
                 self.show()
             else:
                 break
@@ -507,7 +511,7 @@ class GUI:
                 packages.pop(i)
 
         # Create progress bar
-        updateBar = Zenity.progressBar(pulsating=True, 
+        updateBar = Yad.progressBar(pulsating=True, 
                                        noCancel=True, 
                                        title='PWLinux installer',
                                        text='Processing tasks')
@@ -521,17 +525,17 @@ class GUI:
             # Ensure software-properties-common is installed
             if len(ppas) > 0 and not checkPackage('software-properties-common'):
                 updateBar('Installing software-properties-common')
-                self.runAndLogCmd(['apt', 'install', '-y', 'software-properties-common'], checkLock=True)
+                self.runAndLogCmd(['apt-get', 'install', '-y', 'software-properties-common'], checkLock=True)
 
             # Ensure snapd is installed
             if (len(snaps) > 0 or len(snapsWithOptions) > 0) and not checkPackage('snapd'):
                 updateBar('Installing snapd')
-                self.runAndLogCmd(['apt', 'install', '-y', 'snapd'], checkLock=True)
+                self.runAndLogCmd(['apt-get', 'install', '-y', 'snapd'], checkLock=True)
 
             # Ensure libnotify-bin is installed
             if not checkPackage('libnotify-bin'):
                 updateBar('Installing libnotify-bin')
-                self.runAndLogCmd(['apt', 'install', '-y', 'libnotify-bin'], checkLock=True)
+                self.runAndLogCmd(['apt-get', 'install', '-y', 'libnotify-bin'], checkLock=True)
 
             # Run pre-installation tasks
             if len(preInstall) > 0:
@@ -548,13 +552,13 @@ class GUI:
             # Update
             if len(packages) > 0 or len(ppas) > 0:
                 updateBar('Updating package list')
-                self.runAndLogCmd(['apt', 'update'], checkLock=True)
+                self.runAndLogCmd(['apt-get', 'update'], checkLock=True)
 
             # Process packages
             if len(packages) > 0:
                 for package in packages:
                     updateBar('Installing {}'.format(package))
-                    cmd = ['apt', 'install', '-y']
+                    cmd = ['apt-get', 'install', '-y']
                     cmd.append(package)
                     self.runAndLogCmd(cmd, checkLock=True)
 
@@ -579,7 +583,7 @@ class GUI:
                 for deb in debs:
                     updateBar('Installing {}'.format(deb))
                     self.runAndLogCmd(['wget', '-q', '-O', '/tmp/package.deb', deb])
-                    self.runAndLogCmd(['apt', 'install', '-y', '/tmp/package.deb'], checkLock=True)
+                    self.runAndLogCmd(['apt-get', 'install', '-y', '/tmp/package.deb'], checkLock=True)
 
             # Process generics
             if len(generics) > 0:
@@ -595,7 +599,7 @@ class GUI:
 
             # Autoremove
             updateBar('Removing no longer needed packages')
-            self.runAndLogCmd(['apt', 'autoremove', '-y'], checkLock=True)
+            self.runAndLogCmd(['apt-get', 'autoremove', '-y'], checkLock=True)
 
             # Check errors and notify
             if len(self.errors) == 0:
@@ -618,14 +622,14 @@ class GUI:
                             log = ''.join(lines[i:])
                             break
 
-                Zenity.list('The following tasks ended with errors and could not be completed:', self.errors)
+                Yad.list('The following tasks ended with errors and could not be completed:', self.errors)
                 
                 if len(log) < 120000:
-                    Zenity.textInfo(
+                    Yad.textInfo(
                         'Ooops, some errors happened (sorry about that).' + log
                     )
                 else:
-                    Zenity.textInfo(
+                    Yad.textInfo(
                         'Ooops, some errors happened (sorry about that)' +
                         log[:120000]
                     )  # TODO: Legg inn referanse til log-fil path
@@ -644,7 +648,7 @@ class GUI:
                 with open(self.logFile, 'a') as f:
                     f.write(100 * '-' + '\n')
                     f.write('LOCKED /var/lib/dpkg/lock or /var/lib/apt/lists/lock\n')
-                    Zenity.error('Another program is installing or updating packages. Please wait until this process finishes and then launch PWLinux installer again.')
+                    Yad.error('Another program is installing or updating packages. Please wait until this process finishes and then launch PWLinux installer again.')
                     sys.exit()
 
         with open(self.logFile, 'a') as f:
@@ -667,25 +671,17 @@ class GUI:
 
 
 def main():
+    directory = os.path.abspath(os.path.dirname(__file__))
+    os.chdir(directory)  
+    file_name = os.path.basename(__file__)
+
     # Check root privileges
-    if os.geteuid() == 0:
-        bindir = os.path.abspath(os.path.dirname(__file__))
-        os.chdir(bindir)               
+    if os.geteuid() == 0:           
         gui = GUI()
         gui.show()
         gui.process()
-    else:
-        # Check Zenity and run as superuser
-        if checkPackage('zenity'):         
-            runCmd(['sudo', 'python3', sys.argv[0]], stdin=Zenity.password(bindir))
-        else:  
-            import getpass
-            password = getpass.getpass("Password: ")
-            subprocess.run(['echo "{}" | sudo -kS python3 {}'.format(password, sys.argv[0])],
-                           shell=True,
-                           stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE,
-                           check=True)
+    else: 
+        runCmd(['sudo', 'python3', file_name], stdin=Yad.password())
 
 
 if __name__ == '__main__':
