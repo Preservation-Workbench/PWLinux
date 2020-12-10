@@ -23,7 +23,7 @@ soundconverter openoffice.org-hyphenation npm sqlite3 python3-virtualenv python3
 checkinstall subversion dos2unix apt-transport-https ca-certificates xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor python3-wheel \
 python3-pip build-essential dos2unix ghostscript icc-profiles-free liblept5 libxml2 xul-ext-lightning thunderbird-locale-en clamtk tesseract-ocr clamav-daemon \
 clamav-unofficial-sigs clamdscan libclamunrar9 pngquant hyphen-fi hyphen-ga hyphen-id arronax birdtray wimtools wkhtmltopdf abiword imagemagick \
-python3-pgmagick graphicsmagick graphviz img2pdf bellsoft-java8-runtime-full okular dex;
+python3-pgmagick graphicsmagick graphviz img2pdf bellsoft-java8-runtime-full okular dex arj p7zip-rar unace fzf fd-find pdfarranger krop;
 
 systemctl enable clamav-daemon;
 systemctl start clamav-daemon;
