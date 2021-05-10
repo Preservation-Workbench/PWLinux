@@ -111,7 +111,7 @@ sudo -H -u $OWNER bash -c "/home/$OWNER/bin/go/bin/sf -update"
 
 
 # Install Emacs:
-# source $SCRIPTPATH/EmacsInstall.sh
+source $SCRIPTPATH/EmacsInstall.sh
 
 # Install Oracle:
 source $SCRIPTPATH/OracleInstall.sh
@@ -123,56 +123,56 @@ fi
 # Install MSSQL:
 source $SCRIPTPATH/MSSQLInstall.sh
 
-## Install MySQL:
-#source $SCRIPTPATH/MySQLInstall.sh
+# Install MySQL:
+source $SCRIPTPATH/MySQLInstall.sh
 
-## Install URD:
-#source $SCRIPTPATH/URDInstall.sh
+# Install URD:
+source $SCRIPTPATH/URDInstall.sh
 
-## Install PostgreSQL:
-#source $SCRIPTPATH/PostgreSQLInstall.sh
+# Install PostgreSQL:
+source $SCRIPTPATH/PostgreSQLInstall.sh
 
-## Install OnlyOffice:
-#source $SCRIPTPATH/OnlyofficeInstall.sh
+# Install OnlyOffice:
+source $SCRIPTPATH/OnlyofficeInstall.sh
 
-## Install DBeaver:
-#source $SCRIPTPATH/DBeaverInstall.sh
+# Install DBeaver:
+source $SCRIPTPATH/DBeaverInstall.sh
 
-## Install VSCode:
-#source $SCRIPTPATH/VSCodeInstall.sh
+# Install VSCode:
+source $SCRIPTPATH/VSCodeInstall.sh
 
-## Install VSCode:
-#source $SCRIPTPATH/TikaInstall.sh
+# Install VSCode:
+source $SCRIPTPATH/TikaInstall.sh
 
-## Install PWCode:
-#source $SCRIPTPATH/PWCodeInstall.sh
+# Install PWCode:
+source $SCRIPTPATH/PWCodeInstall.sh
 
-## Install DBPTK:
-#source $SCRIPTPATH/DBPTKInstall.sh
+# Install DBPTK:
+source $SCRIPTPATH/DBPTKInstall.sh
 
-## Install Siard Suite:
-#source $SCRIPTPATH/SiardSuiteInstall.sh
+# Install Siard Suite:
+source $SCRIPTPATH/SiardSuiteInstall.sh
 
-## Install pwb service menu:
-#SREPO="https://github.com/Preservation-Workbench/pwb_service_menu"
-#LREPO="/home/$OWNER/bin/gui/pwb_service_menu"
-#sudo -H -u $OWNER bash -c "git clone --depth 1 "$SREPO" "$LREPO" 2> \
-    #/dev/null || git -C "$LREPO" pull;";
+# Install pwb service menu:
+SREPO="https://github.com/Preservation-Workbench/pwb_service_menu"
+LREPO="/home/$OWNER/bin/gui/pwb_service_menu"
+sudo -H -u $OWNER bash -c "git clone --depth 1 "$SREPO" "$LREPO" 2> \
+    /dev/null || git -C "$LREPO" pull;";
 
-## Autostart pwb service menu:
-#CMD="'$(cat <<-END
+# Autostart pwb service menu:
+CMD="'$(cat <<-END
 
-## Autostart pwb service menu:
-#if [[ -z \$(pgrep -f tray_menu.py) ]]; then
-    #python3 ~/bin/gui/pwb_service_menu/tray_menu.py & disown
-#fi
-#END
-#)'"
+# Autostart pwb service menu:
+if [[ -z \$(pgrep -f tray_menu.py) ]]; then
+    python3 ~/bin/gui/pwb_service_menu/tray_menu.py & disown
+fi
+END
+)'"
 
-#isInFile=$(cat /home/$OWNER/.profile | grep -c "pwb_service_menu/tray_menu.py")
-#if [ $isInFile -eq 0 ]; then
-    #sudo -H -u $OWNER bash -c "echo $CMD >> /home/$OWNER/.profile";
-#fi
+isInFile=$(cat /home/$OWNER/.profile | grep -c "pwb_service_menu/tray_menu.py")
+if [ $isInFile -eq 0 ]; then
+    sudo -H -u $OWNER bash -c "echo $CMD >> /home/$OWNER/.profile";
+fi
 
 ## Configure Xfce panel:
 #sudo add-apt-repository -y ppa:xubuntu-dev/extras;

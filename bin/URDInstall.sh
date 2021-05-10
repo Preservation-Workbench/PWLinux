@@ -21,12 +21,17 @@ if [ "$USER_EXISTS" -ne 1 ]; then
     mysql -h localhost < $LOCALREPO/schemas/urd/sql/create_tables_mysql.sql;
 fi   
 
-# Autostart urd:
-CMD='/usr/bin/php -S localhost:8000 -t ~/bin/URD/public > /dev/null 2>&1 & disown;'
-isInFile=$(cat /home/$OWNER/.profile | grep -c '$CMD')
+# Autostart URD:
+CMD="'$(cat <<-END
+
+# Autostart URD:
+/usr/bin/php -S localhost:8000 -t ~/bin/URD/public > /dev/null 2>&1 & disown;
+END
+)'"
+
+isInFile=$(cat /home/$OWNER/.profile | grep -c "~/bin/URD/public")
 if [ $isInFile -eq 0 ]; then
-    sudo -H -u $OWNER bash -c "echo "" >> /home/$OWNER/.profile;";
-    sudo -H -u $OWNER bash -c "echo '$CMD' >> /home/$OWNER/.profile";
+    sudo -H -u $OWNER bash -c "echo $CMD >> /home/$OWNER/.profile";
 fi
 
 # Add urd bookmark to chromium:
