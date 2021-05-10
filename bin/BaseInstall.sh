@@ -23,7 +23,7 @@ soundconverter openoffice.org-hyphenation npm sqlite3 python3-virtualenv python3
 checkinstall subversion dos2unix apt-transport-https ca-certificates xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor python3-wheel \
 python3-pip build-essential dos2unix ghostscript icc-profiles-free liblept5 libxml2 xul-ext-lightning thunderbird-locale-en clamtk tesseract-ocr clamav-daemon \
 clamav-unofficial-sigs clamdscan libclamunrar9 pngquant hyphen-fi hyphen-ga hyphen-id arronax birdtray wimtools wkhtmltopdf abiword imagemagick \
-python3-pgmagick graphicsmagick graphviz img2pdf bellsoft-java8-runtime-full okular dex arj p7zip-rar unace fzf fd-find pdfarranger krop;
+python3-pgmagick graphicsmagick graphviz img2pdf bellsoft-java8-runtime-full okular dex arj p7zip-rar unace fzf fd-find pdfarranger krop golang;
 
 systemctl enable clamav-daemon;
 systemctl start clamav-daemon;
@@ -49,8 +49,8 @@ if [ $isInFile -eq 0 ]; then
     wget -qO - https://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/Release.key | sudo apt-key add - 
     echo 'deb http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/ /' > /etc/apt/sources.list.d/home-ungoogled_chromium.list;
     killall firefox;
-    apt remove -y hexchat-common hexchat rhythmbox xfce4-taskmanager firefox timeshift gnote;    
-    flatpak install -y --noninteractive flathub org.mozilla.firefox xreader;
+    apt remove -y hexchat-common hexchat rhythmbox xfce4-taskmanager firefox timeshift gnote xreader;    
+    flatpak install -y --noninteractive flathub org.mozilla.firefox;
 fi
 
 apt-get update;
@@ -74,15 +74,6 @@ systemctl enable loolwsd;
 systemctl restart loolwsd;  
 # Test: curl --insecure -F "data=@test.docx" http://localhost:9980/lool/convert-to/pdf > out.pdf
 
-
-isInFile=$(cat /etc/apt/sources.list | grep -c "http://dl.bintray.com/siegfried/debian")
-if [ $isInFile -eq 0 ]; then  
-    wget -qO - https://bintray.com/user/downloadSubjectPublicKey?username=bintray | apt-key add -;
-    echo "deb http://dl.bintray.com/siegfried/debian wheezy main" | tee -a /etc/apt/sources.list;
-fi    
-
-sudo apt-get update;
-sudo apt-get install -y siegfried;
 
 # Set wallpaper:
 sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/wallpapers"
@@ -114,8 +105,13 @@ if [ ! -f $FNAME ]; then
     su $OWNER -m -c "xfce4-panel -r "
 fi
 
+
+sudo -H -u $OWNER bash -c "export GOPATH=/home/$OWNER/bin/go && go get github.com/richardlehane/siegfried/cmd/sf"
+sudo -H -u $OWNER bash -c "/home/$OWNER/bin/go/bin/sf -update"
+
+
 # Install Emacs:
-source $SCRIPTPATH/EmacsInstall.sh
+# source $SCRIPTPATH/EmacsInstall.sh
 
 # Install Oracle:
 source $SCRIPTPATH/OracleInstall.sh
@@ -127,93 +123,93 @@ fi
 # Install MSSQL:
 source $SCRIPTPATH/MSSQLInstall.sh
 
-# Install MySQL:
-source $SCRIPTPATH/MySQLInstall.sh
+## Install MySQL:
+#source $SCRIPTPATH/MySQLInstall.sh
 
-# Install URD:
-source $SCRIPTPATH/URDInstall.sh
+## Install URD:
+#source $SCRIPTPATH/URDInstall.sh
 
-# Install PostgreSQL:
-source $SCRIPTPATH/PostgreSQLInstall.sh
+## Install PostgreSQL:
+#source $SCRIPTPATH/PostgreSQLInstall.sh
 
-# Install OnlyOffice:
-source $SCRIPTPATH/OnlyofficeInstall.sh
+## Install OnlyOffice:
+#source $SCRIPTPATH/OnlyofficeInstall.sh
 
-# Install DBeaver:
-source $SCRIPTPATH/DBeaverInstall.sh
+## Install DBeaver:
+#source $SCRIPTPATH/DBeaverInstall.sh
 
-# Install VSCode:
-source $SCRIPTPATH/VSCodeInstall.sh
+## Install VSCode:
+#source $SCRIPTPATH/VSCodeInstall.sh
 
-# Install VSCode:
-source $SCRIPTPATH/TikaInstall.sh
+## Install VSCode:
+#source $SCRIPTPATH/TikaInstall.sh
 
-# Install PWCode:
-source $SCRIPTPATH/PWCodeInstall.sh
+## Install PWCode:
+#source $SCRIPTPATH/PWCodeInstall.sh
 
-# Install DBPTK:
-source $SCRIPTPATH/DBPTKInstall.sh
+## Install DBPTK:
+#source $SCRIPTPATH/DBPTKInstall.sh
 
-# Install Siard Suite:
-source $SCRIPTPATH/SiardSuiteInstall.sh
+## Install Siard Suite:
+#source $SCRIPTPATH/SiardSuiteInstall.sh
 
-# Install pwb service menu:
-SREPO="https://github.com/Preservation-Workbench/pwb_service_menu"
-LREPO="/home/$OWNER/bin/gui/pwb_service_menu"
-sudo -H -u $OWNER bash -c "git clone --depth 1 "$SREPO" "$LREPO" 2> \
-    /dev/null || git -C "$LREPO" pull;";
+## Install pwb service menu:
+#SREPO="https://github.com/Preservation-Workbench/pwb_service_menu"
+#LREPO="/home/$OWNER/bin/gui/pwb_service_menu"
+#sudo -H -u $OWNER bash -c "git clone --depth 1 "$SREPO" "$LREPO" 2> \
+    #/dev/null || git -C "$LREPO" pull;";
 
-# Autostart pwb service menu:
-CMD="'$(cat <<-END
+## Autostart pwb service menu:
+#CMD="'$(cat <<-END
 
-# Autostart pwb service menu:
-if [[ -z \$(pgrep -f tray_menu.py) ]]; then
-    python3 ~/bin/gui/pwb_service_menu/tray_menu.py & disown
-fi
-END
-)'"
+## Autostart pwb service menu:
+#if [[ -z \$(pgrep -f tray_menu.py) ]]; then
+    #python3 ~/bin/gui/pwb_service_menu/tray_menu.py & disown
+#fi
+#END
+#)'"
 
-isInFile=$(cat /home/$OWNER/.profile | grep -c "pwb_service_menu/tray_menu.py")
-if [ $isInFile -eq 0 ]; then
-    sudo -H -u $OWNER bash -c "echo $CMD >> /home/$OWNER/.profile";
-fi
+#isInFile=$(cat /home/$OWNER/.profile | grep -c "pwb_service_menu/tray_menu.py")
+#if [ $isInFile -eq 0 ]; then
+    #sudo -H -u $OWNER bash -c "echo $CMD >> /home/$OWNER/.profile";
+#fi
 
-# Configure Xfce panel:
-sudo add-apt-repository -y ppa:xubuntu-dev/extras;
-sudo apt-get update;
-apt-get install -y xfce4-docklike-plugin;
+## Configure Xfce panel:
+#sudo add-apt-repository -y ppa:xubuntu-dev/extras;
+#sudo apt-get update;
+#apt-get install -y xfce4-docklike-plugin;
 
-APPS=/home/$OWNER/.local/share/applications
-su $OWNER -m -c "cat <<\EOF > /home/$OWNER/.config/xfce4/panel/docklike-100.rc
-[user]
-pinned=/usr/share/applications/xfce4-terminal.desktop;/usr/share/applications/gnome-system-monitor.desktop;$APPS/emacs27.desktop;/usr/share/applications/thunar.desktop;/usr/share/applications/chromium.desktop;$APPS/PWCode.desktop;/usr/share/applications/org.xfce.Catfish.desktop;$APPS/SQLWB.desktop;/usr/share/applications/dbeaver.desktop;/usr/share/applications/code.desktop;$APPS/siardsuite.desktop;$APPS/dbptk.desktop;/usr/share/applications/clamtk.desktop;
-EOF
-"
+#APPS=/home/$OWNER/.local/share/applications
+#su $OWNER -m -c "cat <<\EOF > /home/$OWNER/.config/xfce4/panel/docklike-100.rc
+#[user]
+#pinned=/usr/share/applications/xfce4-terminal.desktop;/usr/share/applications/gnome-system-monitor.desktop;$APPS/emacs27.desktop;/usr/share/applications/thunar.desktop;/usr/share/applications/chromium.desktop;$APPS/PWCode.desktop;/usr/share/applications/org.xfce.Catfish.desktop;$APPS/SQLWB.desktop;/usr/share/applications/dbeaver.desktop;/usr/share/applications/code.desktop;$APPS/siardsuite.desktop;$APPS/dbptk.desktop;/usr/share/applications/clamtk.desktop;
+#EOF
+#"
 
-su $OWNER -m -c "cat <<\EOF > /home/$OWNER/.config/xfce4/panel/fsguard-101.rc
-yellow=8
-red=2
-lab_size_visible=false
-progress_bar_visible=false
-hide_button=false
-label=
-label_visible=false
-mnt=/
-EOF
-"
+#su $OWNER -m -c "cat <<\EOF > /home/$OWNER/.config/xfce4/panel/fsguard-101.rc
+#yellow=8
+#red=2
+#lab_size_visible=false
+#progress_bar_visible=false
+#hide_button=false
+#label=
+#label_visible=false
+#mnt=/
+#EOF
+#"
 
-sudo -H -u $OWNER bash -c "rm -rdf /home/$OWNER/.config/xfce4/panel/launcher*"
-su $OWNER -m -c "xfconf-query -c xfce4-panel -pn "/plugins/plugin-100" -t string -s 'docklike'"
-su $OWNER -m -c "xfconf-query -c xfce4-panel -pn "/plugins/plugin-101" -t string -s 'fsguard'"
-su $OWNER -m -c "xfconf-query -c xfce4-panel -p /panels/panel-1/plugin-ids -n -a -t int -s 1 -t int -s 2 -t int -s 100 -t int -s 7 -t int -s 101 -t int -s 8 -t int -s 9 -t int -s 10 -t int -s 11 -t int -s 12 -t int -s 13"
-su $OWNER -m -c "xfconf-query --channel 'xfce4-panel' --property '/panels/panel-1/size' --type int --set 40"
-su $OWNER -m -c "xfce4-panel -r "
+#sudo -H -u $OWNER bash -c "rm -rdf /home/$OWNER/.config/xfce4/panel/launcher*"
+#su $OWNER -m -c "xfconf-query -c xfce4-panel -pn "/plugins/plugin-100" -t string -s 'docklike'"
+#su $OWNER -m -c "xfconf-query -c xfce4-panel -pn "/plugins/plugin-101" -t string -s 'fsguard'"
+#su $OWNER -m -c "xfconf-query -c xfce4-panel -p /panels/panel-1/plugin-ids -n -a -t int -s 1 -t int -s 2 -t int -s 100 -t int -s 7 -t int -s 101 -t int -s 8 -t int -s 9 -t int -s 10 -t int -s 11 -t int -s 12 -t int -s 13"
+#su $OWNER -m -c "xfconf-query --channel 'xfce4-panel' --property '/panels/panel-1/size' --type int --set 40"
+#su $OWNER -m -c "xfce4-panel -r "
 
-# Fix numpad
-isInFile=$(cat /home/$OWNER/.profile | grep -c "setxkbmap -option numpad:microsoft")
-if [ $isInFile -eq 0 ]; then
-    sudo -H -u $OWNER bash -c "echo "" >> /home/$OWNER/.profile;";
-    sudo -H -u $OWNER bash -c "echo 'setxkbmap -option numpad:microsoft' >> /home/$OWNER/.profile";
-fi
+## Fix numpad
+#isInFile=$(cat /home/$OWNER/.profile | grep -c "setxkbmap -option numpad:microsoft")
+#if [ $isInFile -eq 0 ]; then
+    #sudo -H -u $OWNER bash -c "echo "" >> /home/$OWNER/.profile;";
+    #sudo -H -u $OWNER bash -c "echo 'setxkbmap -option numpad:microsoft' >> /home/$OWNER/.profile";
+#fi
 
 
