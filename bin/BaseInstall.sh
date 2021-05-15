@@ -115,10 +115,12 @@ source $SCRIPTPATH/EmacsInstall.sh
 
 # Install Oracle:
 source $SCRIPTPATH/OracleInstall.sh
-isInFile=$(cat /etc/lightdm/lightdm.conf | grep -c "greeter-hide-users=true")
-if [ $isInFile -eq 0 ]; then
-    echo 'greeter-hide-users=true' >> /etc/lightdm/lightdm.conf; #Hide oracle user
-fi
+
+# TODO: Doesnt't work in 20.04. Find new method for hiding users
+# isInFile=$(cat /etc/lightdm/lightdm.conf | grep -c "greeter-hide-users=true")
+# if [ $isInFile -eq 0 ]; then
+#     echo 'greeter-hide-users=true' >> /etc/lightdm/lightdm.conf; #Hide oracle user
+# fi
 
 # Install MSSQL:
 source $SCRIPTPATH/MSSQLInstall.sh
