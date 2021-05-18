@@ -79,12 +79,17 @@ systemctl restart loolwsd;
 sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/wallpapers"
 SRC=$SCRIPTPATH/img/pwlinux_wallpaper.png
 FNAME="/home/$OWNER/.local/share/wallpapers/pwlinux_wallpaper.png"
+CMD="'$(cat <<-END
+xfconf-query --channel xfce4-desktop --list | grep last-image | while read path; do
+    xfconf-query --channel xfce4-desktop -p $path --set $FNAME
+done
+END
+)'"
 if [ ! -f $FNAME ]; then
     sudo -H -u $OWNER bash -c "cp $SRC $FNAME"
     USR_ID=$( id -u $OWNER )
     export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$USR_ID/bus
-    su $OWNER -m -c "xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s $FNAME"
-    su $OWNER -m -c "xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual1/workspace0/last-image -s $FNAME"    
+    su $OWNER -m -c "$CMD"  
 fi
 
 # WAIT: Bruk mappe under fra PWCode for å sjekke om er på PWLinux eller ikke
@@ -98,7 +103,7 @@ if [ ! -f $FNAME ]; then
     sudo apt-get update;
     sudo apt-get install -y papirus-icon-theme;
     sudo -H -u $OWNER bash -c "cp $SRC $FNAME"
-    sudo -H -u $OWNER bash -c 'sed -i "s:^button-icon=.*:button-icon='"$PWCONFIGDIR"'/img/pwlinux_icon.png:g" ~/.config/xfce4/panel/whiskermenu-1.rc'
+    sudo -H -u $OWNER bash -c 'sed -i "s:^button-icon=.*:button-icon='"$FNAME"':g" /home/$OWNER/.config/xfce4/panel/whiskermenu-1.rc'
     su $OWNER -m -c "xfconf-query -c xsettings -p /Net/IconThemeName -s 'Papirus'"
     su $OWNER -m -c "xfconf-query -c xsettings -p /Net/ThemeName -s 'Mint-Y-Aqua'"
     su $OWNER -m -c "xfconf-query -c xfwm4 -p /general/theme -s 'Mint-Y-Red'"
