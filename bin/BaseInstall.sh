@@ -103,7 +103,7 @@ if [ ! -f $FNAME ]; then
     sudo apt-get update;
     sudo apt-get install -y papirus-icon-theme;
     sudo -H -u $OWNER bash -c "cp $SRC $FNAME"
-    sudo -H -u $OWNER bash -c 'sed -i "s:^button-icon=.*:button-icon='"$FNAME"':g" /home/$OWNER/.config/xfce4/panel/whiskermenu-1.rc'
+    sudo -H -u $OWNER bash -c 'sed -i "s:^button-icon=.*:button-icon='"$FNAME"':g" /home/'"$OWNER"'/.config/xfce4/panel/whiskermenu-1.rc'
     su $OWNER -m -c "xfconf-query -c xsettings -p /Net/IconThemeName -s 'Papirus'"
     su $OWNER -m -c "xfconf-query -c xsettings -p /Net/ThemeName -s 'Mint-Y-Aqua'"
     su $OWNER -m -c "xfconf-query -c xfwm4 -p /general/theme -s 'Mint-Y-Red'"
