@@ -79,18 +79,14 @@ systemctl restart loolwsd;
 sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/wallpapers"
 SRC=$SCRIPTPATH/img/pwlinux_wallpaper.png
 FNAME="/home/$OWNER/.local/share/wallpapers/pwlinux_wallpaper.png"
-CMD="'$(cat <<-END
-xfconf-query --channel xfce4-desktop --list | grep last-image | while read path; do
-    xfconf-query --channel xfce4-desktop -p $path --set $FNAME
-done
-END
-)'"
 if [ ! -f $FNAME ]; then
     sudo -H -u $OWNER bash -c "cp $SRC $FNAME"
-    USR_ID=$( id -u $OWNER )
-    export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$USR_ID/bus
-    su $OWNER -m -c "$CMD"  
 fi
+
+USR_ID=$( id -u $OWNER )
+export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$USR_ID/bus
+su $OWNER -m -c 'xfconf-query -c xfce4-desktop -l | grep last-image | while read path; do xfconf-query -c xfce4-desktop -p $path -s '"$FNAME"'; done'
+
 
 # WAIT: Bruk mappe under fra PWCode for å sjekke om er på PWLinux eller ikke
 sudo -H -u $OWNER bash -c "mkdir -p $PWCONFIGDIR/img";
