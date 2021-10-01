@@ -44,6 +44,30 @@ if [ -f "/opt/mssql/bin/mssql-conf" ]; then
     sudo chmod 0440 /etc/sudoers.d/mssql;  
 fi
 
-systemctl disable mssql-server; # Bug in mssql renders install unusable on virtualbox after power down if active as service 
+# Bug in mssql renders install unusable on virtualbox after power down if active as service 
+systemctl disable mssql-server; 
+
+cat << EOF | sudo tee /usr/local/sbin/pw_shutdown.sh
+#!/bin/bash
+sudo systemctl stop mssql-server
+EOF
+
+cat << EOF | sudo tee /etc/systemd/system/pw_shutdown.service
+[Unit]
+Description=
+Before=shutdown.target reboot.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/true
+ExecStop=/usr/local/sbin/pw_shutdown.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable pw_shutdown.service
 
 cd $SCRIPTPATH;
