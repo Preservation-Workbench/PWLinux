@@ -5,28 +5,32 @@ PWCONFIGDIR=/home/$OWNER/.config/pwlinux
 USERID=$(id -u $OWNER)
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USERID/bus";
 
-sudo add-apt-repository -y ppa:diesch/stable; # TODO: Endre så ikke bruker add-apt
+add-apt-repository -y ppa:diesch/stable; # TODO: Endre så ikke bruker add-apt
 
 isInFile=$(cat /etc/apt/sources.list.d/bellsoft.list | grep -c "https://apt.bell-sw.com/")
 if [ $isInFile -eq 0 ]; then    
-    wget -qO - https://download.bell-sw.com/pki/GPG-KEY-bellsoft | sudo apt-key add - 
+    wget -qO - https://download.bell-sw.com/pki/GPG-KEY-bellsoft | apt-key add - 
     echo 'deb [arch=amd64] https://apt.bell-sw.com/ stable main' > /etc/apt/sources.list.d/bellsoft.list;
 fi
 
 apt-get update --fix-missing && apt-get install -f;
 mintupdate-cli -y --keep-configuration upgrade;
-echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections;
+echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections;
 
 # WAIT: Flytt noen av pakkene under til delscript. Noen bør også kunne fjernes
 apt-get install -y git ttf-mscorefonts-installer mint-meta-codecs exfat-fuse xfce4-fsguard-plugin exfat-utils hunspell hunspell-no rar flatpak pandoc \
 soundconverter openoffice.org-hyphenation npm sqlite3 python3-virtualenv python3-setuptools uchardet libtool-bin meld mercurial python3-dev \
 checkinstall subversion dos2unix apt-transport-https ca-certificates xfpanel-switch thunar-vcs-plugin thunar-gtkhash gnome-system-monitor python3-wheel \
 python3-pip build-essential dos2unix ghostscript icc-profiles-free liblept5 libxml2 xul-ext-lightning thunderbird-locale-en clamtk tesseract-ocr clamav-daemon \
-clamav-unofficial-sigs clamdscan libclamunrar9 pngquant hyphen-fi hyphen-ga hyphen-id arronax birdtray wimtools wkhtmltopdf abiword imagemagick \
+clamav-unofficial-sigs clamdscan libclamunrar9 pngquant hyphen-fi hyphen-ga hyphen-id arronax birdtray wimtools wkhtmltopdf ruby-dev abiword imagemagick \
 python3-pgmagick graphicsmagick graphviz img2pdf bellsoft-java8-runtime-full okular dex arj p7zip-rar unace fzf fd-find pdfarranger krop nnn golang;
 
 systemctl enable clamav-daemon;
 systemctl start clamav-daemon;
+
+# Install mail converter:
+gem install bundler
+gem install eml_to_pdf
 
 # TODO: Kopier mintwelcome.desktop til /home/pwb/.local/share/applications/ og endre med sed så ikke synlig
 
@@ -46,7 +50,7 @@ flatpak update -y;
 
 isInFile=$(cat /etc/apt/sources.list.d/home-ungoogled_chromium.list | grep -c "http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/")
 if [ $isInFile -eq 0 ]; then    
-    wget -qO - https://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/Release.key | sudo apt-key add - 
+    wget -qO - https://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/Release.key | apt-key add - 
     echo 'deb http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/ /' > /etc/apt/sources.list.d/home-ungoogled_chromium.list;
     killall firefox;
     apt remove -y hexchat-common hexchat rhythmbox xfce4-taskmanager firefox timeshift gnote xreader;    
@@ -96,8 +100,8 @@ sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/themes"
 SRC=$SCRIPTPATH/img/pwlinux_icon.png
 FNAME="$PWCONFIGDIR/img/pwlinux_icon.png"
 if [ ! -f $FNAME ]; then
-    sudo apt-get update;
-    sudo apt-get install -y papirus-icon-theme;
+    apt-get update;
+    apt-get install -y papirus-icon-theme;
     sudo -H -u $OWNER bash -c "cp $SRC $FNAME"
     sudo -H -u $OWNER bash -c 'sed -i "s:^button-icon=.*:button-icon='"$FNAME"':g" /home/'"$OWNER"'/.config/xfce4/panel/whiskermenu-1.rc'
     su $OWNER -m -c "xfconf-query -c xsettings -p /Net/IconThemeName -s 'Papirus'"
@@ -178,8 +182,8 @@ if [ $isInFile -eq 0 ]; then
 fi
 
 # Configure Xfce panel:
-sudo add-apt-repository -y ppa:xubuntu-dev/extras;
-sudo apt-get update;
+add-apt-repository -y ppa:xubuntu-dev/extras;
+apt-get update;
 apt-get install -y xfce4-docklike-plugin;
 
 APPS=/home/$OWNER/.local/share/applications
