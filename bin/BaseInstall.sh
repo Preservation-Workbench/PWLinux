@@ -160,6 +160,11 @@ source $SCRIPTPATH/DBPTKInstall.sh
 # Install Siard Suite:
 source $SCRIPTPATH/SiardSuiteInstall.sh
 
+# Install Siard Suite:
+# WAIT: Lag menyvalg for Gui-versjon
+source $SCRIPTPATH/EmailconverterInstall.sh 
+
+
 # Install pwb service menu:
 SREPO="https://github.com/Preservation-Workbench/pwb_service_menu"
 LREPO="/home/$OWNER/bin/gui/pwb_service_menu"
