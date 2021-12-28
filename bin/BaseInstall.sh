@@ -110,11 +110,6 @@ if [ ! -f $FNAME ]; then
     su $OWNER -m -c "xfce4-panel -r "
 fi
 
-
-sudo -H -u $OWNER bash -c "export GOPATH=/home/$OWNER/bin/go && go get github.com/richardlehane/siegfried/cmd/sf"
-sudo -H -u $OWNER bash -c "/home/$OWNER/bin/go/bin/sf -update"
-
-
 # Install Emacs:
 source $SCRIPTPATH/EmacsInstall.sh
 
@@ -148,8 +143,11 @@ source $SCRIPTPATH/DBeaverInstall.sh
 # Install VSCode:
 source $SCRIPTPATH/VSCodeInstall.sh
 
-# Install VSCode:
+# Install Tika:
 source $SCRIPTPATH/TikaInstall.sh
+
+# Install Siegfried:
+source $SCRIPTPATH/SiegfriedInstall.sh
 
 # Install PWCode:
 source $SCRIPTPATH/PWCodeInstall.sh
@@ -163,7 +161,6 @@ source $SCRIPTPATH/SiardSuiteInstall.sh
 # Install Siard Suite:
 # WAIT: Lag menyvalg for Gui-versjon
 source $SCRIPTPATH/EmailconverterInstall.sh 
-
 
 # Install pwb service menu:
 SREPO="https://github.com/Preservation-Workbench/pwb_service_menu"
