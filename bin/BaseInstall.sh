@@ -53,7 +53,7 @@ if [ $isInFile -eq 0 ]; then
     wget -qO - https://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/Release.key | apt-key add - 
     echo 'deb http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/ /' > /etc/apt/sources.list.d/home-ungoogled_chromium.list;
     killall firefox;
-    apt remove -y hexchat-common hexchat rhythmbox xfce4-taskmanager firefox timeshift gnote xreader tumbler;    
+    apt remove -y hexchat-common hexchat rhythmbox xfce4-taskmanager firefox timeshift xreader tumbler;    
     flatpak install -y --noninteractive flathub org.mozilla.firefox;
 fi
 
