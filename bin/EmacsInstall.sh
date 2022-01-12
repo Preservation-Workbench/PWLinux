@@ -16,11 +16,10 @@ OWNER=$(stat -c '%U' $SCRIPTPATH);
 #         > /etc/apt/sources.list.d/kelleyk-emacs-focal.list;
 # fi
 
-
 if [ $(dpkg-query -W -f='${Status}' emacs-ng 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
     apt-get install -y libncurses5 libgccjit0 libjpeg9;  
-    cd /tmp/ && wget -c https://github.com/emacs-ng/emacs-ng/releases/download/v0.0.7a111cc/emacs-ng_0.0.7a111cc.webrender_amd64.deb
-    sudo DEBIAN_FRONTEND=noninteractive dpkg --install emacs-ng_0.0.7a111cc.webrender_amd64.deb
+    cd /tmp/ && wget -c https://github.com/emacs-ng/emacs-ng/releases/download/v0.0.4884a6e/emacs-ng_0.0.4884a6e_amd64.deb
+    sudo DEBIAN_FRONTEND=noninteractive dpkg --install emacs-ng_0.0.4884a6e_amd64.deb
 fi 
 
 apt-get update;
