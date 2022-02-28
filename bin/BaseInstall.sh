@@ -12,7 +12,9 @@ PWCONFIGDIR=/home/$OWNER/.config/pwlinux
 USERID=$(id -u $OWNER)
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USERID/bus";
 
-add-apt-repository -y ppa:diesch/stable; # TODO: Endre så ikke bruker add-apt
+# TODO: Endre så ikke bruker add-apt
+add-apt-repository -y ppa:diesch/stable; 
+add-apt-repository -y multiverse;
 
 isInFile=$(cat /etc/apt/sources.list.d/bellsoft.list | grep -c "https://apt.bell-sw.com/")
 if [ $isInFile -eq 0 ]; then    
