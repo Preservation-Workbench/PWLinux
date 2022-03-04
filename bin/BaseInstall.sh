@@ -56,6 +56,7 @@ apt-get autoclean;
 apt-get remove -y --purge `dpkg -l | grep '^rc' | awk '{print $2}'` #Remove residual config
 flatpak uninstall -y --unused;
 flatpak update -y;
+flatpak install -y --noninteractive flathub com.slack.Slack;
 
 isInFile=$(cat /etc/apt/sources.list.d/home-ungoogled_chromium.list | grep -c "http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/")
 if [ $isInFile -eq 0 ]; then    
