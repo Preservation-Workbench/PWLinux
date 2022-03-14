@@ -57,20 +57,8 @@ apt-get remove -y --purge `dpkg -l | grep '^rc' | awk '{print $2}'` #Remove resi
 flatpak uninstall -y --unused;
 flatpak update -y;
 flatpak install -y --noninteractive flathub com.slack.Slack;
-
-isInFile=$(cat /etc/apt/sources.list.d/home-ungoogled_chromium.list | grep -c "http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/")
-if [ $isInFile -eq 0 ]; then    
-    wget -qO - https://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/Release.key | apt-key add - 
-    echo 'deb http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/ /' > /etc/apt/sources.list.d/home-ungoogled_chromium.list;
-    killall firefox;
-    apt remove -y hexchat-common hexchat rhythmbox xfce4-taskmanager firefox timeshift xreader tumbler;    
-    flatpak install -y --noninteractive flathub org.mozilla.firefox;
-fi
-
-apt-get update;
-apt-get install -y ungoogled-chromium;
-sudo -H -u $OWNER bash -c "xdg-settings set default-web-browser chromium.desktop";
-
+  
+apt remove -y hexchat-common hexchat rhythmbox xfce4-taskmanager timeshift xreader tumbler;    
 
 isInFile=$(cat /etc/apt/sources.list | grep -c "https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-ubuntu2004")
 if [ $isInFile -eq 0 ]; then    
@@ -201,7 +189,7 @@ apt-get install -y xfce4-docklike-plugin;
 APPS=/home/$OWNER/.local/share/applications
 su $OWNER -m -c "cat <<\EOF > /home/$OWNER/.config/xfce4/panel/docklike-100.rc
 [user]
-pinned=/usr/share/applications/xfce4-terminal.desktop;/usr/share/applications/gnome-system-monitor.desktop;$APPS/emacs27.desktop;/usr/share/applications/thunar.desktop;/usr/share/applications/chromium.desktop;$APPS/PWCode.desktop;/usr/share/applications/org.xfce.Catfish.desktop;$APPS/SQLWB.desktop;/usr/share/applications/dbeaver-ce.desktop;/usr/share/applications/code.desktop;$APPS/siardsuite.desktop;$APPS/dbptk.desktop;/usr/share/applications/clamtk.desktop;
+pinned=/usr/share/applications/xfce4-terminal.desktop;/usr/share/applications/gnome-system-monitor.desktop;$APPS/emacs27.desktop;/usr/share/applications/thunar.desktop;$APPS/PWCode.desktop;/usr/share/applications/org.xfce.Catfish.desktop;$APPS/SQLWB.desktop;/usr/share/applications/dbeaver-ce.desktop;/usr/share/applications/code.desktop;$APPS/siardsuite.desktop;$APPS/dbptk.desktop;/usr/share/applications/clamtk.desktop;
 EOF
 "
 
