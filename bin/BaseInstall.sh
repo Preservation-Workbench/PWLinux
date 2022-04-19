@@ -63,8 +63,8 @@ apt remove -y hexchat-common hexchat rhythmbox xfce4-taskmanager timeshift xread
 isInFile=$(cat /etc/apt/sources.list | grep -c "https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-ubuntu2004")
 if [ $isInFile -eq 0 ]; then    
     apt-get install -y apt-transport-https ca-certificates; #Needed for all https repos  
-    wget -O /tmp/repomd.xml.key https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-centos7/repodata/repomd.xml.key && apt-key add /tmp/repomd.xml.key;
     echo 'deb https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-ubuntu2004 ./' >> /etc/apt/sources.list;
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0C54D189F4BA284D
     cd $SCRIPTPATH;
 fi
 
