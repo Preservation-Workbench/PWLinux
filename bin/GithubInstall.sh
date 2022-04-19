@@ -5,7 +5,7 @@ APPS=/home/$OWNER/.local/share/applications
 
 isInFile=$(cat /etc/apt/sources.list.d/packagecloud-shiftky-desktop.list | grep -c "https://packagecloud.io/shiftkey/desktop/any/")
 if [ $isInFile -eq 0 ]; then    
-    wget -qO - https://packagecloud.io/shiftkey/desktop/gpgkey | sudo tee /etc/apt/trusted.gpg.d/shiftkey-desktop.asc > /dev/null
+    wget -qO - https://mirror.mwt.me/ghd/gpgkey | sudo tee /etc/apt/trusted.gpg.d/shiftkey-desktop.asc > /dev/null
     echo 'deb [arch=amd64] https://packagecloud.io/shiftkey/desktop/any/ any main' > /etc/apt/sources.list.d/packagecloud-shiftky-desktop.list;
     apt-get update;
 fi
