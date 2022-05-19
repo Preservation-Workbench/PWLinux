@@ -27,6 +27,8 @@ if [ ! -f $APPS/SQLWB.desktop ]; then
     chown $OWNER:$OWNER $APPS/SQLWB.desktop;  
 fi
 
+sudo -H -u $OWNER bash -c "pip3 install pdfy cchardet --upgrade;";
+
 cd $SCRIPTPATH;
 
 
