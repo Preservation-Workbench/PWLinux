@@ -23,7 +23,7 @@ if [ $(dpkg-query -W -f='${Status}' emacs-ng 2>/dev/null | grep -c "ok installed
 fi 
 
 apt-get update;
-apt-get install -y git libvterm-dev libtool-bin cmake ripgrep \
+apt-get install -y emacs28 git libvterm-dev libtool-bin cmake ripgrep \
     hunspell-no hunspell universal-ctags python3-bashate black \
     jq clang-format pipenv python3-pytest shellcheck node-js-beautify \
     fonts-firacode direnv grip;
@@ -54,15 +54,15 @@ fi
 
 sudo -H -u $OWNER bash -c ""$EMACSREPO"/bin/doom sync;";
 
-# if [ ! -f /home/$OWNER/.local/share/applications/emacs27.desktop ]; then
-#     sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/applications;";
-#     sudo -H -u $OWNER bash -c "cp /usr/share/applications/emacs27.desktop \
-#     /home/$OWNER/.local/share/applications/;";
-#     sed -i \
-#         '/Exec=emacs/c\Exec=sh -c "emacsclient -a emacs -n \"\$@\" || emacs" dummy %F'\
-#         /home/$OWNER/.local/share/applications/emacs27.desktop;  
-#     chown $OWNER:$OWNER /home/$OWNER/.local/share/applications/emacs27.desktop;
-# fi
+if [ ! -f /home/$OWNER/.local/share/applications/emacs28.desktop ]; then
+    sudo -H -u $OWNER bash -c "mkdir -p /home/$OWNER/.local/share/applications;";
+    sudo -H -u $OWNER bash -c "cp /usr/share/applications/emacs28.desktop \
+    /home/$OWNER/.local/share/applications/;";
+    sed -i \
+        '/Exec=emacs/c\Exec=sh -c "emacsclient -a emacs -n \"\$@\" || emacs" dummy %F'\
+        /home/$OWNER/.local/share/applications/emacs28.desktop;  
+    chown $OWNER:$OWNER /home/$OWNER/.local/share/applications/emacs28.desktop;
+fi
 
 isInFile=$(cat /home/$OWNER/.bashrc | grep -c "emacs()")
 if [ $isInFile -eq 0 ]; then
@@ -74,7 +74,7 @@ fi
 
 cd $SCRIPTPATH;
 
-# #xdg-mime default emacs27.desktop text/english text/plain text/x-makefile \
+# #xdg-mime default emacs28.desktop text/english text/plain text/x-makefile \
 # text/x-c++hdr text/x-c++src text/x-chdr text/x-csrc text/x-java text/x-moc \
 # text/x-pascal text/x-tcl text/x-tex application/x-shellscript text/x-c \
 # text/x-c++
